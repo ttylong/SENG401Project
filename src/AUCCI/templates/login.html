@@ -4,24 +4,44 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Document</title>
   </head>
   <body>
-    <form action="login" method="POST">
-      {% csrf_token %}
-      <h4>Enter Username:</h4>
-      <br />
-      <input type="text" name="username" />
-      <br />
-      <h4>Enter Password:</h4>
-      <br />
-      <input type="password" name="password" />
-      <br />
-      <input type="submit" value="Log In" />
-      <br />
-      {% for message in messages %}
-      <h3 style="color: red">{{message}}</h3>
-      {% endfor %}
-    </form>
+    <div class="container">
+      <form action="login" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Enter Username:</label>
+          <br />
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Enter Password:</label>
+          <br />
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            class="form-control"
+          />
+        </div>
+        <input type="submit" value="Log In" class="btn btn-primary" />
+        <br />
+        {% for message in messages %}
+        <h3 style="color: red">{{message}}</h3>
+        {% endfor %}
+      </form>
+    </div>
   </body>
 </html>

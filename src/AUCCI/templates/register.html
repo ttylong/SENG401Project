@@ -4,32 +4,64 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Document</title>
   </head>
   <body>
-    <form action="register" method="POST">
-      {% csrf_token %}
-      <h4>Enter a Username:</h4>
-      <br />
-      <input type="text" name="username" />
-      <br />
-      <h4>Enter an Email Address:</h4>
-      <br />
-      <input type="email" name="email" />
-      <br />
-      <h4>Enter a strong password:</h4>
-      <br />
-      <input type="password" name="pass" />
-      <br />
-      <h4>Re-Enter your chosen password:</h4>
-      <br />
-      <input type="password" name="confirmpass" />
-      <br />
-      <input type="submit" value="Create Account" />
-      <br />
-      {% for message in messages %}
-      <h3 style="color: red">{{message}}</h3>
-      {% endfor %}
-    </form>
+    <div class="container">
+      <form action="register" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Enter a Username:</label>
+          <br />
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Enter an Email Address:</label>
+          <br />
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter Email"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Enter a Password:</label>
+          <br />
+          <input
+            type="password"
+            name="pass"
+            placeholder="Enter Password"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="username">Re-Enter your chosen password:</label>
+          <br />
+          <input
+            type="password"
+            name="confirmpass"
+            placeholder="Enter Password Again"
+            class="form-control"
+          />
+        </div>
+        <input type="submit" value="Create Account" class="btn btn-primary" />
+        <br />
+        {% for message in messages %}
+        <h3 style="color: red">{{message}}</h3>
+        {% endfor %}
+      </form>
+    </div>
   </body>
 </html>
