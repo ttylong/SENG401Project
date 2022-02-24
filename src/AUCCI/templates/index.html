@@ -7,6 +7,15 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Worked!</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      <h4>Returning User?</h4>
+      <br />
+      <input type="submit" name="login_s" value="Log In" />
+      <br /><br />
+      <h4>New User?</h4>
+      <br />
+      <input type="submit" name="register_s" value="Create a New Account" />
+    </form>
   </body>
 </html>
