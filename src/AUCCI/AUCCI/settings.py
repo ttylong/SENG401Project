@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'pyuploadcare.dj',
+    'AUCCI',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'AUCCI.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +70,12 @@ TEMPLATES = [
         },
     },
 ]
+
+# UPLOADCARE config
+UPLOADCARE = {
+    'pub_key' :  '20a0df730e28f42bb662', 
+    'secret' : '8ad164c8ada8aaf4034f'
+}
 
 WSGI_APPLICATION = 'AUCCI.wsgi.application'
 
