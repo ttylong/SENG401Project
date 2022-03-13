@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('webapp.urls'))
+    path('', include('webapp.urls')),
+    path('listing/<str:name>/', views.listing, name='listing'),
+    path('listing/', views.listing, name='listing'),
+    path('delete_listing/<str:oid>/', views.delete_listing, name='delete_listing'),
+    path('create_listing/', views.create_listing, name='create_listing'),
+    path('categories/', views.categories, name='categories'),
+    path('update_listing/<str:oid>/', views.update_listing, name='update_listing'),
+    path('up/', views.up, name='up'),
 ]
