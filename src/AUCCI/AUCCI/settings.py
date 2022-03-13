@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'pyuploadcare.dj',
     'AUCCI',
+    'webapp',
 ]
 
 MIDDLEWARE = [
