@@ -20,92 +20,44 @@
   <body>
     <h2>Welcome to AUCCI {{user.username}}</h2>
     <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-          <div class="card">
-            <img
-              src="https://cdna.lystit.com/200/250/tr/photos/gucci/636b0564/gucci-Black-Oversize-Technical-Jersey-Jacket.jpeg"
-              class="card-img-top"
-            />
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <p class="small">
-                  <a href="#!" class="text-muted">Mens Jacket</a>
-                </p>
-              </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h5 class="mb-0">Gucci Sweater</h5>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <p class="text-muted mb-0">
-                  Current Auction Price: <span class="fw-bold">$69.88</span>
-                </p>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <p class="text-muted mb-0">
-                  Time Left: <span class="fw-bold">23h:42m:15s</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-          <div class="card">
-            <img
-              src="https://ca.louisvuitton.com/images/is/image/HKN44WUSO618_PM2_Front%20view"
-              class="card-img-top"
-            />
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <p class="small">
-                  <a href="#!" class="text-muted">Mens Sweater</a>
-                </p>
-              </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h5 class="mb-0">LV Sweater</h5>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <p class="text-muted mb-0">
-                  Current Auction Price: <span class="fw-bold">$122.12</span>
-                </p>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <p class="text-muted mb-0">
-                  Time Left: <span class="fw-bold">22m:44s</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-          <div class="card">
-            <img
-              src="https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg"
-              class="card-img-top"
-            />
-            <div class="card-body">
-              <div class="d-flex justify-content-between">
-                <p class="small">
-                  <a href="#!" class="text-muted">Mens Hoodies</a>
-                </p>
-              </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h5 class="mb-0">OVO Hoodie</h5>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <p class="text-muted mb-0">
-                  Current Auction Price: <span class="fw-bold">$1322.12</span>
-                </p>
-              </div>
-              <div class="d-flex justify-content-between mb-2">
-                <p class="text-muted mb-0">
-                  Time Left: <span class="fw-bold">03h:22m:44s</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      {% for product in products %} {% if forloop.first %}
+      <div class="row gy-3">
+        {% endif %} {% if forloop.counter0|divisibleby:3 and forloop.counter != 0 %}
       </div>
+      <div class="row gy-3" style = "padding-bottom: 5%;">
+        {% endif %}
+        <div class="col-sm">
+          <div
+            class="card h-100"
+            style="padding: 5%; border-style: solid; border-radius: 25px"
+          >
+            <img src="{{ product.img_src }}" class="card-img-top" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <p class="small">
+                  <a href="#!" class="text-muted">{{product.category}}</a>
+                </p>
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <h5 class="mb-0">{{product.title}}</h5>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <p class="text-muted mb-0">
+                  Current Auction Price:
+                  <span class="fw-bold">${{product.current_auction}}</span>
+                </p>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <p class="text-muted mb-0">
+                  Time Left: <span class="fw-bold">{{product.time_left}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if forloop.last %}
+      </div>
+      {% endif %} {% endfor %}
     </div>
   </body>
 </html>
