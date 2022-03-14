@@ -19,12 +19,40 @@
   </head>
   <body>
     <h2>Welcome to AUCCI {{user.username}}</h2>
+    <div class="d-flex align-items-center justify-content-center">
+      <form
+        action=""
+        method="post"
+        style="padding: 5px; border-style: solid; border-radius: 25px"
+      >
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
     <div class="container">
       {% for product in products %} {% if forloop.first %}
       <div class="row gy-3">
         {% endif %} {% if forloop.counter0|divisibleby:3 and forloop.counter != 0 %}
       </div>
-      <div class="row gy-3" style = "padding-bottom: 5%;">
+      <div class="row gy-3" style="padding-bottom: 5%">
         {% endif %}
         <div class="col-sm">
           <div

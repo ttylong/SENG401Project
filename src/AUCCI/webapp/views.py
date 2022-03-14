@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import ProductTile
 import datetime
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 
 # View Functions
 def index(request):
@@ -26,7 +27,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect("home")
+            return redirect("search")
         else:
             messages.info(
                 request, "The Username and/or Password entered are incorrect!"
@@ -69,7 +70,16 @@ def register(request):
         return render(request, "register.html")
 
 
-def home(request):
+def search(request):
+    return render(request, "search.html")
+
+def product(request):
+    a = 2
+
+
+def search_results(request):
+    if not request.user.is_authenticated:
+        return render(request, "login.html")
     p1 = ProductTile(
         img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
         category="Men's Jacket",
@@ -124,4 +134,4 @@ def home(request):
 
     context = {"products": products}
 
-    return render(request, "homepage.html", context)
+    return render(request, "search_results.html", context)
