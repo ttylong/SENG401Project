@@ -39,6 +39,8 @@ def login(request):
 
 def register(request):
     if request.method == "POST":
+        fname = request.POST["f_name"]
+        lname = request.POST["l_name"]
         username = request.POST["username"]
         password = request.POST["pass"]
         verifypass = request.POST["confirmpass"]
@@ -58,7 +60,11 @@ def register(request):
                 return redirect("register")
             else:
                 user = User.objects.create_user(
-                    username=username, email=email, password=password
+                    username=username,
+                    email=email,
+                    password=password,
+                    first_name=fname,
+                    last_name=lname,
                 )
                 user.save()
                 return redirect("login")
@@ -72,7 +78,7 @@ def register(request):
 
 @login_required
 def search(request):
-    return redirect("search_results")
+    return render(request, "search.html")
 
 
 @login_required
@@ -139,3 +145,8 @@ def search_results(request):
     context = {"products": products}
 
     return render(request, "search_results.html", context)
+
+
+@login_required
+def profile(request):
+    return render(request, "profile.html")

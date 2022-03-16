@@ -18,6 +18,28 @@
     <title>Document</title>
   </head>
   <body>
+    <nav class="navbar navbar-light bg-light navbar-expand-lg">
+      <a
+        class="navbar-brand"
+        href="#"      
+        style="font-family: Copperplate, Copperplate Gothic Light, fantasy"
+      >
+        AUCCI
+      </a>
+      <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#mynav">
+        <span class = "navbar-toggler-icon"></span>
+      </button>
+        <div class = "collapse navbar-collapse" id = "mynav">
+          <ul class = "navbar-nav ml-auto">
+            <li class = "nav-item"><a href = "profile.html" class="nav-link">My Profile</a></li>
+            <li class = "nav-item"><a href = "#" class="nav-link">My Listings</a></li>          
+            <li class = "nav-item"><a href = "#" class="nav-link">My Bids</a></li>                  
+            <li class = "nav-item"><a href = "#" class="nav-link">My Watchlist</a></li>      
+            <li class = "nav-item"><a href = "#" class="nav-link">Settings</a></li>   
+            <li class = "nav-item"><a href = "#" class="nav-link">Logout</a></li>
+          </ul>
+        </div>
+    </nav>
     <h2>Items Matching Your Search:</h2>
     <hr />
     <div class="container" style="border: solid">
@@ -58,10 +80,18 @@
                   </p>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
+                  <p>Additional Information:</p>
                   <form action="search_results" method="POST">
-                    <input type="submit" value="Additional Information" class="btn btn-primary" name="{{ product.listing_id }}"></span>
-                </form>
-                  </div>
+                    {% csrf_token %}
+                    <input
+                      type="submit"
+                      name="Listing_ID"
+                      value="{{ product.listing_id }}"
+                      class="btn btn-primary"
+                      label="Additional Information"
+                    />
+                  </form>
+                </div>
               </div>
             </div>
           </div>
