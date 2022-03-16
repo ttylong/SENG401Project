@@ -18,6 +18,101 @@
     <title>Search Form</title>
   </head>
   <body>
-    <form action="search" method="POST" class="search_criteria"></form>
+    <form action="search" method="POST" class="search_criteria" style="padding: 5%; border-style: solid; border-radius: 25px">
+        <div class="form-group row">
+          <label for="inputGenderSearch" class="col-sm-2 col-form-label">Gender:</label>
+          <div class="col-sm-10">
+            <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email"> -->
+            <select name = "gender" class = "form-select" id = "inputGenderSearch" placeholder ="">
+            <option value ="any"></option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="unisex">Unisex</option>
+            </select>
+           </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputBrandSearch" class="col-sm-2 col-form-label">Brand:</label>
+          <div class="col-sm-10">
+              <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
+              <select name = "brand" class = "form-select" id = "inputBrandSearch" placeholder ="">
+              <option value ="any"></option>
+              <option value="louis vuitton">Louis Vuitton</option>
+              <option value="prada">Prada</option>
+              <option value="bape">Bape</option>
+              <option value="ovo">OVO</option>
+              <option value="chanel">Chanel</option>
+              <option value="dior">Dior</option>
+              <option value="armani">Armani</option>
+              <option value="versace">Versace</option>
+              <option value="burberry">Burberry</option>
+              <option value="cartier">Cartier</option>
+              <option value="balenciaga">Balenciaga</option>
+              </select>
+           </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputCategorySearch" class="col-sm-2 col-form-label">Category:</label>
+          <div class="col-sm-10">
+              <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
+              <select name = "category" class = "form-select" id = "inputCategorySearch" placeholder ="">
+                <option value ="any"></option>
+                <option value="shirts">Shirts</option>
+                <option value="jackets">Jackets</option>
+                <option value="hoodies">Hoodies</option>
+                <option value="joggers">Joggers</option>
+                <option value="pants">Pants</option>
+                <option value="jeans">Jeans</option>
+                <option value="t-shirts">T-Shirts</option>
+                <option value="dress">Dress</option>
+                <option value="shorts">Shorts</option>
+                <option value="blouse">Blouse</option>
+                <option value="leggings">Leggings</option>
+                <option value="sports wear">Sports Wear</option>
+                <option value="blazer">Blazer</option>
+              </select>
+           </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputSizeSearch" class="col-sm-2 col-form-label">Size:</label>
+          <div class="col-sm-10">
+              <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
+              <select name = "size" class = "form-select" id = "inputSizeSearch" placeholder ="">
+              <option value ="any"></option>
+              <option value="xs">XS</option>
+              <option value="s">S</option>
+              <option value="m">M</option>
+              <option value="l">L</option>
+              <option value="xl">XL</option>
+              <option value="xxl">XXL</option>
+              </select>
+           </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputPrimaryColorSearch" class="col-sm-2 col-form-label">Primary Color:</label>
+          <div class="col-sm-10">
+              <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
+              <select name = "primary color" class = "form-select" id = "inputPrimaryColorSearch" placeholder ="">
+                <option value ="any"></option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="brown">Brown</option>
+                <option value="gold">Gold</option>
+                <option value="grey">Grey</option>
+              </select>
+           </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
+        </div>
+    </form>
   </body>
 </html>
