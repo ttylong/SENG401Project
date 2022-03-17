@@ -30,7 +30,7 @@
     ></script>
     <title>Search Form</title>
   </head>
-  <body>
+  <body style="font-family: Copperplate, Copperplate Gothic Light, fantasy">
     <nav class="navbar navbar-light bg-light navbar-expand-lg">
       <a
         class="navbar-brand"
@@ -67,7 +67,13 @@
       action="search"
       method="POST"
       class="search_criteria"
-      style="padding: 5%; border-style: solid; border-radius: 25px; width: auto"
+      style="
+        padding: 5%;
+        border-style: solid;
+        border-radius: 25px;
+        width: auto;
+        font-family: Garamond, serif;
+      "
     >
       {% csrf_token %}
       <div class="form-group row">

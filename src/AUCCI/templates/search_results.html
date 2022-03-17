@@ -54,8 +54,7 @@
     <div class="container" style="border: solid">
       {% for product in products %} {% if forloop.first %}
       <div class="row gy-3">
-        {% endif %} {% if forloop.counter0|divisibleby:3 and forloop.counter !=
-        0 %}
+        {% endif %} {% if forloop.counter0|divisibleby:3 and forloop.counter != 0 %}
       </div>
       <div class="row gy-3" style="padding-bottom: 5%">
         {% endif %}

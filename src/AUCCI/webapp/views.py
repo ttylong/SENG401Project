@@ -94,6 +94,10 @@ def search(request):
             "size": size,
         }
 
+        for c in criteria.keys():
+            if criteria[c] == "Any":
+                criteria[c] = "NULL"
+
         products = helper(criteria)
 
         return render(request, "search_results.html", {"products": products})
@@ -128,6 +132,7 @@ def signout(request):
 
 
 def helper(criteria):
+    
     p1 = Product(
         img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
         listing_id=1,
