@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
+from django.contrib.auth import logout
 from django.contrib import messages
 from .models import Product
 import datetime
@@ -27,7 +28,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect("search")
+            return render(request, "search.html")
         else:
             messages.info(
                 request, "The Username and/or Password entered are incorrect!"
@@ -78,7 +79,27 @@ def register(request):
 
 @login_required
 def search(request):
-    return render(request, "search.html")
+    if request.method == "POST":
+        gender = request.POST["gender"]
+        brand = request.POST["brand"]
+        category = request.POST["category"]
+        primary_color = request.POST["primary_color"]
+        size = request.POST["size"]
+
+        criteria = {
+            "gender": gender,
+            "brand": brand,
+            "category": category,
+            "primary_color": primary_color,
+            "size": size,
+        }
+
+        products = helper(criteria)
+
+        return render(request, "search_results.html", {"products": products})
+
+    else:
+        return render(request, "search.html")
 
 
 @login_required
@@ -88,6 +109,25 @@ def product(request, pk):
 
 @login_required
 def search_results(request):
+    if request.method == "POST":
+        ID = request.POST["Listing_ID"]
+        return render(request, "profile.html", {"listing_id": ID})
+    else:
+        return render(request, "search_results.html")
+
+
+@login_required
+def profile(request):
+    return render(request, "profile.html")
+
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect("login")
+
+
+def helper(criteria):
     p1 = Product(
         img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
         listing_id=1,
@@ -142,11 +182,4 @@ def search_results(request):
 
     products = [p1, p2, p3, p4, p5, p6, p7]
 
-    context = {"products": products}
-
-    return render(request, "search_results.html", context)
-
-
-@login_required
-def profile(request):
-    return render(request, "profile.html")
+    return products
