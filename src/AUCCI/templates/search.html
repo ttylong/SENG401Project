@@ -34,17 +34,18 @@
       href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Signika:wght@400;600&display=swap" rel="stylesheet">
     <link
       rel="icon"
       type="image/x-icon"
-      href="{% static 'Logo.png' %}"
+      href="{% static 'LogoBetter.png' %}"
     />
     <title>Search Criteria</title>
   </head>
   <body">
-    <nav class="navbar navbar-light bg-light navbar-expand-lg">
-      <a class="navbar-brand" href="search">
-      <img src="{% static 'Logo.png' %}" width="30" height="30" />
+    <nav class="navbar navbar-light navbar-expand-lg" style="background-color:#E8E8E8;">
+      <a class="navbar-brand" href="search"  style="text-align: center;">
+      <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
       </a>
       <button
         class="navbar-toggler"
@@ -88,7 +89,6 @@
             >Gender:</label
           >
           <div class="col-auto my-1">
-            <!--<input type="email" class="form-control" id="inputEmail3" placeholder="Email"> -->
             <select
               name="gender"
               class="custom-select custom-select-sm"
