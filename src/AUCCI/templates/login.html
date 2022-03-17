@@ -12,6 +12,12 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
   </head>
   <body>
@@ -31,7 +37,12 @@
       <form
         action="login"
         method="POST"
-        style="padding: 5%; border-style: solid; border-radius: 25px"
+        style="
+          padding: 5%;
+          border-style: solid;
+          border-radius: 25px;
+          font-family: 'Signika', sans-serif;
+        "
       >
         {% csrf_token %}
         <div class="form-group">

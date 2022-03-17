@@ -32,17 +32,17 @@
       type="image/x-icon"
       href="https://www.designyourway.net/blog/wp-content/uploads/2019/11/s1-10.png"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <title>Profile</title>
   </head>
   <body>
     <nav class="navbar navbar-light bg-light navbar-expand-md">
-      <a
-        class="navbar-brand"
-        href="search"
-        style="font-family: Copperplate, Copperplate Gothic Light, fantasy"
-      >
-        AUCCI
-      </a>
+      <a class="navbar-brand" href="search"> AUCCI </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -68,9 +68,9 @@
     </nav>
     <form action="profile" method="POST" class="profile_view"></form>
     <br />
-    <h2 style="text-align: center">Your Profile</h2>
+    <h2 style="text-align: center;font-family: 'Signika', sans-serif"">Your Profile</h2>
     <br /><br />
-    <div h4 style="text-align: center">
+    <div h4 style="text-align: center; font-family: 'Signika', sans-serif">
       <h1>{{ listing_id }}</h1>
       <h4>First Name: {{ user.first_name}}</h4>
       <h4>Last Name: {{ user.last_name}}</h4>
@@ -78,7 +78,7 @@
       <h4>Email: {{ user.email }}</h4>
     </div>
     <br />
-    <div style="text-align: center">
+    <div style="text-align: center; font-family: 'Signika', sans-serif"">
       <button type="button" class="btn btn-secondary btn-lg">
         My Lisitings
       </button>
