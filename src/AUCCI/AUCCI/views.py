@@ -25,7 +25,10 @@ def listing_jsonify(data):
     json_data = []
     for datum in data:
         json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit'])})
-
+        img_count = 0
+        for img in datum['images']:
+            json_data.append({str(img_count) : str(img)})
+            img_count += 1
     return json_data
 
 # Prepares for jsonResponse
