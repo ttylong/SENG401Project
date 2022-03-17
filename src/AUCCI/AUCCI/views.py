@@ -24,11 +24,7 @@ def db_collection(collection):
 def listing_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit'])})
-        img_count = 0
-        for img in datum['images']:
-            json_data.append({str(img_count) : str(img)})
-            img_count += 1
+        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
     return json_data
 
 # Prepares for jsonResponse
@@ -89,6 +85,37 @@ def listing_by_category(request, category = ""):
     else:
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
+def listing_by_params(request, gender, brand, category, size, pcolor):
+    print("in function!")
+    if request.method == "GET":
+        cursor = db_collection("listings")
+
+        search_params = {}
+
+        if gender != "null":
+            search_params.update({"gender" : gender})
+        elif brand != "null":
+            search_params.update({"brand" : brand})
+        elif category != "null":
+            search_params.update({"category" : brand})
+        elif size != "null":
+            search_params.update({"size" : size})
+        elif pcolor != "null":
+            search_params.update({"primary-color" : pcolor})
+
+        print("params")
+        print(search_params)
+
+        if search_params != []:
+            listings = cursor.find(search_params)
+        else:
+            listings = cursor.find({}) # Returns all
+
+        json_content = listing_jsonify(listings)
+
+        return JsonResponse(json_content, safe=False)
+    else:
+        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
 # DELETE listing by object id
 @csrf_exempt 
