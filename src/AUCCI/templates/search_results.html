@@ -21,16 +21,13 @@
       href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'Logo.png' %}" />
+    <title>Search Results</title>
   </head>
   <body>
     <nav class="navbar navbar-light bg-light navbar-expand-lg">
-      <a
-        class="navbar-brand"
-        href="search"
-        style="font-family: Copperplate, Copperplate Gothic Light, fantasy"
-      >
-        AUCCI
+      <a class="navbar-brand" href="search">
+        <img src="{% static 'Logo.png' %}" width="30" height="30" />
       </a>
       <button
         class="navbar-toggler"
@@ -60,7 +57,8 @@
     <div class="container" style="border: solid">
       {% for product in products %} {% if forloop.first %}
       <div class="row gy-3">
-        {% endif %} {% if forloop.counter0|divisibleby:3 and forloop.counter != 0 %}
+        {% endif %} {% if forloop.counter0|divisibleby:3 and forloop.counter !=
+        0 %}
       </div>
       <div class="row gy-3" style="padding-bottom: 5%">
         {% endif %}

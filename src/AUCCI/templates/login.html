@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,16 +20,13 @@
       href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'Logo.png' %}" />
+    <title>Login</title>
   </head>
   <body>
     <nav class="navbar navbar-light bg-light" id="navbar">
-      <a
-        class="navbar-brand"
-        href="index"
-        style="font-family: Copperplate, Copperplate Gothic Light, fantasy"
-      >
-        AUCCI
+      <a class="navbar-brand" href="index">
+        <img src="{% static 'Logo.png' %}" width="30" height="30" />
       </a>
     </nav>
     <div

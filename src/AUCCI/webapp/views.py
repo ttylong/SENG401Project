@@ -128,11 +128,11 @@ def profile(request):
 @login_required
 def signout(request):
     logout(request)
-    return redirect("login")
+    return redirect("index")
 
 
 def helper(criteria):
-    
+
     p1 = Product(
         img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
         listing_id=1,
