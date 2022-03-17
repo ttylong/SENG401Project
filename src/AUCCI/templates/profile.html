@@ -38,7 +38,7 @@
     <nav class="navbar navbar-light bg-light navbar-expand-md">
       <a
         class="navbar-brand"
-        href="index"
+        href="search"
         style="font-family: Copperplate, Copperplate Gothic Light, fantasy"
       >
         AUCCI
@@ -54,9 +54,7 @@
       <div class="collapse navbar-collapse" id="mynav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="AUCCI/templates/profile.html" class="nav-link"
-              >My Profile</a
-            >
+            <a href="profile" class="nav-link">My Profile</a>
           </li>
           <li class="nav-item"><a href="#" class="nav-link">My Listings</a></li>
           <li class="nav-item"><a href="#" class="nav-link">My Bids</a></li>
@@ -64,7 +62,7 @@
             <a href="#" class="nav-link">My Watchlist</a>
           </li>
           <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Logout</a></li>
+          <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -73,7 +71,9 @@
     <h2 style="text-align: center">Your Profile</h2>
     <br /><br />
     <div h4 style="text-align: center">
-      <h4>Name: {{ user.first_name}} {{ user.last_name }}</h4>
+      <h1>{{ listing_id }}</h1>
+      <h4>First Name: {{ user.first_name}}</h4>
+      <h4>Last Name: {{ user.last_name}}</h4>
       <br />
       <h4>Email: {{ user.email }}</h4>
     </div>
