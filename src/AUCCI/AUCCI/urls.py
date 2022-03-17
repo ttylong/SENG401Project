@@ -21,6 +21,8 @@ urlpatterns = [
     path('', include('webapp.urls')),
     path('listing/<str:name>/', views.listing, name='listing'),
     path('listing/', views.listing, name='listing'),
+    path('listing_by_user/<str:username>/', views.listing_by_user, name='listing_by_user'),
+    path('listing_by_category/<str:category>/', views.listing_by_category, name='listing_by_category'),
     path('delete_listing/<str:oid>/', views.delete_listing, name='delete_listing'),
     path('create_listing/', views.create_listing, name='create_listing'),
     path('categories/', views.categories, name='categories'),

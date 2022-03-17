@@ -20,12 +20,15 @@ def db_collection(collection):
     return db[collection]
 
 # Prepares for jsonResponse
-# Only works for lists of items
-def itemList_jsonify(data):
+# Only works for listings
+def listing_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "useruniqid" : str(datum['useruniqid']), "item" : datum['item']})
-
+        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit'])})
+        img_count = 0
+        for img in datum['images']:
+            json_data.append({str(img_count) : str(img)})
+            img_count += 1
     return json_data
 
 # Prepares for jsonResponse
@@ -47,11 +50,45 @@ def listing(request, name = ""):
         else:
             listings = cursor.find({})
 
-        json_content = itemList_jsonify(listings)
+        json_content = listing_jsonify(listings)
 
         return JsonResponse(json_content, safe=False)
     else:
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
+
+# GET listings by username
+def listing_by_user(request, username = ""):
+    if request.method == "GET":
+        cursor = db_collection("listings")
+
+        if username != "":
+            listings = cursor.find({"username" : username})
+        else:
+            listings = cursor.find({"none": "none"}) # Returns empty
+
+        json_content = listing_jsonify(listings)
+
+        return JsonResponse(json_content, safe=False)
+    else:
+        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
+
+
+# GET listings by category
+def listing_by_category(request, category = ""):
+    if request.method == "GET":
+        cursor = db_collection("listings")
+
+        if category != "":
+            listings = cursor.find({"category" : category})
+        else:
+            listings = cursor.find({"none": "none"}) # Returns empty
+
+        json_content = listing_jsonify(listings)
+
+        return JsonResponse(json_content, safe=False)
+    else:
+        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
+
 
 # DELETE listing by object id
 @csrf_exempt 
@@ -80,7 +117,7 @@ def create_listing(request):
 
     id = db_collection("listings").insert_one(request.data).inserted_id
 
-    return JsonResponse({"id" : str(id)})
+    return JsonResponse({"_id" : str(id)})
 
 # UPDATE listing by id
 @api_view(['POST'])

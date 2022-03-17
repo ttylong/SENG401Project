@@ -15,11 +15,11 @@ def db_collection(collection):
     return db[collection]
 
 # Prepares for jsonResponse
-# Only works for lists of items
-def itemList_jsonify(data):
+# Only works for listings
+def listings_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "useruniqid" : str(datum['useruniqid']), "item" : datum['item']})
+        json_data.append({"username" : datum['username'], "item" : datum['item'], "item" : datum['item']})
 
     return json_data
 
@@ -42,7 +42,7 @@ def listing(request, name = ""):
         else:
             listings = cursor.find({})
 
-        json_content = itemList_jsonify(listings)
+        json_content = listings_jsonify(listings)
 
         return JsonResponse(json_content, safe=False)
     else:
