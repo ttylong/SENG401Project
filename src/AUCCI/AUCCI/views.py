@@ -386,5 +386,9 @@ def mybids(request, bidid = ""):
         return HttpResponse(e)    
 
 
-
+def delete_bidder(request, username = ""):
+    if not request.user.is_authenticated:
+        return HttpResponse("Not logged in")
+    
+    return HttpResponse("testing")
 
