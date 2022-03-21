@@ -8,6 +8,7 @@ from .models import Product
 import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
+import requests
 
 BACKEND_URL = 'http://127.0.0.1:8000/' # Subject to change
 
@@ -165,7 +166,6 @@ def search_db(criteria):
     print(criteria)
 
     url_params = ''
-
 
     url = BACKEND_URL + 'listing/' + url_params
 
