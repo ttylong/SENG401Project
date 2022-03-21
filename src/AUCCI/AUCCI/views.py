@@ -11,6 +11,7 @@ import pyuploadcare as PuC
 from pyuploadcare import Uploadcare
 import json
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 connection_string = "mongodb+srv://auccibids:Seng401!@aucci.eqyli.mongodb.net/aucciDB"
 
@@ -193,7 +194,7 @@ def up(request):
                     url = Uploadcare.upload(f)
                     urls.append(str(url))
             except Exception as e: 
-                return HttpResponse("you messed up: " ,e)
+                return HttpResponse(e)
 
    
         if(len(urls) == 0):
@@ -207,12 +208,14 @@ def up(request):
 
 # create bidding item
 @api_view(['POST'])
-def create_bid_item(request):
+def create_bid_item(request, listingid = ""):
     if request.method != "POST":
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
     # first check to see if listing exists
     # pull listing ID out of JSON
-    listingid = request.data['_id']
+    # listingid = request.data['_id']
+    if listingid == "":
+        return HttpResponse("Listing field is empty.")
     
 
     cursor = db_collection("listings")
@@ -225,9 +228,7 @@ def create_bid_item(request):
         'listingid' : listingid,
         'highestbid' : 0,
         'highestbidder' : None,
-        'bidders' : {
-
-        }
+        'bidders' : []
     }
 
     bidid = db_collection("bids").insert_one(jsonitem).inserted_id
@@ -235,9 +236,33 @@ def create_bid_item(request):
     
 #  get highest bid
 
+def get_highest_bidder(request, bidid = ""):
+    if request.method != "GET":
+        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
+    if bidid == "":
+        return HttpResponse("Bid field is empty.")
 
-# update bidder list, update highest bidder and highest bid only if that bidder has the highest bid
-# not complete
+    cursor = db_collection("bids")
+    try:
+        result = cursor.find_one(ObjectId(bidid))
+    except Exception as e: 
+        return HttpResponse(e)
+    if result == None:
+        return HttpResponse("The bid does not exist.")
+    bid = result["highestbid"]
+    bidder = result["highestbidder"]
+    if bidder == None or bid == 0:
+        return HttpResponse("No bid or bidders yet")
+    jsonitem = {
+        'highestbid' : bid,
+        'highestbidder' : bidder
+    }
+
+    return JsonResponse(jsonitem)
+
+        
+
+# update bidder list, update highest bidder automatically and highest bid only if that bidder has the highest bid
 @api_view(['PATCH'])
 def update_bid_item(request, bidid = ""):
     if request.method != "PATCH":
@@ -251,12 +276,32 @@ def update_bid_item(request, bidid = ""):
         return HttpResponse("The bid does not exist.")
     
     # assumes user exists, idk how to confirm this using the django thing
-    # username = request.data['username']
-    # userbid = request.data['bid']
-    return HttpResponse("something happened.")
+    try:
+        username = request.data['username']
+        userbid = request.data['bid']
+        cursor.update({
+            "highestbid": {
+                "$lt": userbid
+            }
+        }, {
+            "$set": {
+                "highestbid": userbid,
+                "highestbidder": username
+            }
+        })
+        cursor.update(
+            {"_id" : ObjectId(bidid)},
+            {"$addToSet" : {"bidders" : username}}
+        )
+    
+    except Exception as e: 
+        return HttpResponse(e)
+    id = result["_id"]
+    return JsonResponse({"_id" : str(id)}, safe=False)
+    return HttpResponse("success")
     
 
-
+# INCOMPLETE
 # delete user from list of bidders
 # search for user in mybids. if they have the highest bid, then update the highest bidder to the next highest
 @api_view(['PATCH'])
@@ -267,7 +312,78 @@ def delete_bidder(request, userid = ""):
         return HttpResponse("User field empty.")
 
 
+# may merge this with update bid item tbh
+@api_view(['POST'])
+def mybids(request, bidid = ""):
+    if request.method != "POST":
+        return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
+    if bidid == "":
+        return HttpResponse("Bid field is empty.")
+    cursor = db_collection("bids")
+    result = cursor.find_one(ObjectId(bidid))
+    if result == None:
+        return HttpResponse("The bid does not exist.")
+    
+    cursor = db_collection("mybids")
+    
+    # assumes user exists
+    try:
+        username = request.data['username']
+        userbid = request.data['bid']
 
+        find = cursor.find_one({"username" : username})
+        print("VALUE OF FIND: " , find)
+        # if the username does not exist, create
+        if find == None:
+            jsonitem = {
+                "username" : username,
+                "allbids" : [
+                    {
+                        "bidid" : bidid,
+                        "bidvalue" : userbid
+                    }
+                ]
+            }
+            mybidid = cursor.insert_one(jsonitem).inserted_id
+            return JsonResponse({"_id" : str(mybidid)}, safe=False)
+        
+        
+
+        else:
+            # if user is found, see if they have a bid on the item already
+            find = cursor.find_one({"username" : username, "allbids" : {"$elemMatch" : {"bidid" : bidid}}})
+            # if not create the dict
+            if find == None:
+                cursor.update_many(
+                    {"username" : username},
+                    {
+                        "$push" : {
+                            "allbids" : {
+                                "bidid" : bidid,
+                                "bidvalue" : userbid
+                            }
+                        }
+                    }
+                )
+                print("THE ID IS: " ,find["_id"])
+
+            # if so update the dict
+            else:
+                cursor.update_many(
+                    {"username" : username, "allbids" : {"$elemMatch" : {"bidid" : bidid}}},
+                    {
+                        "$set" : {
+                            "allbids.$.bidvalue" : userbid
+                        }
+                    },
+
+                )
+                print("THE ID IS: " ,find["_id"])
+            
+            return JsonResponse({"_id" : str(find["_id"])}, safe=False)
+    
+    except Exception as e: 
+        return HttpResponse(e)    
 
 
 
