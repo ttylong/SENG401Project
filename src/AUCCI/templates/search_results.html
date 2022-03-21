@@ -94,20 +94,18 @@
                   </p>
                 </div>
                 <div class="d-flex justify-content-between mb-3">
-                  <h5 class="mb-0">{{product.title}}</h5>
+                  <h5 class="mb-0">{{product.item}}</h5>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                   <p class="text-muted mb-0">
                     Current Auction Price:
-                    <span class="fw-bold"
-                      >${{product.current_auction_price}}</span
-                    >
+                    <span class="fw-bold">${{product.price}}</span>
                   </p>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                   <p class="text-muted mb-0">
                     Time Left:
-                    <span class="fw-bold">{{product.time_created}}</span>
+                    <span class="fw-bold">{{product.listtime}}</span>
                   </p>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
@@ -116,7 +114,7 @@
                     <input
                       type="hidden"
                       name="Listing_ID"
-                      value="{{ product.listing_id }}"
+                      value="{{ product._id }}"
                     />
                     <input
                       type="submit"
