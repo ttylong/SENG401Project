@@ -11,6 +11,7 @@ import pyuploadcare as PuC
 from pyuploadcare import Uploadcare
 import json
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 connection_string = "mongodb+srv://auccibids:Seng401!@aucci.eqyli.mongodb.net/aucciDB"
 
@@ -234,6 +235,7 @@ def create_bid_item(request, listingid = ""):
     return JsonResponse({"id" : str(bidid)})
     
 #  get highest bid
+
 def get_highest_bidder(request, bidid = ""):
     if request.method != "GET":
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
