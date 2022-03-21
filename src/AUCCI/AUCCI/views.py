@@ -10,6 +10,7 @@ from bson import ObjectId
 import pyuploadcare as PuC
 from pyuploadcare import Uploadcare
 import json
+from django.contrib.auth import get_user_model
 
 connection_string = "mongodb+srv://auccibids:Seng401!@aucci.eqyli.mongodb.net/aucciDB"
 
@@ -24,7 +25,7 @@ def db_collection(collection):
 def itemList_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "useruniqid" : str(datum['useruniqid']), "item" : datum['item']})
+        json_data.append({"_id" : str(datum['_id']), "username" : str(datum['username']), "item" : datum['item']})
 
     return json_data
 
@@ -128,14 +129,82 @@ def up(request):
                     url = Uploadcare.upload(f)
                     urls.append(str(url))
             except Exception as e: 
-                return HttpResponse(e)
+                return HttpResponse("you messed up: " ,e)
 
-            
+   
         if(len(urls) == 0):
             return HttpResponse("Upload error: it appears nothing was uploaded")
         for thing in urls:
             print (thing)
         urls_json = json.dumps(urls)
-        # print (urls_json)
+        print (urls_json)
 
         return JsonResponse(urls_json, safe=False)
+
+# create bidding item
+@api_view(['POST'])
+def create_bid_item(request):
+    if request.method != "POST":
+        return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
+    # first check to see if listing exists
+    # pull listing ID out of JSON
+    listingid = request.data['_id']
+    
+
+    cursor = db_collection("listings")
+    result = cursor.find_one(ObjectId(listingid))
+
+    if result == None:
+        return HttpResponse("The listing does not exist.")
+    
+    jsonitem = {
+        'listingid' : listingid,
+        'highestbid' : 0,
+        'highestbidder' : None,
+        'bidders' : {
+
+        }
+    }
+
+    bidid = db_collection("bids").insert_one(jsonitem).inserted_id
+    return JsonResponse({"id" : str(bidid)})
+    
+#  get highest bid
+
+
+# update bidder list, update highest bidder and highest bid only if that bidder has the highest bid
+# not complete
+@api_view(['PATCH'])
+def update_bid_item(request, bidid = ""):
+    if request.method != "PATCH":
+        return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
+    if bidid == "":
+        return HttpResponse("Bid field is empty.")
+ 
+    cursor = db_collection("bids")
+    result = cursor.find_one(ObjectId(bidid))
+    if result == None:
+        return HttpResponse("The bid does not exist.")
+    
+    # assumes user exists, idk how to confirm this using the django thing
+    # username = request.data['username']
+    # userbid = request.data['bid']
+    return HttpResponse("something happened.")
+    
+
+
+# delete user from list of bidders
+# search for user in mybids. if they have the highest bid, then update the highest bidder to the next highest
+@api_view(['PATCH'])
+def delete_bidder(request, userid = ""):
+    if request.method != "PATCH":
+        return HttpResponse("Unrecognized request. This URL only accepts PATCH methods.")
+    if userid == "":
+        return HttpResponse("User field empty.")
+
+
+
+
+
+
+
