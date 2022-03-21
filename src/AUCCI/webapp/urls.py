@@ -13,4 +13,5 @@ urlpatterns = [
     path("search_results/<str:pk>", views.product, name="product"),
     path("profile", views.profile, name="profile"),
     path("logout", views.signout, name="logout"),
+    path("settings_view", views.settings_req, name="settings"),
 ]

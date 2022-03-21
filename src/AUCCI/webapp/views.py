@@ -130,6 +130,14 @@ def signout(request):
     logout(request)
     return redirect("index")
 
+@login_required
+def settings_req(request):
+    if request.method == "POST":
+        if request.POST.get("TESTING"):
+            redirect("index")
+    else:
+        return render(request, "settings_view.html")
+
 
 def helper(criteria):
 
