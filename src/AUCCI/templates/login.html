@@ -23,8 +23,8 @@
     <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
     <title>Login</title>
   </head>
-  <body>
-    <nav class="navbar navbar-light bg-light" id="navbar">
+  <body class="text-center">
+    <nav class="navbar navbar-light fixed-top bg-light" id="navbar">
       <a class="navbar-brand" href="index">
         <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
       </a>
@@ -70,6 +70,12 @@
         <h3 style="color: red">{{message}}</h3>
         {% endfor %}
       </form>
+    </div>
+    <div>
+      <footer class="footer navbar fixed-bottom">
+            <p class="footer-text" style="margin: 0 auto;margin-top:auto; max-height:25px;">&copy; 2022 AUCCI</p>
+        </div>
+      </footer>
     </div>
   </body>
 </html>
