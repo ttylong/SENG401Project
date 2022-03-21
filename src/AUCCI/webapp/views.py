@@ -1,3 +1,4 @@
+from audioop import reverse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
@@ -28,7 +29,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            return render(request, "search.html")
+            return redirect("search")
         else:
             messages.info(
                 request, "The Username and/or Password entered are incorrect!"
@@ -98,9 +99,17 @@ def search(request):
             if criteria[c] == "Any":
                 criteria[c] = "NULL"
 
-        products = helper(criteria)
+        request_vals = "search_results/"
 
-        return render(request, "search_results.html", {"products": products})
+        counter = 0
+
+        for crit in criteria.keys():
+            request_vals += f"{crit}={criteria[crit]}"
+            counter += 1
+            if counter != 5:
+                request_vals += ","
+
+        return redirect(request_vals)
 
     else:
         return render(request, "search.html")
@@ -108,16 +117,26 @@ def search(request):
 
 @login_required
 def product(request, pk):
-    a = 2
+    return render(request, "profile.html", {"listing_id": pk})
 
 
 @login_required
-def search_results(request):
+def search_results(request, pk):
+    request_vals = pk.split(",")
+    context = {}
+    for key_pair in request_vals:
+        val_to = key_pair.find("=")
+        context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
+
+    products = helper(context)
+
     if request.method == "POST":
         ID = request.POST["Listing_ID"]
-        return render(request, "profile.html", {"listing_id": ID})
+        return redirect(
+            f"/product/{ID}"
+        )  # (request, "profile.html", {"listing_id": ID})
     else:
-        return render(request, "search_results.html")
+        return render(request, "search_results.html", {"products": products})
 
 
 @login_required
@@ -130,6 +149,7 @@ def signout(request):
     logout(request)
     return redirect("index")
 
+
 @login_required
 def settings_req(request):
     if request.method == "POST":
@@ -140,10 +160,9 @@ def settings_req(request):
 
 
 def helper(criteria):
-
     p1 = Product(
         img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
-        listing_id=1,
+        listing_id="12jjasdfjw2e",
         category="Men's Jacket",
         title="Gucci Sweater",
         current_auction_price=69.98,
