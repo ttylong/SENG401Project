@@ -72,12 +72,9 @@ TEMPLATES = [
     },
 ]
 
-		
+
 # UPLOADCARE config
-UPLOADCARE = {
-    "pub_key" :  "20a0df730e28f42bb662",
-    "secret" : "8ad164c8ada8aaf4034f"
-}
+UPLOADCARE = {"pub_key": "20a0df730e28f42bb662", "secret": "8ad164c8ada8aaf4034f"}
 
 WSGI_APPLICATION = "AUCCI.wsgi.application"
 
@@ -138,3 +135,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+LOGIN_URL = "login"

@@ -15,16 +15,19 @@
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
     <title>AUCCI Welcome</title>
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light">
-      <a
-        class="navbar-brand"
-        href="#"
-        style="font-family: Copperplate, Copperplate Gothic Light, fantasy"
-      >
-        AUCCI
+    <nav class="navbar navbar-light bg-light" id="navbar">
+      <a class="navbar-brand" href="#">
+        <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
       </a>
     </nav>
     <div
@@ -34,7 +37,12 @@
       <form
         action=""
         method="post"
-        style="padding: 5%; border-style: solid; border-radius: 25px"
+        style="
+          padding: 5%;
+          border-style: solid;
+          border-radius: 25px;
+          font-family: 'Signika', sans-serif;
+        "
       >
         {% csrf_token %}
         <div class="form-group">
