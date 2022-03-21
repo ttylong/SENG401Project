@@ -117,6 +117,7 @@ def search(request):
 
 @login_required
 def product(request, pk):
+    
     return render(request, "product_view.html", {"listing_id": pk})
 
 
