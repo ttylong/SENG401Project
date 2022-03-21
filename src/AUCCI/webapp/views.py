@@ -9,6 +9,8 @@ import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 
+BACKEND_URL = 'http://127.0.0.1:8000/' # Subject to change
+
 # View Functions
 def index(request):
     if request.method == "POST":
@@ -155,6 +157,21 @@ def settings_req(request):
             redirect("index")
     else:
         return render(request, "settings_view.html")
+
+
+
+def search_db(criteria):
+
+    print(criteria)
+
+    url_params = ''
+
+
+    url = BACKEND_URL + 'listing/' + url_params
+
+    r = requests.get(url)
+
+    return r
 
 
 def helper(criteria):
