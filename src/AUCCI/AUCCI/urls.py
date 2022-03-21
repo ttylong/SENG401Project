@@ -29,12 +29,8 @@ urlpatterns = [
     path('categories/', views.categories, name='categories'),
     path('update_listing/<str:oid>/', views.update_listing, name='update_listing'),
     path('up/', views.up, name='up'),
-<<<<<<< HEAD
     path('create_bid_item/', views.create_bid_item, name='create_bid_item'),
     path('update_bid_item/<str:bidid>/', views.update_bid_item, name='update_bid_item'),
     path('delete_bidder/', views.delete_bidder, name='delete_bidder'),
     
 ]
-=======
-]
->>>>>>> 8c72a4d16dc5566a8a6d33d8485b2257a3d967fd

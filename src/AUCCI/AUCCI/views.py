@@ -25,12 +25,7 @@ def db_collection(collection):
 def listing_jsonify(data):
     json_data = []
     for datum in data:
-<<<<<<< HEAD
-        json_data.append({"_id" : str(datum['_id']), "username" : str(datum['username']), "item" : datum['item']})
-
-=======
         json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
->>>>>>> 8c72a4d16dc5566a8a6d33d8485b2257a3d967fd
     return json_data
 
 # Prepares for jsonResponse
