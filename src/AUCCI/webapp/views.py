@@ -117,7 +117,7 @@ def search(request):
 
 @login_required
 def product(request, pk):
-    return render(request, "profile.html", {"listing_id": pk})
+    return render(request, "product_view.html", {"listing_id": pk})
 
 
 @login_required
@@ -132,9 +132,7 @@ def search_results(request, pk):
 
     if request.method == "POST":
         ID = request.POST["Listing_ID"]
-        return redirect(
-            f"/product/{ID}"
-        )  # (request, "profile.html", {"listing_id": ID})
+        return redirect(f"/product/{ID}")
     else:
         return render(request, "search_results.html", {"products": products})
 

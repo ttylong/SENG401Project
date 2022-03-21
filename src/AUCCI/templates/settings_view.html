@@ -25,7 +25,7 @@
     <title>Search Results</title>
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light fixed-top navbar-expand-lg">
+    <nav class="navbar navbar-light bg-light sticky-top navbar-expand-lg">
       <a class="navbar-brand" href="../search">
         <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
       </a>
@@ -40,28 +40,147 @@
       <div class="collapse navbar-collapse" id="mynav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="profile" class="nav-link">My Profile</a>
+            <a href="../profile" class="nav-link">My Profile</a>
           </li>
           <li class="nav-item"><a href="#" class="nav-link">My Listings</a></li>
           <li class="nav-item"><a href="#" class="nav-link">My Bids</a></li>
           <li class="nav-item">
             <a href="#" class="nav-link">My Watchlist</a>
           </li>
-          <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+          <li class="nav-item"><a href="../settings_view" class="nav-link">Settings</a></li>
           <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
         </ul>
       </div>
     </nav>
-    <p>sdf</p>
-    <div class="container">
+    <div class="container" style="font-family: 'Signika', sans-serif"">
       <form
         action="settings_view"
         method="POST"
+        style="
+          padding: 5%;
+          border-style: solid;
+          border-radius: 25px;
+          width: auto;
+        "
       >
-      <input type="submit" value="TESTER" name="TESTING" />HIHIHIHI
+        {% csrf_token %}
+        <div class="form-group row">
+          <div class="col-auto my-1">
+            <p>Current First Name: {{ user.first_name }}</p>
+            <span>
+            <input type="text" name="NewFName" placeholder="{{ user.first_name }}">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputBrandSearch" class="col-sm-2 col-form-label"
+            >Brand:</label
+          >
+          <div class="col-auto my-1">
+            <select
+              name="brand"
+              class="custom-select custom-select-sm"
+              id="inputBrandSearch"
+              placeholder=""
+            >
+              <option value="any">Any</option>
+              <option value="louis vuitton">Louis Vuitton</option>
+              <option value="prada">Prada</option>
+              <option value="bape">Bape</option>
+              <option value="ovo">OVO</option>
+              <option value="chanel">Chanel</option>
+              <option value="dior">Dior</option>
+              <option value="armani">Armani</option>
+              <option value="versace">Versace</option>
+              <option value="burberry">Burberry</option>
+              <option value="cartier">Cartier</option>
+              <option value="balenciaga">Balenciaga</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputCategorySearch" class="col-sm-2 col-form-label"
+            >Category:</label
+          >
+          <div class="col-auto my-10">
+            <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
+            <select
+              name="category"
+              class="custom-select custom-select-sm"
+              id="inputCategorySearch"
+              placeholder=""
+            >
+              <option value="any">Any</option>
+              <option value="shirts">Shirts</option>
+              <option value="jackets">Jackets</option>
+              <option value="hoodies">Hoodies</option>
+              <option value="joggers">Joggers</option>
+              <option value="pants">Pants</option>
+              <option value="jeans">Jeans</option>
+              <option value="t-shirts">T-Shirts</option>
+              <option value="dress">Dress</option>
+              <option value="shorts">Shorts</option>
+              <option value="blouse">Blouse</option>
+              <option value="leggings">Leggings</option>
+              <option value="sports wear">Sports Wear</option>
+              <option value="blazer">Blazer</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputSizeSearch" class="col-sm-2 col-form-label"
+            >Size:</label
+          >
+          <div class="col-auto my-1">
+            <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
+            <select
+              name="size"
+              class="custom-select custom-select-sm"
+              id="inputSizeSearch"
+              placeholder=""
+            >
+              <option value="any">Any</option>
+              <option value="xs">XS</option>
+              <option value="s">S</option>
+              <option value="m">M</option>
+              <option value="l">L</option>
+              <option value="xl">XL</option>
+              <option value="xxl">XXL</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputPrimaryColorSearch" class="col-sm-2 col-form-label"
+            >Primary Color:</label
+          >
+          <div class="col-auto my-1">
+            <select
+              name="primary_color"
+              class="custom-select custom-select-sm"
+              id="inputPrimaryColorSearch"
+              placeholder=""
+            >
+              <option value="any">Any</option>
+              <option value="red">Red</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="black">Black</option>
+              <option value="white">White</option>
+              <option value="brown">Brown</option>
+              <option value="gold">Gold</option>
+              <option value="grey">Grey</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-auto my-1">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
+        </div>
       </form>
     </div>
-
     <div>
       <footer class="footer navbar fixed-bottom">
             <p class="footer-text" style="margin: 0 auto;margin-top:auto; max-height:25px;">&copy; 2022 AUCCI</p>
