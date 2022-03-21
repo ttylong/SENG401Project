@@ -8,8 +8,9 @@ from .models import Product
 import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
+import requests
 
-BACKEND_URL = 'http://127.0.0.1:8000/' # Subject to change
+BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
 
 # View Functions
 def index(request):
@@ -130,7 +131,29 @@ def search_results(request, pk):
         val_to = key_pair.find("=")
         context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
 
-    products = helper(context)
+    products = search_db(context)
+
+    products_objs = []
+
+    print(products)
+
+    for product in products:
+        print(type(product))
+        products_objs.append(
+            Product(
+                username=product["username"],
+                image=product["image"],
+                category=product["category"],
+                item=product["item"],
+                price=product["price"],
+                listtime=product["listtime"],
+                timelimit=product["timelimit"],
+                gender=product["gender"],
+                brand=product["brand"],
+                size=product["size"],
+                _id=product["_id"],
+            )
+        )
 
     if request.method == "POST":
         ID = request.POST["Listing_ID"]
@@ -159,15 +182,13 @@ def settings_req(request):
         return render(request, "settings_view.html")
 
 
-
 def search_db(criteria):
 
     print(criteria)
 
-    url_params = ''
+    url_params = ""
 
-
-    url = BACKEND_URL + 'listing/' + url_params
+    url = BACKEND_URL + "listing/" + url_params
 
     r = requests.get(url)
 
