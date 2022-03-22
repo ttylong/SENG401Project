@@ -169,6 +169,10 @@ def search_results(request, pk):
 def profile(request):
     return render(request, "profile.html")
 
+@login_required
+def mylistings(request):
+    return render(request, "mylistings.html")
+
 
 @login_required
 def signout(request):
@@ -217,6 +221,10 @@ def settings_req(request):
         return redirect("profile")
     else:
         return render(request, "settings_view.html")
+
+@login_required 
+def create_listing(request):
+    return render(request, "create_listing.html")
 
 
 def search_db(criteria):
