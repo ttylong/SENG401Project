@@ -11,6 +11,8 @@ import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 import requests
+import json
+from urllib.request import urlopen
 
 BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
 
@@ -174,12 +176,15 @@ def profile(request):
 def mylistings(request):
     username = request.user.username
 
+    jsonObj = search_db("noel")
+
     return render(request, "mylistings.html")
 
 @login_required
 def my_bids(request):
     username = request.user.username
     return render(request, "my_bids.html")
+
 
 @login_required
 def signout(request):
@@ -243,8 +248,9 @@ def search_db(criteria):
 
 
 def listing_by_username(username):
-    url = BACKEND_URL + "listing/" + "username=noel"
-    r = requests.get(url)
+    url = BACKEND_URL + "listing_by_user/" + username
+    r = urlopen(url)
+    print(json.loads(r.load()))
     return r
 
 
