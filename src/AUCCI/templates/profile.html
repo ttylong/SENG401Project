@@ -27,11 +27,7 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="{% static 'LogoBetter.png' %}"
-    />
+    <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -42,7 +38,9 @@
   </head>
   <body>
     <nav class="navbar navbar-light bg-light navbar-expand-md">
-      <a class="navbar-brand" href="../search"> <img src="{% static 'LogoBetter.png' %}" width="30" height="30" /> </a>
+      <a class="navbar-brand" href="../search">
+        <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -62,13 +60,17 @@
             <a href="#" class="nav-link">My Watchlist</a>
           </li>
           <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
-          <li class="nav-item"><a href="../logout" class="nav-link">Logout</a></li>
+          <li class="nav-item">
+            <a href="../logout" class="nav-link">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
     <form action="profile" method="POST" class="profile_view"></form>
     <br />
-    <h2 style="text-align: center;font-family: 'Signika', sans-serif"">Your Profile</h2>
+    <h2 style="text-align: center; font-family: 'Signika', sans-serif">
+      Your Profile
+    </h2>
     <br /><br />
     <div h4 style="text-align: center; font-family: 'Signika', sans-serif">
       <h1>{{ listing_id }}</h1>
@@ -78,7 +80,7 @@
       <h4>Email: {{ user.email }}</h4>
     </div>
     <br />
-    <div style="text-align: center; font-family: 'Signika', sans-serif"">
+    <div style="text-align: center; font-family: 'Signika', sans-serif">
       <button type="button" class="btn btn-secondary btn-lg">
         My Lisitings
       </button>
@@ -89,8 +91,12 @@
     </div>
     <div>
       <footer class="footer navbar fixed-bottom">
-            <p class="footer-text" style="margin: 0 auto;margin-top:auto; max-height:25px;">&copy; 2022 AUCCI</p>
-        </div>
+        <p
+          class="footer-text"
+          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+        >
+          &copy; 2022 AUCCI
+        </p>
       </footer>
     </div>
   </body>

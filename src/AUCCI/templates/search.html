@@ -34,18 +34,20 @@
       href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Signika:wght@400;600&display=swap" rel="stylesheet">
     <link
-      rel="icon"
-      type="image/x-icon"
-      href="{% static 'LogoBetter.png' %}"
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Signika:wght@400;600&display=swap"
+      rel="stylesheet"
     />
+    <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
     <title>Search Criteria</title>
   </head>
-  <body">
-    <nav class="navbar navbar-light navbar-expand-lg" style="background-color:#E8E8E8;">
-      <a class="navbar-brand" href="#"  style="text-align: center;">
-      <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
+  <body>
+    <nav
+      class="navbar navbar-light navbar-expand-lg"
+      style="background-color: #e8e8e8"
+    >
+      <a class="navbar-brand" href="#" style="text-align: center">
+        <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
       </a>
       <button
         class="navbar-toggler"
@@ -65,13 +67,19 @@
           <li class="nav-item">
             <a href="#" class="nav-link">My Watchlist</a>
           </li>
-          <li class="nav-item"><a href="../settings_view" class="nav-link">Settings</a></li>
-          <li class="nav-item"><a href="../logout" class="nav-link">Logout</a></li>
+          <li class="nav-item">
+            <a href="../settings_view" class="nav-link">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a href="../logout" class="nav-link">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>
-    <h2 style="font-family: 'Signika', sans-serif"">Enter Your Search Criteria:</h2>
-    <div class="container" style="font-family: 'Signika', sans-serif"">
+    <h2 style="font-family: 'Signika', sans-serif">
+      Enter Your Search Criteria:
+    </h2>
+    <div class="container" style="font-family: 'Signika', sans-serif">
       <form
         action="search"
         method="POST"
@@ -133,7 +141,6 @@
             >Category:</label
           >
           <div class="col-auto my-10">
-            <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
             <select
               name="category"
               class="custom-select custom-select-sm"
@@ -214,8 +221,12 @@
     </div>
     <div>
       <footer class="footer navbar fixed-bottom">
-            <p class="footer-text" style="margin: 0 auto;margin-top:auto; max-height:25px;">&copy; 2022 AUCCI</p>
-        </div>
+        <p
+          class="footer-text"
+          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+        >
+          &copy; 2022 AUCCI
+        </p>
       </footer>
     </div>
   </body>

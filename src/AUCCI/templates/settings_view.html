@@ -47,12 +47,15 @@
           <li class="nav-item">
             <a href="#" class="nav-link">My Watchlist</a>
           </li>
-          <li class="nav-item"><a href="../settings_view" class="nav-link">Settings</a></li>
+          <li class="nav-item">
+            <a href="../settings_view" class="nav-link">Settings</a>
+          </li>
           <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
         </ul>
       </div>
     </nav>
-    <div class="container" style="font-family: 'Signika', sans-serif"">
+    <h2 class="text-center">Settings</h2>
+    <div class="container" style="font-family: 'Signika', sans-serif">
       <form
         action="settings_view"
         method="POST"
@@ -67,78 +70,49 @@
         <div class="form-group row">
           <div class="col-auto my-1">
             <p>Current First Name: {{ user.first_name }}</p>
-            <span>
-            <input type="text" name="NewFName" placeholder="{{ user.first_name }}">
+            <label for="NewFName">New First Name:</label>
+            <input
+              type="text"
+              name="NewFName"
+              placeholder="{{ user.first_name }}"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-group row">
           <div class="col-auto my-1">
             <p>Current Last Name: {{ user.last_name }}</p>
-            <span>
-            <input type="text" name="NewFName" placeholder="{{ user.last_name }}">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-10">
-            <h5>To Change Your Password:</h5>
-            <br>
-            <p></p>
+            <label for="NewFName">New Last Name:</label>
             <input
-            type="password"
-            name="password"
-            placeholder="Enter Old Password"
-            class="form-control"
-          />
-            <span>
-            <input type="text" name="NewFName" placeholder="{{ user.last_name }}">
+              type="text"
+              name="NewFName"
+              placeholder="{{ user.last_name }}"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputSizeSearch" class="col-sm-2 col-form-label"
-            >Size:</label
-          >
           <div class="col-auto my-1">
-            <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
-            <select
-              name="size"
-              class="custom-select custom-select-sm"
-              id="inputSizeSearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="xs">XS</option>
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
-              <option value="xxl">XXL</option>
-            </select>
+            <h5>To Change Your Password:</h5>
+            <br />
+            <label for="password_old">Enter Your Current Password:</label>
+            <input
+              type="password"
+              name="password_old"
+              placeholder="Enter Current Password"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPrimaryColorSearch" class="col-sm-2 col-form-label"
-            >Primary Color:</label
-          >
           <div class="col-auto my-1">
-            <select
-              name="primary_color"
-              class="custom-select custom-select-sm"
-              id="inputPrimaryColorSearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="red">Red</option>
-              <option value="blue">Blue</option>
-              <option value="purple">Purple</option>
-              <option value="orange">Orange</option>
-              <option value="yellow">Yellow</option>
-              <option value="green">Green</option>
-              <option value="black">Black</option>
-              <option value="white">White</option>
-              <option value="brown">Brown</option>
-              <option value="gold">Gold</option>
-              <option value="grey">Grey</option>
-            </select>
+            <label for="password_new">Enter The New Password:</label>
+            <input
+              type="password"
+              name="password_new"
+              placeholder="Enter New Password"
+              class="form-control"
+            />
           </div>
         </div>
         <div class="form-group row">
@@ -150,8 +124,12 @@
     </div>
     <div>
       <footer class="footer navbar fixed-bottom">
-            <p class="footer-text" style="margin: 0 auto;margin-top:auto; max-height:25px;">&copy; 2022 AUCCI</p>
-        </div>
+        <p
+          class="footer-text"
+          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+        >
+          &copy; 2022 AUCCI
+        </p>
       </footer>
     </div>
   </body>
