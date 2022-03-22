@@ -492,3 +492,30 @@ def delete_bidder(request, bidid = ""):
     
     return JsonResponse({"_id" : bidid}, safe=False)
 
+def get_my_bids(request):
+    if request.method != "GET":
+        return HttpResponse("Unrecognized request. This URL only accepts PATCH methods.")
+    # if not request.user.is_authenticated:
+    #     return HttpResponse("Authentication error")
+
+    username = request.user.username
+    username = "Bob"
+    cursor = db_collection("mybids")
+
+    find = cursor.find_one(
+       {"username" : username} 
+    )
+
+    print(find)
+
+    arr = []
+    for doc in find['allbids']:
+        print(doc)
+        arr.append(doc)
+
+    jsonitem = json.dumps(arr)
+    print (jsonitem)
+
+    return JsonResponse(jsonitem, safe=False)
+
+
