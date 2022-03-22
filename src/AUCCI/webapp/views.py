@@ -186,6 +186,10 @@ def settings_req(request):
     else:
         return render(request, "settings_view.html")
 
+@login_required 
+def create_listing(request):
+    return render(request, "create_listing.html")
+
 
 def search_db(criteria):
 
