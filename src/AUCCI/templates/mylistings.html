@@ -53,16 +53,16 @@
 
                 <div class="item-rows">
                 <tbody>
-                      {% for item in items %}
+                      {% for product in products %}
                     <tr>
                         <td scope="row">
                             <figure>
                                 <img src="" height=100 width=200></img>
-                                <figcaption>{{item.title}}</figcaption>
+                                <figcaption>{{product.item}}</figcaption>
                             </figure>
                         </td>
-                        <td>{{item.bid}}</td>
-                        <td>{{item.status}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.status}}</td>
                     </tr>
                   {% endfor %}
                 </tbody>
