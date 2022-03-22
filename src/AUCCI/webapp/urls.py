@@ -15,4 +15,5 @@ urlpatterns = [
     path("logout", views.signout, name="logout"),
     path("settings_view", views.settings_req, name="settings"),
     path("product_view/<str:pk>", views.product, name="product"),
+    path("create_listing", views.create_listing, name="create_listing")
 ]
