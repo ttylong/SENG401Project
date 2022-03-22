@@ -169,10 +169,17 @@ def search_results(request, pk):
 def profile(request):
     return render(request, "profile.html")
 
+
 @login_required
 def mylistings(request):
+    username = request.user.username
+
     return render(request, "mylistings.html")
 
+@login_required
+def my_bids(request):
+    username = request.user.username
+    return render(request, "my_bids.html")
 
 @login_required
 def signout(request):
@@ -222,7 +229,8 @@ def settings_req(request):
     else:
         return render(request, "settings_view.html")
 
-@login_required 
+
+@login_required
 def create_listing(request):
     return render(request, "create_listing.html")
 
@@ -232,6 +240,13 @@ def search_db(criteria):
     url = BACKEND_URL + "listing/" + url_params
     r = requests.get(url)
     return r
+
+
+def listing_by_username(username):
+    url = BACKEND_URL + "listing/" + "username=noel"
+    r = requests.get(url)
+    return r
+
 
 def helper(criteria):
     p1 = Product(

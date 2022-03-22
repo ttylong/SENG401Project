@@ -13,3 +13,5 @@ class Product(models.Model):
     brand = models.CharField(max_length=100)
     size = models.CharField(max_length=10)
     _id = models.CharField(max_length=100)
+    status = models.CharField(max_length=100)
+    color = models.CharField(max_length=100)

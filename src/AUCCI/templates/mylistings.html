@@ -1,43 +1,9 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>My Bids</title>
-    </head>
-    <body>
-        <nav class="navbar navbar-light bg-light sticky-top navbar-expand-lg">
-            <a class="navbar-brand" href="../search">
-              <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
-            </a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#mynav"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mynav">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                  <a href="../profile" class="nav-link">My Profile</a>
-                </li>
-                <li class="nav-item"><a href="../mylistings" class="nav-link">My Listings</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Create Listing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">My Bids</a></li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">My Watchlist</a>
-                </li>
-                <li class="nav-item">
-                  <a href="../settings_view" class="nav-link">Settings</a>
-                </li>
-                <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
-              </ul>
-            </div>
-          </nav>
-        <div class="my-bids-list">
+{% extends "base.html"%}
+{% block title %}
+<title>My Listings</title>
+{% endblock %}
+{% block content %}
+          <div class="my-bids-list">
             <style>
                 figure{
                     margin-left: 0%;
@@ -75,58 +41,41 @@
                 
             </style>
             <table class="table table-striped">
-                <h2>My Bids History</h2>
+                <h2>My Listings</h2>
                 <hr>
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th>Description</th>
-                        <th>Bid amount</th>
-                        <th>Bid Date</th>
+                        <th>Highest Bid</th>
                         <th>Status</th>
                     </tr>
                 </thead>
 
                 <div class="item-rows">
                 <tbody>
+                      {% for product in products %}
                     <tr>
                         <td scope="row">
                             <figure>
                                 <img src="" height=100 width=200></img>
-                                <figcaption>abdg9120</figcaption>
+                                <figcaption>{{product.item}}</figcaption>
                             </figure>
                         </td>
-                        <td>Pant</td>
-                        <td>$90</td>
-                        <td>03/03/2022</td>
-                        <td>Active</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.status}}</td>
                     </tr>
-                    <tr>
-                        <td scope="row">
-                            <figure>
-                                <img src="static/LogoBetter.png" height=100 width=200></img>
-                                <figcaption>hefw3421</figcaption>
-                            </figure>
-                        </td>
-                        <td>Shirt</td>
-                        <td>$50</td>
-                        <td>03/21/2022</td>
-                        <td>Active</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <figure>
-                                <img src="" height=100 width=200></img>
-                                <figcaption>fhwu8371</figcaption>
-                            </figure>
-                        </td>
-                        <td>Jacket</td>
-                        <td>$20</td>
-                        <td>03/17/2022</td>
-                        <td>Active</td>
-                    </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>
-    </body>
-</html>
+        <div>
+            <footer class="footer navbar fixed-bottom">
+              <p
+                class="footer-text"
+                style="margin: 0 auto; margin-top: auto; max-height: 25px"
+              >
+                &copy; 2022 AUCCI
+              </p>
+            </footer>
+          </div>
+{% endblock %}
