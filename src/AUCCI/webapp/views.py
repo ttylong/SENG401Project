@@ -138,23 +138,23 @@ def search_results(request, pk):
 
     print(products)
 
-    for product in products:
-        print(type(product))
-        products_objs.append(
-            Product(
-                username=product["username"],
-                image=product["image"],
-                category=product["category"],
-                item=product["item"],
-                price=product["price"],
-                listtime=product["listtime"],
-                timelimit=product["timelimit"],
-                gender=product["gender"],
-                brand=product["brand"],
-                size=product["size"],
-                _id=product["_id"],
-            )
-        )
+    # for product in products:
+    #     print(type(product))
+    #     products_objs.append(
+    #         Product(
+    #             username=product["username"],
+    #             image=product["image"],
+    #             category=product["category"],
+    #             item=product["item"],
+    #             price=product["price"],
+    #             listtime=product["listtime"],
+    #             timelimit=product["timelimit"],
+    #             gender=product["gender"],
+    #             brand=product["brand"],
+    #             size=product["size"],
+    #             _id=product["_id"],
+    #         )
+    #     )
 
     if request.method == "POST":
         ID = request.POST["Listing_ID"]

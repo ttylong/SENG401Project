@@ -302,16 +302,6 @@ def update_bid_item(request, bidid = ""):
     return HttpResponse("success")
     
 
-# INCOMPLETE
-# delete user from list of bidders
-# search for user in mybids. if they have the highest bid, then update the highest bidder to the next highest
-@api_view(['PATCH'])
-def delete_bidder(request, userid = ""):
-    if request.method != "PATCH":
-        return HttpResponse("Unrecognized request. This URL only accepts PATCH methods.")
-    if userid == "":
-        return HttpResponse("User field empty.")
-
 
 # may merge this with update bid item tbh
 @api_view(['POST'])
@@ -348,8 +338,6 @@ def mybids(request, bidid = ""):
             mybidid = cursor.insert_one(jsonitem).inserted_id
             return JsonResponse({"_id" : str(mybidid)}, safe=False)
         
-        
-
         else:
             # if user is found, see if they have a bid on the item already
             find = cursor.find_one({"username" : username, "allbids" : {"$elemMatch" : {"bidid" : bidid}}})
