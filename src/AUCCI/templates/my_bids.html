@@ -1,0 +1,83 @@
+{% load static %}
+ 
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+       <meta charset="UTF-8"/>
+       <title>My Bids</title>
+   </head>
+   <body>
+       <div class="my-bids-list">
+           <style>
+               figure{
+                   margin-left: 0%;
+               }
+               h2{
+                   font-family: 'Signika', sans-serif;
+               }
+               hr{
+                   margin-top: 10px;
+                   margin-bottom: 50px;
+               }
+               .hr-break{
+                   padding-top: 0px;
+                   padding-bottom: 0px;
+               }
+               table{
+                   margin-left: auto;
+                   margin-right: auto;
+                   align-items: center;
+                   width: 80%;
+                   border-collapse: collapse;
+                   font-family: 'Signika', sans-serif;
+               }
+               tr{
+                   border-bottom: 2px solid #DCDCDC;
+                   border-radius: 20px;
+               }
+               th{
+                   text-align: left;
+                   padding-left: 15px;
+                   padding-right: 15px;
+               }
+               td{
+                   padding-top: 10px;
+                   padding-bottom: 10px;
+                   padding-left: 15px;
+                   padding-right: 15px;
+               }
+               .current-price{
+                   text-align: center;
+               }
+           </style>
+           <table class="table table-striped">
+               <h2>My Winning Bids</h2>
+               <hr>
+               <thead>
+                   <tr>
+                       <th>Item</th>
+                       <th></th>
+                       <th>Seller</th>
+                       <th>Current Bid Amount</th>
+                       <th>Status</th>
+                   </tr>
+               </thead>
+ 
+               <div class="item-rows">
+               <tbody>
+                   {% for product in products %}
+                   <tr>
+                       <td scope="row">{{product.name}}</td>
+                       <td>
+                           <img src="https://img.ssensemedia.com/images/b_white,g_center,f_auto,q_auto:best/221451M190015_1/gucci-blue-jacquard-gg-lounge-pants.jpg" height=100 width=50></img>
+                       </td>   
+                       <td>{{product.seller}}</td>
+                       <td class="current-price">{{product.price}}</td>
+                       <td>{{product.status}}</td>
+                   </tr>
+                   {% endfor %}
+               </tbody>
+           </table>
+       </div>
+   </body>
+</html>
