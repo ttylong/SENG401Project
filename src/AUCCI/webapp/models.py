@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
-    
     username = models.CharField(max_length=100)
     image = models.URLField()
     category = models.CharField(max_length=100)

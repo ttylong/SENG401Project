@@ -5,6 +5,8 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import logout
 from django.contrib import messages
 from .models import Product
+from pymongo import MongoClient
+from django.http import JsonResponse, HttpResponse
 import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
@@ -120,7 +122,7 @@ def search(request):
 
 @login_required
 def product(request, pk):
-    
+
     return render(request, "product_view.html", {"listing_id": pk})
 
 
@@ -138,23 +140,23 @@ def search_results(request, pk):
 
     print(products)
 
-    for product in products:
-        print(type(product))
-        products_objs.append(
-            Product(
-                username=product["username"],
-                image=product["image"],
-                category=product["category"],
-                item=product["item"],
-                price=product["price"],
-                listtime=product["listtime"],
-                timelimit=product["timelimit"],
-                gender=product["gender"],
-                brand=product["brand"],
-                size=product["size"],
-                _id=product["_id"],
-            )
-        )
+    # for product in products:
+    #     print(type(product))
+    #     products_objs.append(
+    #         Product(
+    #             username=product["username"],
+    #             image=product["image"],
+    #             category=product["category"],
+    #             item=product["item"],
+    #             price=product["price"],
+    #             listtime=product["listtime"],
+    #             timelimit=product["timelimit"],
+    #             gender=product["gender"],
+    #             brand=product["brand"],
+    #             size=product["size"],
+    #             _id=product["_id"],
+    #         )
+    #     )
 
     if request.method == "POST":
         ID = request.POST["Listing_ID"]
@@ -177,24 +179,51 @@ def signout(request):
 @login_required
 def settings_req(request):
     if request.method == "POST":
-        if request.POST.get("TESTING"):
-            redirect("index")
+        new_fname = request.POST["NewFName"]
+        new_lname = request.POST["NewLName"]
+        password_old = request.POST["password_old"]
+        password_new = request.POST["password_new"]
+        password_new_confirm = request.POST["password_new_confirm"]
+        user = request.user
+        if new_fname and new_fname.strip():
+            user.first_name = new_fname
+            user.save()
+        if new_lname and new_lname.strip():
+            user.last_name = new_lname
+            user.save()
+        if password_old and password_old.strip():
+            if (
+                password_new
+                and password_new_confirm
+                and password_new.strip()
+                and password_new_confirm.strip()
+            ):
+                user = auth.authenticate(username=user.username, password=password_old)
+                if user is not None:
+                    if password_new == password_new_confirm:
+                        user.set_password(password_new)
+                        user.save()
+                        messages.info(
+                            request,
+                            "Password successfully changed! Please log in again!",
+                        )
+                        return redirect("profile")
+                    else:
+                        messages.info(request, "New passwords do not match!")
+                        return redirect("settings")
+                else:
+                    messages.info(request, "The current password entered is incorrect!")
+                    return redirect("settings")
+        return redirect("profile")
     else:
         return render(request, "settings_view.html")
 
 
 def search_db(criteria):
-
-    print(criteria)
-
     url_params = ""
-
     url = BACKEND_URL + "listing/" + url_params
-
     r = requests.get(url)
-
     return r
-
 
 def helper(criteria):
     p1 = Product(

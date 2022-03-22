@@ -13,15 +13,28 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="{% static 'style.css' %}" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
     <title>Search Results</title>
   </head>
   <body>
@@ -82,10 +95,10 @@
         <div class="form-group row">
           <div class="col-auto my-1">
             <p>Current Last Name: {{ user.last_name }}</p>
-            <label for="NewFName">New Last Name:</label>
+            <label for="NewLName">New Last Name:</label>
             <input
               type="text"
-              name="NewFName"
+              name="NewLName"
               placeholder="{{ user.last_name }}"
               class="form-control"
             />
@@ -117,9 +130,31 @@
         </div>
         <div class="form-group row">
           <div class="col-auto my-1">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <label for="password_new_confirm"
+              >Enter The New Password Again:</label
+            >
+            <input
+              type="password"
+              name="password_new_confirm"
+              placeholder="Enter New Password Again"
+              class="form-control"
+            />
           </div>
         </div>
+        <div class="form-group row">
+          <div class="col-auto my-1">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onclick="alert('{{ messages }}');"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+        {% for message in messages %}
+        <h3 style="color: red">{{message}}</h3>
+        {% endfor %}
       </form>
     </div>
     <div>

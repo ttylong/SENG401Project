@@ -111,11 +111,7 @@
                 <div class="d-flex justify-content-between mb-2">
                   <form action="" method="POST">
                     {% csrf_token %}
-                    <input
-                      type="hidden"
-                      name="Listing_ID"
-                      value="{{ product._id }}"
-                    />
+                    <input type="hidden" name="Listing_ID" value="123" />
                     <input
                       type="submit"
                       value="Additional Information"
