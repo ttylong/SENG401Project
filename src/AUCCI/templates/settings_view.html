@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,7 +37,7 @@
     <title>Search Results</title>
   </head>
   <body>
-    <nav class="navbar navbar-light bg-light sticky-top navbar-expand-lg">
+    <nav class="navbar navbar-light bg-light navbar-expand-md">
       <a class="navbar-brand" href="../search">
         <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
       </a>
@@ -55,7 +54,7 @@
           <li class="nav-item">
             <a href="../profile" class="nav-link">My Profile</a>
           </li>
-          <li class="nav-item"><a href="#" class="nav-link">My Listings</a></li>
+          <li class="nav-item"><a href="../mylistings" class="nav-link">My Listings</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Create Listing</a></li>
           <li class="nav-item"><a href="#" class="nav-link">My Bids</a></li>
           <li class="nav-item">
@@ -64,7 +63,9 @@
           <li class="nav-item">
             <a href="../settings_view" class="nav-link">Settings</a>
           </li>
-          <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
+          <li class="nav-item">
+            <a href="../logout" class="nav-link">Logout</a>
+          </li>
         </ul>
       </div>
     </nav>

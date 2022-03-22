@@ -4,6 +4,42 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
+        <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Signika:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="{% static 'LogoBetter.png' %}" />
         <title>My Bids</title>
     </head>
     <body>
@@ -37,7 +73,7 @@
               </ul>
             </div>
           </nav>
-        <div class="my-bids-list">
+          <div class="my-bids-list">
             <style>
                 figure{
                     margin-left: 0%;
@@ -75,58 +111,42 @@
                 
             </style>
             <table class="table table-striped">
-                <h2>My Bids History</h2>
+                <h2>My Listings</h2>
                 <hr>
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th>Description</th>
-                        <th>Bid amount</th>
-                        <th>Bid Date</th>
+                        <th>Highest Bid</th>
                         <th>Status</th>
                     </tr>
                 </thead>
 
                 <div class="item-rows">
                 <tbody>
+                      {% for item in items %}
                     <tr>
                         <td scope="row">
                             <figure>
                                 <img src="" height=100 width=200></img>
-                                <figcaption>abdg9120</figcaption>
+                                <figcaption>{{item.title}}</figcaption>
                             </figure>
                         </td>
-                        <td>Pant</td>
-                        <td>$90</td>
-                        <td>03/03/2022</td>
-                        <td>Active</td>
+                        <td>{{item.bid}}</td>
+                        <td>{{item.status}}</td>
                     </tr>
-                    <tr>
-                        <td scope="row">
-                            <figure>
-                                <img src="static/LogoBetter.png" height=100 width=200></img>
-                                <figcaption>hefw3421</figcaption>
-                            </figure>
-                        </td>
-                        <td>Shirt</td>
-                        <td>$50</td>
-                        <td>03/21/2022</td>
-                        <td>Active</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <figure>
-                                <img src="" height=100 width=200></img>
-                                <figcaption>fhwu8371</figcaption>
-                            </figure>
-                        </td>
-                        <td>Jacket</td>
-                        <td>$20</td>
-                        <td>03/17/2022</td>
-                        <td>Active</td>
-                    </tr>
+                  {% endfor %}
                 </tbody>
             </table>
         </div>
+        <div>
+            <footer class="footer navbar fixed-bottom">
+              <p
+                class="footer-text"
+                style="margin: 0 auto; margin-top: auto; max-height: 25px"
+              >
+                &copy; 2022 AUCCI
+              </p>
+            </footer>
+          </div>
     </body>
 </html>
