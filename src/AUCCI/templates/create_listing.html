@@ -1,0 +1,51 @@
+{% extends "base.html"%}
+{% block title %}
+<title>Create Listing</title>
+{% endblock %}
+{% block content %}
+    <h2 class="text-center">Create Listing</h2>
+    <div class="container" style="font-family: 'Signika', sans-serif">
+      <form
+        action="create_listing"
+        method="POST"
+        style="
+          padding: 5%;
+          border-style: solid;
+          border-radius: 25px;
+          width: auto;
+        "
+      >
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="Title">Item</label>
+            <input type="text" name="Title" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="Brand">Brand</label>
+            <input type="text" name="Brand" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="Category">Category</label>
+            <input type="text" name="Category" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="Gender">Gender</label>
+            <input type="text" name="Gender" class="form-control">
+        </div>
+        <div class="form-group row">
+            <label for="Size">Size</label>
+            <input type="text" name="Size" class="form-control">
+        </div>
+      </form>
+    </div>
+    <div>
+      <footer class="footer navbar fixed-bottom">
+        <p
+          class="footer-text"
+          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+        >
+          &copy; 2022 AUCCI
+        </p>
+      </footer>
+    </div>
+{% endblock %}

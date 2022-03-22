@@ -5,6 +5,8 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import logout
 from django.contrib import messages
 from .models import Product
+from pymongo import MongoClient
+from django.http import JsonResponse, HttpResponse
 import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
@@ -120,7 +122,7 @@ def search(request):
 
 @login_required
 def product(request, pk):
-    
+
     return render(request, "product_view.html", {"listing_id": pk})
 
 
@@ -169,6 +171,17 @@ def profile(request):
 
 
 @login_required
+def mylistings(request):
+    username = request.user.username
+
+    return render(request, "mylistings.html")
+
+@login_required
+def my_bids(request):
+    username = request.user.username
+    return render(request, "my_bids.html")
+
+@login_required
 def signout(request):
     logout(request)
     return redirect("index")
@@ -177,22 +190,61 @@ def signout(request):
 @login_required
 def settings_req(request):
     if request.method == "POST":
-        if request.POST.get("TESTING"):
-            redirect("index")
+        new_fname = request.POST["NewFName"]
+        new_lname = request.POST["NewLName"]
+        password_old = request.POST["password_old"]
+        password_new = request.POST["password_new"]
+        password_new_confirm = request.POST["password_new_confirm"]
+        user = request.user
+        if new_fname and new_fname.strip():
+            user.first_name = new_fname
+            user.save()
+        if new_lname and new_lname.strip():
+            user.last_name = new_lname
+            user.save()
+        if password_old and password_old.strip():
+            if (
+                password_new
+                and password_new_confirm
+                and password_new.strip()
+                and password_new_confirm.strip()
+            ):
+                user = auth.authenticate(username=user.username, password=password_old)
+                if user is not None:
+                    if password_new == password_new_confirm:
+                        user.set_password(password_new)
+                        user.save()
+                        messages.info(
+                            request,
+                            "Password successfully changed! Please log in again!",
+                        )
+                        return redirect("profile")
+                    else:
+                        messages.info(request, "New passwords do not match!")
+                        return redirect("settings")
+                else:
+                    messages.info(request, "The current password entered is incorrect!")
+                    return redirect("settings")
+        return redirect("profile")
     else:
         return render(request, "settings_view.html")
 
 
+@login_required
+def create_listing(request):
+    return render(request, "create_listing.html")
+
+
 def search_db(criteria):
-
-    print(criteria)
-
     url_params = ""
-
     url = BACKEND_URL + "listing/" + url_params
-
     r = requests.get(url)
+    return r
 
+
+def listing_by_username(username):
+    url = BACKEND_URL + "listing/" + "username=noel"
+    r = requests.get(url)
     return r
 
 

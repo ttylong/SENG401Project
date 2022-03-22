@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <title>Document</title>
-  </head>
-  <body>
+{% extends "base.html"%}
+{% block title %}
+<title>Product</title>
+{% endblock %}
+{% block content %}
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -107,5 +102,4 @@
         </div>
     </div>
 </div>
-  </body>
-</html>
+{% endblock %}
