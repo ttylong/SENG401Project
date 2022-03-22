@@ -174,12 +174,12 @@ def profile(request):
 def mylistings(request):
     username = request.user.username
 
-    return_obj = listing_by_username("noel")
-
-    print(return_obj.content)
-
     return render(request, "mylistings.html")
 
+@login_required
+def my_bids(request):
+    username = request.user.username
+    return render(request, "my_bids.html")
 
 @login_required
 def signout(request):
