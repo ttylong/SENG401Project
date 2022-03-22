@@ -34,6 +34,6 @@ urlpatterns = [
     path('delete_bidder/', views.delete_bidder, name='delete_bidder'),
     path('mybids/<str:bidid>/', views.mybids, name='mybids'),    
     path('get_highest_bidder/<str:bidid>/', views.get_highest_bidder, name='get_highest_bidder'),    
-    path('delete_bidder/<str:username>/', views.delete_bidder, name='delete_bidder'),    
+    path('delete_bidder/<str:bidid>/', views.delete_bidder, name='delete_bidder'),    
 
 ]

@@ -1,6 +1,7 @@
 # REST API endpoints for listings
 
 from email.mime import image
+import string
 from pymongo import MongoClient
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -26,7 +27,7 @@ def db_collection(collection):
 def listing_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "price" : str(datum['price']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
+        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
     return json_data
 
 # Prepares for jsonResponse
@@ -386,9 +387,108 @@ def mybids(request, bidid = ""):
         return HttpResponse(e)    
 
 
-def delete_bidder(request, username = ""):
-    if not request.user.is_authenticated:
-        return HttpResponse("Not logged in")
+def delete_bidder(request, bidid = ""):
+
+    if request.method != "PATCH":
+        return HttpResponse("Unrecognized request. This URL only accepts PATCH methods.")
+    # if not request.user.is_authenticated:
+    #     return HttpResponse("Authentication error")
+    if(bidid == ""):
+        return HttpResponse("Bid field is empty.")
+
+    # username = str(request.user.username)
+    username = "Bob"
+    cursor = db_collection("bids")
+    cursor1 = db_collection("mybids")
+    try:
+        find  = cursor.find_one(
+            
+                {"_id" : ObjectId(bidid), "bidders" : username}
+            
+        )
+
+        print(find)
+
+        find1 = cursor1.find_one(
+            
+                {"username" : username, "allbids" : {"$elemMatch" : {"bidid" : bidid}}}
+        )
+        
+
+        print(find1)
+
+        if(find1 == None or find == None):
+            return HttpResponse("user does not have a bid on this item")
+
+        # delete user from database list
+        cursor.update(
+            {"_id" : ObjectId(bidid)},
+            {
+                "$pull" : {
+                    "bidders" : username
+                }
+            }
+        )
+        # delete users bid from mybids
+        cursor1.update(
+            
+            {"username" : username},
+            {
+                "$pull" : {
+                    "allbids" : {
+                        "bidid" : bidid
+                    }
+                }
+            }
+        )
+        
+        highestbidder = find["highestbidder"]
+        if(username == highestbidder):
+            print("repace highest bidder")
+            find3 = cursor1.find(
+                {
+                    "allbids" : {"$elemMatch" : {"bidid" : bidid}}
+                }
+            ).sort("allbids.bidvalue", -1).limit(1)
+            user = None
+            value = None
+            for doc in find3:
+                print(doc)
+                user = doc["username"]
+                value = doc['allbids'][0]['bidvalue']
+
+            # if no user was found to be the next highest bidder
+            if user == None:
+                cursor.update(
+                    {"_id" : ObjectId(bidid)},
+                    {
+                        "$set" : {
+                            "highestbidder" : None,
+                            "highestbid" : 0
+                        }
+
+                    }
+                )
+            else:
+                cursor.update(
+                    {"_id" : ObjectId(bidid)},
+                    {
+                        "$set" : {
+                            "highestbidder" : user,
+                            "highestbid" : value
+                        }
+                    }
+                )    
+            
+
+
+        else:
+            print("do not replace highest bidder")
+
+
+    except Exception as e: 
+        return HttpResponse(e)  
+
     
-    return HttpResponse("testing")
+    return JsonResponse({"_id" : bidid}, safe=False)
 
