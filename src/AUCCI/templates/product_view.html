@@ -10,50 +10,43 @@
             <h6 class="card-subtitle">Posted by: {{product.username}}</h6>
             <div class="row">
                 <div class="col">
-                    <img src= "https://www.hleatherjackets.com/wp-content/uploads/2020/10/OVOXO-Drake-Crewneck-Sweatshirt.jpg" class="img-responsive" width = "300" height = "400">
+                    <img src= {{product.image}} class="img-responsive" width = "300" height = "400">
                         </div><div class="col">
                             <h2 class="mt-5" style = "display:inline-block;">
                                 Current Highest Bid: ${{product.price}}<small class="text-success"></small>
                             </h2>
                             <h3>
-                                Time Left on Auction: <!-- Display the countdown timer in an element -->
-                                <p id="demo"></p>
+                                Time Left on Auction:
+                                <p id="clock"></p>
 
                                 <script>
-                                // Set the date we're counting down to
 
                                 var countDownDate = new Date("{{product.maxtime.isoformat}}").getTime();
 
-                                // Update the count down every 1 second
                                 var x = setInterval(function() {
 
-                                // Get today's date and time
                                 var now = new Date().getTime();
 
-                                // Find the distance between now and the count down date
                                 var distance = countDownDate - now;
 
-                                // Time calculations for days, hours, minutes and seconds
                                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                                 var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                                 var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                                // Display the result in the element with id="demo"
-                                document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                                document.getElementById("clock").innerHTML = days + "d " + hours + "h "
                                 + minutes + "m " + seconds + "s ";
 
-                                // If the count down is finished, write some text
                                 if (distance < 0) {
                                     clearInterval(x);
-                                    document.getElementById("demo").innerHTML = "EXPIRED";
+                                    document.getElementById("clock").innerHTML = "EXPIRED";
                                 }
                                 }, 1000);
                                 </script> <small class = "text-success"></small>
                             </h3>
                             <label for="bidEnter">Enter your bid:</label>
         
-                            <input type="number" id="tentacles" name="tentacles" min="10" max="100">
+                            <input type="number" id="bid" name="bids" min="10" max="100">
                             <button class="btn btn-primary btn-rounded">Bid Now</button>
                         </div>
                 </div>
