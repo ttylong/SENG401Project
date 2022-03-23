@@ -1,106 +1,102 @@
-{% extends "base.html"%}
-{% block title %}
+{% extends "base.html"%} {% block title %}
 <title>My Bids</title>
-{% endblock %}
-{% block content %}
-    <h2 class="text-center">Settings</h2>
-    <div class="container" style="font-family: 'Signika', sans-serif">
-      <form
-        action="settings_view"
-        method="POST"
-        style="
-          padding: 5%;
-          border-style: solid;
-          border-radius: 25px;
-          width: auto;
-        "
-      >
-        {% csrf_token %}
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <p>Current First Name: {{ user.first_name }}</p>
-            <label for="NewFName">New First Name:</label>
-            <input
-              type="text"
-              name="NewFName"
-              placeholder="{{ user.first_name }}"
-              class="form-control"
-            />
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <p>Current Last Name: {{ user.last_name }}</p>
-            <label for="NewLName">New Last Name:</label>
-            <input
-              type="text"
-              name="NewLName"
-              placeholder="{{ user.last_name }}"
-              class="form-control"
-            />
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <h5>To Change Your Password:</h5>
-            <br />
-            <label for="password_old">Enter Your Current Password:</label>
-            <input
-              type="password"
-              name="password_old"
-              placeholder="Enter Current Password"
-              class="form-control"
-            />
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <label for="password_new">Enter The New Password:</label>
-            <input
-              type="password"
-              name="password_new"
-              placeholder="Enter New Password"
-              class="form-control"
-            />
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <label for="password_new_confirm"
-              >Enter The New Password Again:</label
-            >
-            <input
-              type="password"
-              name="password_new_confirm"
-              placeholder="Enter New Password Again"
-              class="form-control"
-            />
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              onclick="alert('{{ messages }}');"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-        {% for message in messages %}
-        <h3 style="color: red">{{message}}</h3>
-        {% endfor %}
-      </form>
+{% endblock %} {% block content %}
+<h2 class="text-center">Settings</h2>
+<div class="container" style="font-family: 'Signika', sans-serif">
+  <form
+    action="settings_view"
+    method="POST"
+    style="
+      padding: 5%;
+      box-shadow: 3px 3px 5px rgb(206, 206, 206);
+      border-radius: 25px;
+      width: auto;
+    "
+  >
+    {% csrf_token %}
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <p>Current First Name: {{ user.first_name }}</p>
+        <label for="NewFName">New First Name:</label>
+        <input
+          type="text"
+          name="NewFName"
+          placeholder="{{ user.first_name }}"
+          class="form-control"
+        />
+      </div>
     </div>
-    <div>
-      <footer class="footer navbar fixed-bottom">
-        <p
-          class="footer-text"
-          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <p>Current Last Name: {{ user.last_name }}</p>
+        <label for="NewLName">New Last Name:</label>
+        <input
+          type="text"
+          name="NewLName"
+          placeholder="{{ user.last_name }}"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <h5>To Change Your Password:</h5>
+        <br />
+        <label for="password_old">Enter Your Current Password:</label>
+        <input
+          type="password"
+          name="password_old"
+          placeholder="Enter Current Password"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <label for="password_new">Enter The New Password:</label>
+        <input
+          type="password"
+          name="password_new"
+          placeholder="Enter New Password"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <label for="password_new_confirm">Enter The New Password Again:</label>
+        <input
+          type="password"
+          name="password_new_confirm"
+          placeholder="Enter New Password Again"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          onclick="alert('{{ messages }}');"
         >
-          &copy; 2022 AUCCI
-        </p>
-      </footer>
+          Search
+        </button>
+      </div>
     </div>
+    {% for message in messages %}
+    <h3 style="color: red">{{message}}</h3>
+    {% endfor %}
+  </form>
+</div>
+<div>
+  <footer class="footer navbar fixed-bottom">
+    <p
+      class="footer-text"
+      style="margin: 0 auto; margin-top: auto; max-height: 25px"
+    >
+      &copy; 2022 AUCCI
+    </p>
+  </footer>
+</div>
 {% endblock %}

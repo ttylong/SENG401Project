@@ -26,43 +26,47 @@
   <body>
     {% if user.is_authenticated %}
     <nav class="navbar navbar-light bg-light sticky-top navbar-expand-lg">
-        <a class="navbar-brand" href="../search">
-          <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#mynav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mynav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a href="../profile" class="nav-link">My Profile</a>
-            </li>
-            <li class="nav-item"><a href="../mylistings" class="nav-link">My Listings</a></li>
-            <li class="nav-item"><a href="../create_listing" class="nav-link">Create Listing</a></li>
-            <li class="nav-item"><a href="../my_bids" class="nav-link">My Bids</a></li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">My Watchlist</a>
-            </li>
-            <li class="nav-item">
-              <a href="../settings_view" class="nav-link">Settings</a>
-            </li>
-            <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
-          </ul>
-        </div>
-      </nav>
-      {% else %}
-      <nav class="navbar navbar-light bg-light" id="navbar">
-        <a class="navbar-brand" href="#">
-          <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
-        </a>
-      </nav>
-      {% endif %}
-    {% block content %}
-    {% endblock %}
+      <a class="navbar-brand" href="../search">
+        <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#mynav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mynav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="../profile" class="nav-link">My Profile</a>
+          </li>
+          <li class="nav-item">
+            <a href="../mylistings" class="nav-link">My Listings</a>
+          </li>
+          <li class="nav-item">
+            <a href="../create_listing" class="nav-link">Create Listing</a>
+          </li>
+          <li class="nav-item">
+            <a href="../my_bids" class="nav-link">My Bids</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">My Watchlist</a>
+          </li>
+          <li class="nav-item">
+            <a href="../settings_view" class="nav-link">Settings</a>
+          </li>
+          <li class="nav-item"><a href="logout" class="nav-link">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    {% else %}
+    <nav class="navbar navbar-light bg-light" id="navbar">
+      <a class="navbar-brand" href="#">
+        <img src="{% static 'LogoBetter.png' %}" width="30" height="30" />
+      </a>
+    </nav>
+    {% endif %} {% block content %} {% endblock %}
   </body>
 </html>
