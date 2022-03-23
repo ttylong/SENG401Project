@@ -24,6 +24,7 @@ urlpatterns = [
     path('listing_by_user/<str:username>/', views.listing_by_user, name='listing_by_user'),
     path('listing_by_category/<str:category>/', views.listing_by_category, name='listing_by_category'),
     path('listing_by_params/<str:gender>/<str:brand>/<str:category>/<str:size>/<str:pcolor>/', views.listing_by_params, name='listing_by_params'),
+    path('listing_by_id/<str:oid>/', views.listing_by_id, name='listing_by_id'),
     path('delete_listing/<str:oid>/', views.delete_listing, name='delete_listing'),
     path('create_listing/', views.create_listing, name='create_listing'),
     path('categories/', views.categories, name='categories'),

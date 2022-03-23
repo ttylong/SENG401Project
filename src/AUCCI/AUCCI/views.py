@@ -92,6 +92,22 @@ def listing_by_user(request, username=""):
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
 
+def listing_by_id(request, oid = ""):
+    if request.method == "GET":
+        cursor = db_collection("listings")
+
+        if oid != "":
+            listings = cursor.find({"_id" :  ObjectId(oid)})
+        else:
+            listings = cursor.find({"none": "none"}) # Returns empty
+
+        json_content = listing_jsonify(listings)
+
+        return JsonResponse(json_content, safe=False)
+    else:
+        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
+
+
 # GET listings by category
 def listing_by_category(request, category=""):
     if request.method == "GET":

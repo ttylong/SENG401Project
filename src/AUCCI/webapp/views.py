@@ -272,6 +272,14 @@ def convert_to_products(dict_tuples):
     return products
 
 
+def listing_by_id(oid):
+    url_params = oid
+
+    url = BACKEND_URL + "listing_by_id/" + url_params
+    print(url)
+    r = requests.get(url)
+    return r
+
 def helper(criteria):
     p1 = Product(
         img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
