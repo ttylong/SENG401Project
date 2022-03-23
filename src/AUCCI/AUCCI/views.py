@@ -27,7 +27,7 @@ def db_collection(collection):
 def listing_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "initprice" : str(datum['initprice']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
+        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "price" : str(datum['price']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
     return json_data
 
 # Prepares for jsonResponse
@@ -314,7 +314,6 @@ def mybids(request, bidid = ""):
     result = cursor.find_one(ObjectId(bidid))
     if result == None:
         return HttpResponse("The bid does not exist.")
-    
     cursor = db_collection("mybids")
     
     # assumes user exists
