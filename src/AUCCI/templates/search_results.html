@@ -3,6 +3,7 @@
 {% endblock %} {% block content %}
 <h2 class="display-4 text-center text-muted">Search Results:</h2>
 <hr style="width: 85%" />
+{% if products|length > 0 %}
 <div class="container">
   {% for product in products %} {% if forloop.first %}
   <div class="row gy-3">
@@ -62,6 +63,14 @@
   </div>
   {% endif %} {% endfor %}
 </div>
+{% else %}
+<div class="container">
+  <h2 class="display-5 text-center text-muted">
+    Your search did not yield any results...<br />Please
+    <a href="../search">create a new search</a>.
+  </h2>
+</div>
+{% endif %}
 <div>
   <footer class="footer navbar fixed-bottom">
     <p

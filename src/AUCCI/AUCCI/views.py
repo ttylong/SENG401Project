@@ -40,7 +40,6 @@ def listing_jsonify(data):
                 "size": datum["size"],
                 "listtime": str(datum["listtime"]),
                 "price": str(datum["price"]),
-                "timelimit": str(datum["timelimit"]),
                 "image": datum["image"],
                 "primary-color": datum["primary-color"],
             }
@@ -92,14 +91,14 @@ def listing_by_user(request, username=""):
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
 
-def listing_by_id(request, oid = ""):
+def listing_by_id(request, oid=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
         if oid != "":
-            listings = cursor.find({"_id" :  ObjectId(oid)})
+            listings = cursor.find({"_id": ObjectId(oid)})
         else:
-            listings = cursor.find({"none": "none"}) # Returns empty
+            listings = cursor.find({"none": "none"})  # Returns empty
 
         json_content = listing_jsonify(listings)
 
@@ -142,9 +141,6 @@ def listing_by_params(request, gender, brand, category, size, pcolor):
             search_params.update({"size": size})
         if pcolor != "null":
             search_params.update({"primary-color": pcolor})
-
-        print("params")
-        print(search_params)
 
         if search_params != []:
             listings = cursor.find(search_params)

@@ -7,7 +7,7 @@ class Product(models.Model):
     category = models.CharField(max_length=100)
     item = models.CharField(max_length=100)
     price = models.FloatField()
-    listtime = models.CharField(max_length=11)
+    maxtime = models.DateTimeField()
     gender = models.CharField(max_length=10)
     brand = models.CharField(max_length=100)
     size = models.CharField(max_length=10)

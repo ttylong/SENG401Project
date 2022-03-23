@@ -11,6 +11,7 @@ import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 import requests
+import datetime
 
 BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
 
@@ -160,7 +161,16 @@ def profile(request):
 def mylistings(request):
     username = request.user.username
     products = listing_by_username(username)
-    return render(request, "mylistings.html", products)
+    for product in products:
+        now = datetime.datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        curr_time = datetime.datetime.strptime(dt_string, "%d/%m/%Y %H:%M:%S")
+        if curr_time >= product.maxtime:
+            product.status = "Expired"
+        else:
+            product.status = "Active"
+
+    return render(request, "mylistings.html", {"products": products})
 
 
 @login_required
@@ -226,12 +236,14 @@ def create_listing(request):
 def search_db():
     url = BACKEND_URL + "listing/"
     r = requests.get(url).json()
+    print(r)
     products = convert_to_products(r)
+    print(products)
     return products
 
 
 def listing_by_username(username):
-    url = BACKEND_URL + "listing/" + username + "/"
+    url = BACKEND_URL + "listing_by_user/" + username + "/"
     r = requests.get(url).json()
     products = convert_to_products(r)
     return products
@@ -253,7 +265,10 @@ def listing_by_param(criteria):
 def convert_to_products(dict_tuples):
     products = []
     for tup in dict_tuples:
-        print(tup["image"])
+        datetime_store = tup["listtime"]
+        listtime_obj = datetime.datetime.strptime(datetime_store, "%d/%m/%Y %H:%M:%S")
+        week = datetime.timedelta(days=7)
+        target_time = listtime_obj + week
         products.append(
             Product(
                 username=tup["username"],
@@ -261,7 +276,7 @@ def convert_to_products(dict_tuples):
                 category=tup["category"],
                 item=tup["item"],
                 price=tup["price"],
-                listtime=tup["listtime"],
+                maxtime=target_time,
                 gender=tup["gender"],
                 brand=tup["brand"],
                 size=tup["size"],
@@ -274,11 +289,11 @@ def convert_to_products(dict_tuples):
 
 def listing_by_id(oid):
     url_params = oid
-
     url = BACKEND_URL + "listing_by_id/" + url_params
     print(url)
     r = requests.get(url)
     return r
+
 
 def helper(criteria):
     p1 = Product(

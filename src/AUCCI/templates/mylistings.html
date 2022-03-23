@@ -1,81 +1,79 @@
-{% extends "base.html"%}
-{% block title %}
+{% extends "base.html"%} {% block title %}
 <title>My Listings</title>
-{% endblock %}
-{% block content %}
-          <div class="my-bids-list">
-            <style>
-                figure{
-                    margin-left: 0%;
-                }
-                h2{
-                    font-family: 'Signika', sans-serif;
-                }
-                hr{
-                    margin-top: 10px; 
-                    margin-bottom: 50px;
-                }
-                .hr-break{
-                    padding-top: 0px;
-                    padding-bottom: 0px;
-                }
-                table{
-                    margin-left: auto;
-                    margin-right: auto;
-                    align-items: center;
-                    width: 70%;
-                    border-collapse: collapse;
-                    font-family: 'Signika', sans-serif;
-                }
-                tr{
-                    border-bottom: 2px solid #DCDCDC;
-                    border-radius: 20px;
-                }
-                th{
-                    text-align: left;
-                }
-                td{
-                    padding-top: 15px;
-                    padding-bottom: 15px;
-                }
-                
-            </style>
-            <table class="table table-striped">
-                <h2>My Listings</h2>
-                <hr>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Highest Bid</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+{% endblock %} {% block content %}
+<div class="my-bids-list">
+  <style>
+    figure {
+      margin-left: 0%;
+    }
+    h2 {
+      font-family: "Signika", sans-serif;
+    }
+    hr {
+      margin-top: 10px;
+      margin-bottom: 50px;
+    }
+    .hr-break {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      align-items: center;
+      width: 70%;
+      border-collapse: collapse;
+      font-family: "Signika", sans-serif;
+    }
+    tr {
+      border-bottom: 2px solid #dcdcdc;
+      border-radius: 20px;
+    }
+    th {
+      text-align: left;
+    }
+    td {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+  </style>
+  <table class="table table-striped">
+    <h2>My Listings</h2>
+    <hr />
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Highest Bid</th>
+        <th>Status</th>
+      </tr>
+    </thead>
 
-                <div class="item-rows">
-                <tbody>
-                      {% for product in products %}
-                    <tr>
-                        <td scope="row">
-                            <figure>
-                                <img src="" height=100 width=200></img>
-                                <figcaption>{{product.item}}</figcaption>
-                            </figure>
-                        </td>
-                        <td>{{product.price}}</td>
-                        <td>{{product.status}}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div>
-            <footer class="footer navbar fixed-bottom">
-              <p
-                class="footer-text"
-                style="margin: 0 auto; margin-top: auto; max-height: 25px"
-              >
-                &copy; 2022 AUCCI
-              </p>
-            </footer>
-          </div>
+    <div class="item-rows">
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td scope="row">
+            <figure>
+              <img src="{{product.image}}" width="200" />
+              <figcaption>{{product.item}}</figcaption>
+            </figure>
+          </td>
+          <td>${{product.price}}</td>
+          <td>{{product.status}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </div>
+  </table>
+</div>
+<div>
+  <footer class="footer navbar fixed-bottom">
+    <p
+      class="footer-text"
+      style="margin: 0 auto; margin-top: auto; max-height: 25px"
+    >
+      &copy; 2022 AUCCI
+    </p>
+  </footer>
+</div>
 {% endblock %}
