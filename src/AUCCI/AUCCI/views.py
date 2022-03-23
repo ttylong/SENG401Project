@@ -27,7 +27,7 @@ def db_collection(collection):
 def listing_jsonify(data):
     json_data = []
     for datum in data:
-        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "price" : str(datum['price']), "timelimit" : str(datum['timelimit']), "image" : datum['image']})
+        json_data.append({"_id" : str(datum['_id']), "username" : datum['username'], "item" : datum['item'], "brand" : datum['brand'], "category" : datum['category'], "gender" : datum['gender'], "size" : datum['size'], "listtime" : str(datum['listtime']), "price" : str(datum['price']), "timelimit" : str(datum['timelimit']), "image" : datum['image'], "primary-color" : datum['primary-color']})
     return json_data
 
 # Prepares for jsonResponse
@@ -88,8 +88,7 @@ def listing_by_category(request, category = ""):
     else:
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
-#Add back primary color to the parameters once database is updated
-def listing_by_params(request, gender, brand, category, size):
+def listing_by_params(request, gender, brand, category, size, pcolor):
     print("in function!")
     if request.method == "GET":
         cursor = db_collection("listings")
@@ -104,13 +103,9 @@ def listing_by_params(request, gender, brand, category, size):
             search_params.update({"category" : category})
         if size != "null":
             search_params.update({"size" : size})
-            
-        '''
-        if size != "null":
+        if pcolor != "null":
             search_params.update({"primary-color" : pcolor})
-        '''
         
-
         print("params")
         print(search_params)
 

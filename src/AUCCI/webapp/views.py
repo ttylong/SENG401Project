@@ -89,14 +89,14 @@ def search(request):
         gender = request.POST["gender"]
         brand = request.POST["brand"]
         category = request.POST["category"]
-        #primary_color = request.POST["primary_color"]
+        primary_color = request.POST["primary_color"]
         size = request.POST["size"]
 
         criteria = {
             "gender": gender,
             "brand": brand,
             "category": category,
-            #"primary_color": primary_color,
+            "primary_color": primary_color,
             "size": size,
         }
 
@@ -111,8 +111,7 @@ def search(request):
         for crit in criteria.keys():
             request_vals += f"{crit}={criteria[crit]}"
             counter += 1
-            #change counter != 4 to counter != 5 when primary-color is added
-            if counter != 4:
+            if counter != 5:
                 request_vals += ","
 
         print(request_vals)
@@ -142,8 +141,7 @@ def search_results(request, pk):
         if context[c] == "null":
             counter += 1
     
-    #Change to counter == 5 when primary colour is added to database
-    if counter == 4:
+    if counter == 5:
         products = search_db(context)
     else:
         products = listing_by_param(context)
