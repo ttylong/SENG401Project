@@ -1,73 +1,68 @@
-​​{% extends "base.html"%}
-{% block title %}
+​​{% extends "base.html"%} {% block title %}
 <title>Profile</title>
-{% endblock %}
-{% block content %}
- <div class="container">
-   <div class="main-body">
-     <br>
-     <br>
-     <br>
-     <div class="row gutters-sm">
-       <div class="col-md-4 mb-3" width="50">
-         <div class="card shadow p-3 mb-5 bg-white rounded">
-           <div class="card-body">
-             <div class="d-flex flex-column align-items-center text-center">
-               <img src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector-PNG-Pic.png" style="filter: grayscale(100%);" alt="user" class="rounded-circle" width="125">
-               <div class="mt-3">
-                 <h5>{{ user.first_name}} {{ user.last_name}}</h5>
-                 <!--<p class="text-secondary mb-1">Information set 1</p>
-                 <p class="text-muted font-size-sm">Information set 2</p>
-                 <button class="btn btn-primary">Button 1</button>
-                 <button class="btn btn-outline-primary">Button 2</button>-->
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-    
- 
-       <div class="col-md-8">
-         <div class="card mb-3 shadow p-3 mb-5 bg-white rounded">
-           <div class="card-body">
-             <div class="row">
-               <div class="col-sm-3">
-                 <h6 class="mb-0">First Name</h6>
-               </div>
-               <div class="col-sm-9 text-secondary">
-                {{ user.first_name}}
-               </div>
-             </div>
- 
-             <hr>
- 
-             <div class="row">
-               <div class="col-sm-3">
-                 <h6 class="mb-0">Last Name</h6>
-               </div>
-               <div class="col-sm-9 text-secondary">
-                {{ user.last_name}}
-               </div>
-             </div>
- 
-             <hr>
- 
-             <div class="row">
-               <div class="col-sm-3">
+{% endblock %} {% block content %}
+<div class="container">
+  <div class="main-body">
+    <br />
+    <br />
+    <br />
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3" width="50">
+        <div class="card shadow p-3 mb-5 bg-white" style="border-radius: 25px">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img
+                src="https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-Vector-PNG-Pic.png"
+                style="filter: grayscale(100%)"
+                alt="user"
+                class="rounded-circle"
+                width="125"
+              />
+              <div class="mt-3">
+                <h5>{{ user.first_name}} {{ user.last_name}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div
+          class="card mb-3 shadow p-3 mb-5 bg-white"
+          style="border-radius: 25px"
+        >
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">First Name</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">{{ user.first_name}}</div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Last Name</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">{{ user.last_name}}</div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+              <div class="col-sm-3">
                 <h6 class="mb-0">Email</h6>
-               </div>
-               <div class="col-sm-9 text-secondary">
-                {{ user.email }}
-               </div>
-             </div>
- 
-           </div>
-         </div>
-       </div>
-     </div>
-   </div> 
- </div>
-   <!--
+              </div>
+              <div class="col-sm-9 text-secondary">{{ user.email }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
    <form action="profile" method="POST" class="profile_view"></form>
    <br />
    <h2 style="text-align: center; font-family: 'Signika', sans-serif">
