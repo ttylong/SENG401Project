@@ -20,12 +20,10 @@
           box-shadow: 3px 3px 5px rgb(206, 206, 206);
         "
       >
-        <img src="{{ product.img_src }}" class="card-img-top" />
+        <img src="{{ product.image }}" class="card-img-top" />
         <div class="card-body">
           <div class="d-flex justify-content-between">
-            <p class="small">
-              <a href="#!" class="text-muted">{{product.category}}</a>
-            </p>
+            <p class="small" class="text-muted">{{product.category}}</p>
           </div>
           <div class="d-flex justify-content-between mb-3">
             <h5 class="mb-0">{{product.item}}</h5>
@@ -45,7 +43,11 @@
           <div class="d-flex justify-content-between mb-2">
             <form action="" method="POST">
               {% csrf_token %}
-              <input type="hidden" name="Listing_ID" value="123" />
+              <input
+                type="hidden"
+                name="Listing_ID"
+                value="{{product.product_id}}"
+              />
               <input
                 type="submit"
                 value="Additional Information"

@@ -89,15 +89,15 @@ def search(request):
         gender = request.POST["gender"]
         brand = request.POST["brand"]
         category = request.POST["category"]
-        primary_color = request.POST["primary_color"]
+        primary_color = request.POST["primary-color"]
         size = request.POST["size"]
 
         criteria = {
             "gender": gender,
             "brand": brand,
             "category": category,
-            "primary_color": primary_color,
             "size": size,
+            "primary-color": primary_color,
         }
 
         for c in criteria.keys():
@@ -114,7 +114,6 @@ def search(request):
             if counter != 5:
                 request_vals += ","
 
-        print(request_vals)
         return redirect(request_vals)
 
     else:
@@ -129,48 +128,26 @@ def product(request, pk):
 
 @login_required
 def search_results(request, pk):
-    request_vals = pk.split(",")
-    context = {}
-    for key_pair in request_vals:
-        val_to = key_pair.find("=")
-        context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
-
-    counter = 0
-
-    for c in context.keys():
-        if context[c] == "null":
-            counter += 1
-    
-    if counter == 5:
-        products = search_db(context)
-    else:
-        products = listing_by_param(context)
-
-    products_objs = []
-    print(products.json())
-
-    # for product in products:
-    #     print(type(product))
-    #     products_objs.append(
-    #         Product(
-    #             username=product["username"],
-    #             image=product["image"],
-    #             category=product["category"],
-    #             item=product["item"],
-    #             price=product["price"],
-    #             listtime=product["listtime"],
-    #             timelimit=product["timelimit"],
-    #             gender=product["gender"],
-    #             brand=product["brand"],
-    #             size=product["size"],
-    #             _id=product["_id"],
-    #         )
-    #     )
-
     if request.method == "POST":
         ID = request.POST["Listing_ID"]
         return redirect(f"/product/{ID}")
     else:
+        request_vals = pk.split(",")
+        context = {}
+        for key_pair in request_vals:
+            val_to = key_pair.find("=")
+            context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
+
+        counter = 0
+
+        for c in context.keys():
+            if context[c] == "null":
+                counter += 1
+
+        if counter == 5:
+            products = search_db()
+        else:
+            products = listing_by_param(context)
         return render(request, "search_results.html", {"products": products})
 
 
@@ -182,16 +159,15 @@ def profile(request):
 @login_required
 def mylistings(request):
     username = request.user.username
-    username = "noel"
-    products = listing_by_username(username).json()
-    print(products)
-   
-    return render(request, "mylistings.html")
+    products = listing_by_username(username)
+    return render(request, "mylistings.html", products)
+
 
 @login_required
 def my_bids(request):
     username = request.user.username
     return render(request, "my_bids.html")
+
 
 @login_required
 def signout(request):
@@ -247,16 +223,19 @@ def create_listing(request):
     return render(request, "create_listing.html")
 
 
-def search_db(criteria):
-    url_params = ""
-    url = BACKEND_URL + "listing/" + url_params
-    r = requests.get(url)
-    return r
+def search_db():
+    url = BACKEND_URL + "listing/"
+    r = requests.get(url).json()
+    products = convert_to_products(r)
+    return products
+
 
 def listing_by_username(username):
     url = BACKEND_URL + "listing/" + username + "/"
-    r = requests.get(url)
-    return r
+    r = requests.get(url).json()
+    products = convert_to_products(r)
+    return products
+
 
 def listing_by_param(criteria):
     url_params = ""
@@ -266,8 +245,32 @@ def listing_by_param(criteria):
 
     url = BACKEND_URL + "listing_by_params/" + url_params
     print(url)
-    r = requests.get(url)
-    return r
+    r = requests.get(url).json()
+    products = convert_to_products(r)
+    return products
+
+
+def convert_to_products(dict_tuples):
+    products = []
+    for tup in dict_tuples:
+        print(tup["image"])
+        products.append(
+            Product(
+                username=tup["username"],
+                image=tup["image"],
+                category=tup["category"],
+                item=tup["item"],
+                price=tup["price"],
+                listtime=tup["listtime"],
+                gender=tup["gender"],
+                brand=tup["brand"],
+                size=tup["size"],
+                product_id=tup["_id"],
+                color=tup["primary-color"],
+            )
+        )
+    return products
+
 
 def helper(criteria):
     p1 = Product(
