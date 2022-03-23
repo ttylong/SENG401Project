@@ -123,8 +123,13 @@ def search(request):
 
 @login_required
 def product(request, pk):
-
-    return render(request, "product_view.html", {"listing_id": pk})
+    #if request.method == "POST":
+      #I  
+    #else:
+        
+    product = listing_by_id(pk)
+    return render(request, "product_view.html", {"product": product})
+    #return render(request, "product_view.html", {"listing_id": pk})
 
 
 @login_required
@@ -290,9 +295,9 @@ def convert_to_products(dict_tuples):
 def listing_by_id(oid):
     url_params = oid
     url = BACKEND_URL + "listing_by_id/" + url_params
-    print(url)
-    r = requests.get(url)
-    return r
+    r = requests.get(url).json()
+    product = convert_to_products(r)
+    return product[0]
 
 
 def helper(criteria):

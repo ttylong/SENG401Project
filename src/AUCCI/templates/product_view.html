@@ -6,14 +6,14 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Ovo Hoodie</h3>
-            <h6 class="card-subtitle">Posted by: Liam Parmar</h6>
+            <h3 class="card-title">{{product.item}}</h3> 
+            <h6 class="card-subtitle">Posted by: {{product.username}}</h6>
             <div class="row">
                 <div class="col">
                     <img src= "https://www.hleatherjackets.com/wp-content/uploads/2020/10/OVOXO-Drake-Crewneck-Sweatshirt.jpg" class="img-responsive" width = "300" height = "400">
                         </div><div class="col">
                             <h2 class="mt-5" style = "display:inline-block;">
-                                Current Highest Bid:$153<small class="text-success"></small>
+                                Current Highest Bid: ${{product.price}}<small class="text-success"></small>
                             </h2>
                             <h3>
                                 Time Left on Auction: <!-- Display the countdown timer in an element -->
@@ -21,7 +21,8 @@
 
                                 <script>
                                 // Set the date we're counting down to
-                                var countDownDate = new Date("Mar 29, 2022 14:36:25").getTime();
+
+                                var countDownDate = new Date("{{product.maxtime.isoformat}}").getTime();
 
                                 // Update the count down every 1 second
                                 var x = setInterval(function() {
@@ -63,23 +64,23 @@
                                 <tbody>
                                     <tr>
                                         <td width="290">Brand</td>
-                                        <td>Ovo</td>
+                                        <td>{{product.brand}}</td>
                                     </tr>
                                     <tr>
                                         <td>Gender</td>
-                                        <td>Unisex</td>
+                                        <td>{{product.gender}}</td>
                                     </tr>
                                     <tr>
                                         <td>Category</td>
-                                        <td>Hoodies</td>
+                                        <td>{{product.category}}</td>
                                     </tr>
                                     <tr>
                                         <td>Size</td>
-                                        <td>M</td>
+                                        <td>{{product.size}}</td>
                                     </tr>
                                     <tr>
                                         <td>Primary Color</td>
-                                        <td>Black,Gold</td>
+                                        <td>{{product.color}}</td>
                                     </tr>
                                 </tbody>
                             </table>
