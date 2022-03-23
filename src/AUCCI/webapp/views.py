@@ -291,8 +291,9 @@ def listing_by_id(oid):
     url_params = oid
     url = BACKEND_URL + "listing_by_id/" + url_params
     print(url)
-    r = requests.get(url)
-    return r
+    r = requests.get(url).json()
+    product = convert_to_products()
+    return product
 
 
 def helper(criteria):
