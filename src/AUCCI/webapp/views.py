@@ -89,20 +89,20 @@ def search(request):
         gender = request.POST["gender"]
         brand = request.POST["brand"]
         category = request.POST["category"]
-        primary_color = request.POST["primary_color"]
+        #primary_color = request.POST["primary_color"]
         size = request.POST["size"]
 
         criteria = {
             "gender": gender,
             "brand": brand,
             "category": category,
-            "primary_color": primary_color,
+            #"primary_color": primary_color,
             "size": size,
         }
 
         for c in criteria.keys():
             if criteria[c] == "Any":
-                criteria[c] = "NULL"
+                criteria[c] = "null"
 
         request_vals = "search_results/"
 
@@ -111,9 +111,11 @@ def search(request):
         for crit in criteria.keys():
             request_vals += f"{crit}={criteria[crit]}"
             counter += 1
-            if counter != 5:
+            #change counter != 4 to counter != 5 when primary-color is added
+            if counter != 4:
                 request_vals += ","
 
+        print(request_vals)
         return redirect(request_vals)
 
     else:
@@ -134,11 +136,20 @@ def search_results(request, pk):
         val_to = key_pair.find("=")
         context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
 
-    products = search_db(context)
+    counter = 0
+
+    for c in context.keys():
+        if context[c] == "null":
+            counter += 1
+    
+    #Change to counter == 5 when primary colour is added to database
+    if counter == 4:
+        products = search_db(context)
+    else:
+        products = listing_by_param(context)
 
     products_objs = []
-
-    print(products)
+    print(products.json())
 
     # for product in products:
     #     print(type(product))
@@ -173,7 +184,10 @@ def profile(request):
 @login_required
 def mylistings(request):
     username = request.user.username
-
+    username = "noel"
+    products = listing_by_username(username).json()
+    print(products)
+   
     return render(request, "mylistings.html")
 
 @login_required
@@ -241,12 +255,21 @@ def search_db(criteria):
     r = requests.get(url)
     return r
 
-
 def listing_by_username(username):
-    url = BACKEND_URL + "listing/" + "username=noel"
+    url = BACKEND_URL + "listing/" + username + "/"
     r = requests.get(url)
     return r
 
+def listing_by_param(criteria):
+    url_params = ""
+
+    for c in criteria.keys():
+        url_params += criteria[c] + "/"
+
+    url = BACKEND_URL + "listing_by_params/" + url_params
+    print(url)
+    r = requests.get(url)
+    return r
 
 def helper(criteria):
     p1 = Product(

@@ -88,7 +88,8 @@ def listing_by_category(request, category = ""):
     else:
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
-def listing_by_params(request, gender, brand, category, size, pcolor):
+#Add back primary color to the parameters once database is updated
+def listing_by_params(request, gender, brand, category, size):
     print("in function!")
     if request.method == "GET":
         cursor = db_collection("listings")
@@ -97,14 +98,18 @@ def listing_by_params(request, gender, brand, category, size, pcolor):
 
         if gender != "null":
             search_params.update({"gender" : gender})
-        elif brand != "null":
+        if brand != "null":
             search_params.update({"brand" : brand})
-        elif category != "null":
-            search_params.update({"category" : brand})
-        elif size != "null":
+        if category != "null":
+            search_params.update({"category" : category})
+        if size != "null":
             search_params.update({"size" : size})
-        elif pcolor != "null":
+            
+        '''
+        if size != "null":
             search_params.update({"primary-color" : pcolor})
+        '''
+        
 
         print("params")
         print(search_params)
