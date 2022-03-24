@@ -1,12 +1,8 @@
 {% extends "base.html"%}
-{% load static %}
- 
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-       <meta charset="UTF-8"/>
-       <title>My Bids</title>
-   </head>
+{% block title %}
+<title>My Bids</title>
+{% endblock %} 
+{% block content %}
        <div class="my-bids-list">
            <style>
                figure{
@@ -71,7 +67,7 @@
                        <td>
                            <img src="https://img.ssensemedia.com/images/b_white,g_center,f_auto,q_auto:best/221451M190015_1/gucci-blue-jacquard-gg-lounge-pants.jpg" height=100 width=50></img>
                        </td>   
-                       <td>{{product.seller}}</td>
+                       <td>{{product.username}}</td>
                        <td class="current-price">{{product.price}}</td>
                        <td>{{product.status}}</td>
                    </tr>
@@ -89,4 +85,4 @@
           </p>
         </footer>
       </div>
-</html>
+      {% endblock %} 

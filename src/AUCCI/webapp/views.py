@@ -12,6 +12,7 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 import requests
 import datetime
+import json
 
 BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
 
@@ -123,13 +124,8 @@ def search(request):
 
 @login_required
 def product(request, pk):
-    #if request.method == "POST":
-      #I  
-    #else:
-        
-    product = listing_by_id(pk)
-    return render(request, "product_view.html", {"product": product})
-    #return render(request, "product_view.html", {"listing_id": pk})
+
+    return render(request, "product_view.html", {"listing_id": pk})
 
 
 @login_required
@@ -151,9 +147,12 @@ def search_results(request, pk):
                 counter += 1
 
         if counter == 5:
-            products = search_db()
+            prods = search_db()
         else:
-            products = listing_by_param(context)
+            prods = listing_by_param(context)
+        print(prods)
+        products = convert_to_products(prods)
+        print(products)
         return render(request, "search_results.html", {"products": products})
 
 
@@ -165,7 +164,8 @@ def profile(request):
 @login_required
 def mylistings(request):
     username = request.user.username
-    products = listing_by_username(username)
+    prods = listing_by_username(username)
+    products = convert_to_products(prods)
     for product in products:
         now = datetime.datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
@@ -180,15 +180,37 @@ def mylistings(request):
 
 @login_required
 def my_bids(request):
-    username = request.user.username
-    return render(request, "my_bids.html")
+    #Uncomment when account user has made bids
+    #username = request.user.username
+    bids = bids_by_user("Bob")
+    all_bids = json.loads(bids)
+
+    prods = []
+    for bid in all_bids:
+        listing_id = listing_by_bid_id(bid["bidid"])
+        print(listing_id)
+        prod = listing_by_id(listing_id)
+        prods.append({
+                "_id": str(prod[0]),
+                "username": prod[0]["username"],
+                "item": prod[0]["item"],
+                "brand": prod[0]["brand"],
+                "category": prod[0]["category"],
+                "gender": prod[0]["gender"],
+                "size": prod[0]["size"],
+                "listtime": str(prod[0]["listtime"]),
+                "price": str(prod[0]["price"]),
+                "image": prod[0]["image"],
+                "primary-color": prod[0]["primary-color"],
+            })
+    products = convert_to_products(prods)
+    return render(request, "my_bids.html", {"products": products})
 
 
 @login_required
 def signout(request):
     logout(request)
     return redirect("index")
-
 
 @login_required
 def settings_req(request):
@@ -242,16 +264,13 @@ def search_db():
     url = BACKEND_URL + "listing/"
     r = requests.get(url).json()
     print(r)
-    products = convert_to_products(r)
-    print(products)
-    return products
+    return r
 
 
 def listing_by_username(username):
     url = BACKEND_URL + "listing_by_user/" + username + "/"
     r = requests.get(url).json()
-    products = convert_to_products(r)
-    return products
+    return r
 
 
 def listing_by_param(criteria):
@@ -263,8 +282,12 @@ def listing_by_param(criteria):
     url = BACKEND_URL + "listing_by_params/" + url_params
     print(url)
     r = requests.get(url).json()
-    products = convert_to_products(r)
-    return products
+    return r
+
+def bids_by_user(username):
+    url = BACKEND_URL + "get_my_bids/" + username
+    r = requests.get(url).json()
+    return r
 
 
 def convert_to_products(dict_tuples):
@@ -295,9 +318,19 @@ def convert_to_products(dict_tuples):
 def listing_by_id(oid):
     url_params = oid
     url = BACKEND_URL + "listing_by_id/" + url_params
+    print(url)
     r = requests.get(url).json()
-    product = convert_to_products(r)
-    return product[0]
+    #product = convert_to_products(r)
+    return r
+
+def listing_by_bid_id(bidid):
+    url_params = bidid
+    url = BACKEND_URL + "get_listing_by_bid_id/" + url_params
+    print(url)
+    r = requests.get(url).json()
+    listing_id = r["listingid"]
+    return listing_id
+
 
 
 def helper(criteria):

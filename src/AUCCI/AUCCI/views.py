@@ -1,6 +1,7 @@
 # REST API endpoints for listings
 
 from email.mime import image
+from http.client import HTTPResponse
 import string
 from pymongo import MongoClient
 from django.http import JsonResponse, HttpResponse
@@ -457,8 +458,23 @@ def delete_bidder(request, bidid=""):
 
     return JsonResponse({"_id": bidid}, safe=False)
 
+def get_listing_by_bid_id(request, bidid=""):
+    if(request.method != "GET"):
+        return HttpResponse(
+            "Unrecognized request. This URL only accepts PATCH methods."
+        )
+    cursor = db_collection("bids")
+    find = cursor.find_one({"_id": ObjectId(bidid)})
 
-def get_my_bids(request):
+    print(find)
+
+    listing_id = find["listingid"]
+    jsonitem = {"listingid" : listing_id}
+    print(jsonitem)
+
+    return JsonResponse(jsonitem, safe=False)
+
+def get_my_bids(request, username):
     if request.method != "GET":
         return HttpResponse(
             "Unrecognized request. This URL only accepts PATCH methods."
@@ -466,8 +482,6 @@ def get_my_bids(request):
     # if not request.user.is_authenticated:
     #     return HttpResponse("Authentication error")
 
-    username = request.user.username
-    username = "Bob"
     cursor = db_collection("mybids")
 
     find = cursor.find_one({"username": username})
