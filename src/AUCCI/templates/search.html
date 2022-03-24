@@ -1,7 +1,12 @@
 {% extends "base.html"%} {% block title %}
 <title>Search</title>
 {% endblock %} {% block content %}
-<h2 style="font-family: 'Signika', sans-serif">Enter Your Search Criteria:</h2>
+<h2
+  class="display-4 text-center text-muted"
+  style="font-family: 'Signika', sans-serif"
+>
+  Enter Your Search Criteria:
+</h2>
 <div class="container" style="font-family: 'Signika', sans-serif">
   <form
     action="search"
@@ -93,7 +98,6 @@
     <div class="form-group row">
       <label for="inputSizeSearch" class="col-sm-2 col-form-label">Size:</label>
       <div class="col-auto my-1">
-        <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
         <select
           name="size"
           class="custom-select custom-select-sm"

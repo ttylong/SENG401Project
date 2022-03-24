@@ -1,59 +1,186 @@
-{% extends "base.html"%}
-{% block title %}
+{% extends "base.html"%} {% block title %}
 <title>Create Listing</title>
-{% endblock %}
-{% block content %}
-    <h2 class="text-center">Create Listing</h2>
-    <div class="container" style="font-family: 'Signika', sans-serif">
-      <form
-        action="create_listing"
-        method="POST"
-        style="
-          padding: 5%;
-          border-style: solid;
-          border-radius: 25px;
-          width: auto;
-        "
-      >
-        {% csrf_token %}
-        <div class="form-group row">
-            <label for="Item">Item</label>
-            <input type="text" name="Title" class="form-control">
-        </div>
-        <div class="form-group row">
-            <label for="Brand">Brand</label>
-            <input type="text" name="Brand" class="form-control">
-        </div>
-        <div class="form-group row">
-            <label for="Category">Category</label>
-            <input type="text" name="Category" class="form-control">
-        </div>
-        <div class="form-group row">
-            <label for="Gender">Gender</label>
-            <input type="text" name="Gender" class="form-control">
-        </div>
-        <div class="form-group row">
-            <label for="Size">Size</label>
-            <input type="text" name="Size" class="form-control">
-        </div>
-        <div class="form-group row">
-          <label for="Listing Price">Listing Price</label>
-          <input type="number" name="Price" class="form-control">
+{% endblock %} {% block content %}
+<h2
+  class="display-4 text-center text-muted"
+  style="font-family: 'Signika', sans-serif"
+>
+  Create a Listing
+</h2>
+<p class="lead" style="padding-left: 2%">
+  Please enter the following criteria to upload your item.<br />Your listing
+  auction will be live for exactly seven days from the time you click submit.
+  <br /><strong
+    >Ensure the entered information is correct as the listing, once uploaded,
+    cannot be deleted!</strong
+  >
+</p>
+<div
+  class="container"
+  style="font-family: 'Signika', sans-serif; padding-bottom: 5%"
+>
+  <form
+    action="create_listing"
+    method="POST"
+    style="
+      padding: 5%;
+      box-shadow: 3px 3px 5px rgb(206, 206, 206);
+      border-radius: 25px;
+      width: auto;
+    "
+  >
+    {% csrf_token %}
+    <div class="form-group row">
+      <div class="col">
+        <label for="Title">Item Name</label>
+        <input
+          type="text"
+          name="Title"
+          class="form-control"
+          placeholder="Title"
+          required
+        />
       </div>
-      <div class="form-group row">
-        <label for="Image">Upload Image</label>
-        <input type="text" name="Image" class="form-control">
-    </div>
-      </form>
-    </div>
-    <div>
-      <footer class="footer navbar fixed-bottom">
-        <p
-          class="footer-text"
-          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+      <div class="col">
+        <label for="brand">Brand</label>
+        <select
+          name="brand"
+          class="custom-select custom-select-sm"
+          id="inputBrandSearch"
+          style="height: 37px"
         >
-          &copy; 2022 AUCCI
-        </p>
-      </footer>
+          <option value="Louis Vuitton" selected>Louis Vuitton</option>
+          <option value="Gucci">Gucci</option>
+          <option value="Prada">Prada</option>
+          <option value="Bape">Bape</option>
+          <option value="OVO">OVO</option>
+          <option value="Chanel">Chanel</option>
+          <option value="Dior">Dior</option>
+          <option value="Armani">Armani</option>
+          <option value="Versace">Versace</option>
+          <option value="Burberry">Burberry</option>
+          <option value="Cartier">Cartier</option>
+          <option value="Fear of God">Fear of God</option>
+          <option value="Balenciaga">Balenciaga</option>
+        </select>
+      </div>
     </div>
+    <div class="form-group row">
+      <div class="col">
+        <label for="category">Category</label>
+        <select
+          name="category"
+          class="custom-select custom-select-sm"
+          id="inputCategorySearch"
+          style="height: 37px"
+        >
+          <option value="Shirts" selected>Shirts</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Jackets">Jackets</option>
+          <option value="Hoodies">Hoodies</option>
+          <option value="Joggers">Joggers</option>
+          <option value="Pants">Pants</option>
+          <option value="Jeans">Jeans</option>
+          <option value="T-Shirts">T-Shirts</option>
+          <option value="Dress">Dress</option>
+          <option value="Shorts">Shorts</option>
+          <option value="Blouse">Blouse</option>
+          <option value="Leggings">Leggings</option>
+          <option value="Sports Wear">Sports Wear</option>
+          <option value="Blazer">Blazer</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="gender">Gender</label>
+        <select
+          name="gender"
+          class="custom-select custom-select-sm"
+          id="inputGenderSearch"
+          style="height: 37px"
+        >
+          <option value="Male" selected>Male</option>
+          <option value="Female">Female</option>
+          <option value="Unisex">Unisex</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col">
+        <label for="size">Size</label>
+        <select
+          name="size"
+          class="custom-select custom-select-sm"
+          id="inputSizeSearch"
+          style="height: 37px"
+        >
+          <option value="Extra Small" selected>XS</option>
+          <option value="Small">S</option>
+          <option value="Medium">M</option>
+          <option value="Large">L</option>
+          <option value="Extra Large">XL</option>
+          <option value="Extra Extra Large">XXL</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="primary-color">Primary Color</label>
+        <select
+          name="primary-color"
+          class="custom-select custom-select-sm"
+          id="inputPrimaryColorSearch"
+          style="height: 37px"
+        >
+          <option value="Red" selected>Red</option>
+          <option value="Blue">Blue</option>
+          <option value="Purple">Purple</option>
+          <option value="Orange">Orange</option>
+          <option value="Yellow">Yellow</option>
+          <option value="Green">Green</option>
+          <option value="Black">Black</option>
+          <option value="White">White</option>
+          <option value="Brown">Brown</option>
+          <option value="Gold">Gold</option>
+          <option value="Grey">Grey</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col">
+        <label for="price">Listing Price</label>
+        <input
+          type="number"
+          min="1"
+          step="any"
+          class="form-control"
+          placeholder="1"
+        />
+      </div>
+      <div class="col">
+        <label for="Image">Product Image</label>
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          class="form-control-file"
+          style="height: 37px"
+          required
+        />
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Create Listing</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div>
+  <footer class="footer navbar fixed-bottom">
+    <p
+      class="footer-text"
+      style="margin: 0 auto; margin-top: auto; max-height: 25px"
+    >
+      &copy; 2022 AUCCI
+    </p>
+  </footer>
+</div>
 {% endblock %}

@@ -37,34 +37,49 @@
       padding-bottom: 15px;
     }
   </style>
-  <table class="table table-striped">
-    <h2>My Listings</h2>
-    <hr />
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>Highest Bid</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-
-    <div class="item-rows">
-      <tbody>
-        {% for product in products %}
+  <h2
+    class="display-4 text-center text-muted"
+    style="font-family: 'Signika', sans-serif"
+  >
+    My Listings
+  </h2>
+  <div
+    class="container"
+    style="
+      border: none;
+      background: none;
+      padding: 2%;
+      box-shadow: 3px 3px 5px rgb(206, 206, 206);
+      border-radius: 25px;
+    "
+  >
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td scope="row">
-            <figure>
-              <img src="{{product.image}}" width="200" />
-              <figcaption>{{product.item}}</figcaption>
-            </figure>
-          </td>
-          <td>${{product.price}}</td>
-          <td>{{product.status}}</td>
+          <th>Item</th>
+          <th>Highest Bid</th>
+          <th>Status</th>
         </tr>
-        {% endfor %}
-      </tbody>
-    </div>
-  </table>
+      </thead>
+
+      <div class="item-rows">
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td scope="row">
+              <figure>
+                <img src="{{product.image}}" width="200" />
+                <figcaption>{{product.item}}</figcaption>
+              </figure>
+            </td>
+            <td>${{product.price}}</td>
+            <td>{{product.status}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </div>
+    </table>
+  </div>
 </div>
 <div>
   <footer class="footer navbar fixed-bottom">

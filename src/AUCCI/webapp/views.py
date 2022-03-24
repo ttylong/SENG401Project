@@ -261,7 +261,10 @@ def settings_req(request):
 
 @login_required
 def create_listing(request):
-    return render(request, "create_listing.html")
+    if request.method == "POST":
+        a = 2
+    else:
+        return render(request, "create_listing.html")
 
 
 def search_db():
