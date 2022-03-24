@@ -1,3 +1,4 @@
+#do create_bid and delete_listing
 from audioop import reverse
 from requests.auth import HTTPBasicAuth
 from django.views.decorators.csrf import csrf_exempt
@@ -129,9 +130,6 @@ def product(request, pk):
     prod = listing_by_id(pk)
     print(prod)
     product = convert_to_products(prod)
-    if request.method == "POST":
-        price = request.POST["bids"]
-        print(price)
     return render(request, "product_view.html", {"product": product[0]})
 
 @login_required
@@ -276,6 +274,10 @@ def create_listing(request):
         image = request.POST["image"]
         primary_color = request.POST["primary-color"]
 
+        now = datetime.datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        curr_time = datetime.datetime.strptime(dt_string, "%d/%m/%Y %H:%M:%S")
+
         listing = {
                 "username": username,
                 "item": item,
@@ -283,7 +285,7 @@ def create_listing(request):
                 "category": category,
                 "gender": gender,
                 "size": size,
-                "listtime": "16/03/2021 07:58:56",
+                "listtime": curr_time,
                 "price": price,
                 "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
                 "primary-color": primary_color,
@@ -324,13 +326,13 @@ def listing_by_param(criteria):
     for c in criteria.keys():
         url_params += criteria[c] + "/"
 
-    url = BACKEND_URL + "listing_by_params/" + url_params
+    url = BACKEND_URL + "listing_by_params/" + url_params + "/"
     print(url)
     r = requests.get(url).json()
     return r
 
 def bids_by_user(username):
-    url = BACKEND_URL + "get_my_bids/" + username
+    url = BACKEND_URL + "get_my_bids/" + username + "/"
     r = requests.get(url).json()
     return r
 
@@ -362,7 +364,7 @@ def convert_to_products(dict_tuples):
 
 def listing_by_id(oid):
     url_params = oid
-    url = BACKEND_URL + "listing_by_id/" + url_params
+    url = BACKEND_URL + "listing_by_id/" + url_params + "/"
     print(url)
     r = requests.get(url).json()
     #product = convert_to_products(r)
@@ -370,13 +372,11 @@ def listing_by_id(oid):
 
 def listing_by_bid_id(bidid):
     url_params = bidid
-    url = BACKEND_URL + "get_listing_by_bid_id/" + url_params
+    url = BACKEND_URL + "get_listing_by_bid_id/" + url_params + "/"
     print(url)
     r = requests.get(url).json()
     listing_id = r["listingid"]
     return listing_id
-
-
 
 def helper(criteria):
     p1 = Product(
