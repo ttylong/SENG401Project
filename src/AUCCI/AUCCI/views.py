@@ -182,13 +182,10 @@ def delete_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to delete")
 
-<<<<<<< HEAD
     if not testingEndpoints: 
         if not request.user.is_authenticated:
             return HttpResponse("Authentication error")
     
-=======
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("listings")
 
     query = {"_id": ObjectId(oid)}
@@ -224,13 +221,10 @@ def update_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to update")
 
-<<<<<<< HEAD
     if not testingEndpoints: 
         if not request.user.is_authenticated:
             return HttpResponse("Authentication error")
     
-=======
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("listings")
 
     try:
@@ -362,13 +356,10 @@ def update_bid_item(request, bidid=""):
     if bidid == "":
         return HttpResponse("Bid field is empty.")
 
-<<<<<<< HEAD
     if not testingEndpoints: 
         if not request.user.is_authenticated:
             return HttpResponse("Authentication error")
  
-=======
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("bids")
     result = cursor.find_one(ObjectId(bidid))
     if result == None:
@@ -455,7 +446,6 @@ def mybids(request, bidid=""):
 def delete_bidder(request, bidid=""):
 
     if request.method != "PATCH":
-<<<<<<< HEAD
         return HttpResponse("Unrecognized request. This URL only accepts PATCH methods.")
 
     if not testingEndpoints: 
@@ -463,14 +453,6 @@ def delete_bidder(request, bidid=""):
             return HttpResponse("Authentication error")
             
     if(bidid == ""):
-=======
-        return HttpResponse(
-            "Unrecognized request. This URL only accepts PATCH methods."
-        )
-    # if not request.user.is_authenticated:
-    #     return HttpResponse("Authentication error")
-    if bidid == "":
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
         return HttpResponse("Bid field is empty.")
 
     # username = str(request.user.username)
@@ -549,7 +531,6 @@ def get_listing_by_bid_id(request, bidid=""):
 
 def get_my_bids(request, username):
     if request.method != "GET":
-<<<<<<< HEAD
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
     if not testingEndpoints: 
@@ -557,14 +538,6 @@ def get_my_bids(request, username):
             return HttpResponse("Authentication error")
 
     username = request.user.username
-=======
-        return HttpResponse(
-            "Unrecognized request. This URL only accepts PATCH methods."
-        )
-    # if not request.user.is_authenticated:
-    #     return HttpResponse("Authentication error")
-
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("mybids")
 
     find = cursor.find_one({"username": username})
