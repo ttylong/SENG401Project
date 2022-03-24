@@ -124,9 +124,13 @@ def search(request):
 
 @login_required
 def product(request, pk):
-
-    return render(request, "product_view.html", {"listing_id": pk})
-
+    prod = listing_by_id(pk)
+    print(prod)
+    product = convert_to_products(prod)
+    if request.method == "POST":
+        price = request.POST["bids"]
+        print(price)
+    return render(request, "product_view.html", {"product": product[0]})
 
 @login_required
 def search_results(request, pk):

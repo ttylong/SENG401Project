@@ -54,8 +54,11 @@
           <!--Messages Add In (Look at Login as example)-->
           <label for="bidEnter">Enter your bid:</label>
 
+          <form action="" method="post">
+            {% csrf_token %}
           <input type="number" id="bid" name="bids" min="10" max="100" />
           <button class="btn btn-primary btn-rounded">Bid Now</button>
+         </form>
           <!-- {% for message in messages %}
           <h3 style="color: red">{{message}}</h3>
           {% endfor %} -->
