@@ -132,6 +132,7 @@ def product(request, pk):
     product = convert_to_products(prod)
     return render(request, "product_view.html", {"product": product[0]})
 
+
 @login_required
 def search_results(request, pk):
     if request.method == "POST":
@@ -184,8 +185,8 @@ def mylistings(request):
 
 @login_required
 def my_bids(request):
-    #Uncomment when account user has made bids
-    #username = request.user.username
+    # Uncomment when account user has made bids
+    # username = request.user.username
     bids = bids_by_user("Bob")
     all_bids = json.loads(bids)
 
@@ -194,7 +195,8 @@ def my_bids(request):
         listing_id = listing_by_bid_id(bid["bidid"])
         print(listing_id)
         prod = listing_by_id(listing_id)
-        prods.append({
+        prods.append(
+            {
                 "_id": str(prod[0]),
                 "username": prod[0]["username"],
                 "item": prod[0]["item"],
@@ -206,7 +208,8 @@ def my_bids(request):
                 "price": str(prod[0]["price"]),
                 "image": prod[0]["image"],
                 "primary-color": prod[0]["primary-color"],
-            })
+            }
+        )
     products = convert_to_products(prods)
     return render(request, "my_bids.html", {"products": products})
 
@@ -215,6 +218,7 @@ def my_bids(request):
 def signout(request):
     logout(request)
     return redirect("index")
+
 
 @login_required
 def settings_req(request):
@@ -290,18 +294,11 @@ def create_listing(request):
                 "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
                 "primary-color": primary_color,
         }
-
         json_item = json.dumps(listing)
-        headers = {
-                'Content-type':'application/json', 
-                    'Accept':'application/json'
-        }
+        headers = {"Content-type": "application/json", "Accept": "application/json"}
         url = BACKEND_URL + "create_listing/"
         print(url)
-        response = requests.post(
-        url, 
-        data=json_item, 
-        headers=headers)
+        response = requests.post(url, data=json_item, headers=headers)
         return redirect("mylistings")
     else:
         return render(request, "create_listing.html")
@@ -331,6 +328,7 @@ def listing_by_param(criteria):
     r = requests.get(url).json()
     return r
 
+
 def bids_by_user(username):
     url = BACKEND_URL + "get_my_bids/" + username + "/"
     r = requests.get(url).json()
@@ -339,7 +337,9 @@ def bids_by_user(username):
 
 def convert_to_products(dict_tuples):
     products = []
+    print(len(dict_tuples))
     for tup in dict_tuples:
+        print("\nGOT HERE\n")
         datetime_store = tup["listtime"]
         listtime_obj = datetime.datetime.strptime(datetime_store, "%d/%m/%Y %H:%M:%S")
         week = datetime.timedelta(days=7)
@@ -365,10 +365,9 @@ def convert_to_products(dict_tuples):
 def listing_by_id(oid):
     url_params = oid
     url = BACKEND_URL + "listing_by_id/" + url_params + "/"
-    print(url)
     r = requests.get(url).json()
-    #product = convert_to_products(r)
     return r
+
 
 def listing_by_bid_id(bidid):
     url_params = bidid
