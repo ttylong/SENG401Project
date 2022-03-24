@@ -1,4 +1,6 @@
 from audioop import reverse
+from requests.auth import HTTPBasicAuth
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
@@ -260,9 +262,45 @@ def settings_req(request):
 
 
 @login_required
+@csrf_exempt
 def create_listing(request):
+    username = request.user.username
+
     if request.method == "POST":
-        a = 2
+        item = request.POST["title"]
+        brand = request.POST["brand"]
+        category = request.POST["category"]
+        gender = request.POST["gender"]
+        size = request.POST["size"]
+        price = request.POST["price"]
+        image = request.POST["image"]
+        primary_color = request.POST["primary-color"]
+
+        listing = {
+                "username": username,
+                "item": item,
+                "brand": brand,
+                "category": category,
+                "gender": gender,
+                "size": size,
+                "listtime": "16/03/2021 07:58:56",
+                "price": price,
+                "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
+                "primary-color": primary_color,
+        }
+
+        json_item = json.dumps(listing)
+        headers = {
+                'Content-type':'application/json', 
+                    'Accept':'application/json'
+        }
+        url = BACKEND_URL + "create_listing/"
+        print(url)
+        response = requests.post(
+        url, 
+        data=json_item, 
+        headers=headers)
+        return redirect("mylistings")
     else:
         return render(request, "create_listing.html")
 
