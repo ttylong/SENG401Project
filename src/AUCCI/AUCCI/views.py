@@ -15,9 +15,11 @@ import json
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
-connection_string = "mongodb+srv://auccibids:Seng401!@aucci.eqyli.mongodb.net/aucciDB"
+from .credentials import connections
 
-testingEndpoints = False # set to false if not testing with postman, True if testing with postman
+connection_string = connections.dbconnectionstring()
+
+testingEndpoints = True # set to false if not testing with postman, True if testing with postman
 
 def db_collection(collection):
     client = MongoClient(connection_string)
@@ -64,9 +66,9 @@ def listing(request, name=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         if name != "":
             listings = cursor.find({"item": name})
@@ -85,9 +87,9 @@ def listing_by_user(request, username=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         if username != "":
             listings = cursor.find({"username": username})
@@ -104,6 +106,9 @@ def listing_by_user(request, username=""):
 def listing_by_id(request, oid=""):
     if request.method == "GET":
         cursor = db_collection("listings")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         if oid != "":
             listings = cursor.find({"_id": ObjectId(oid)})
@@ -122,9 +127,9 @@ def listing_by_category(request, category=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         if category != "":
             listings = cursor.find({"category": category})
@@ -143,9 +148,9 @@ def listing_by_params(request, gender, brand, category, size, pcolor):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         search_params = {}
 
@@ -241,9 +246,9 @@ def categories(request):
     if request.method == "GET":
         cursor = db_collection("categories")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         listings = cursor.find({})
 
