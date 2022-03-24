@@ -1,159 +1,160 @@
-{% extends "base.html"%}
-{% block title %}
+{% extends "base.html"%} {% block title %}
 <title>Search</title>
-{% endblock %}
-{% block content %}
-    <h2 style="font-family: 'Signika', sans-serif">
-      Enter Your Search Criteria:
-    </h2>
-    <div class="container" style="font-family: 'Signika', sans-serif">
-      <form
-        action="search"
-        method="POST"
-        class="search_criteria"
-        style="
-          padding: 5%;
-          border-style: solid;
-          border-radius: 25px;
-          width: auto;
-        "
+{% endblock %} {% block content %}
+<h2
+  class="display-4 text-center text-muted"
+  style="font-family: 'Signika', sans-serif"
+>
+  Enter Your Search Criteria:
+</h2>
+<div class="container" style="font-family: 'Signika', sans-serif">
+  <form
+    action="search"
+    method="POST"
+    class="search_criteria"
+    style="
+      padding: 5%;
+      box-shadow: 3px 3px 5px rgb(206, 206, 206);
+      border-radius: 25px;
+      width: auto;
+    "
+  >
+    {% csrf_token %}
+    <div class="form-group row">
+      <label for="inputGenderSearch" class="col-sm-2 col-form-label"
+        >Gender:</label
       >
-        {% csrf_token %}
-        <div class="form-group row">
-          <label for="inputGenderSearch" class="col-sm-2 col-form-label"
-            >Gender:</label
-          >
-          <div class="col-auto my-1">
-            <select
-              name="gender"
-              class="custom-select custom-select-sm"
-              id="inputGenderSearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="unisex">Unisex</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputBrandSearch" class="col-sm-2 col-form-label"
-            >Brand:</label
-          >
-          <div class="col-auto my-1">
-            <select
-              name="brand"
-              class="custom-select custom-select-sm"
-              id="inputBrandSearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="louis vuitton">Louis Vuitton</option>
-              <option value="prada">Prada</option>
-              <option value="bape">Bape</option>
-              <option value="ovo">OVO</option>
-              <option value="chanel">Chanel</option>
-              <option value="dior">Dior</option>
-              <option value="armani">Armani</option>
-              <option value="versace">Versace</option>
-              <option value="burberry">Burberry</option>
-              <option value="cartier">Cartier</option>
-              <option value="balenciaga">Balenciaga</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputCategorySearch" class="col-sm-2 col-form-label"
-            >Category:</label
-          >
-          <div class="col-auto my-10">
-            <select
-              name="category"
-              class="custom-select custom-select-sm"
-              id="inputCategorySearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="shirts">Shirts</option>
-              <option value="jackets">Jackets</option>
-              <option value="hoodies">Hoodies</option>
-              <option value="joggers">Joggers</option>
-              <option value="pants">Pants</option>
-              <option value="jeans">Jeans</option>
-              <option value="t-shirts">T-Shirts</option>
-              <option value="dress">Dress</option>
-              <option value="shorts">Shorts</option>
-              <option value="blouse">Blouse</option>
-              <option value="leggings">Leggings</option>
-              <option value="sports wear">Sports Wear</option>
-              <option value="blazer">Blazer</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputSizeSearch" class="col-sm-2 col-form-label"
-            >Size:</label
-          >
-          <div class="col-auto my-1">
-            <!-- <input type="password" class="form-control" id="inputPassword3" placeholder="Password"> -->
-            <select
-              name="size"
-              class="custom-select custom-select-sm"
-              id="inputSizeSearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="xs">XS</option>
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
-              <option value="xxl">XXL</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="inputPrimaryColorSearch" class="col-sm-2 col-form-label"
-            >Primary Color:</label
-          >
-          <div class="col-auto my-1">
-            <select
-              name="primary_color"
-              class="custom-select custom-select-sm"
-              id="inputPrimaryColorSearch"
-              placeholder=""
-            >
-              <option value="any">Any</option>
-              <option value="red">Red</option>
-              <option value="blue">Blue</option>
-              <option value="purple">Purple</option>
-              <option value="orange">Orange</option>
-              <option value="yellow">Yellow</option>
-              <option value="green">Green</option>
-              <option value="black">Black</option>
-              <option value="white">White</option>
-              <option value="brown">Brown</option>
-              <option value="gold">Gold</option>
-              <option value="grey">Grey</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-auto my-1">
-            <button type="submit" class="btn btn-primary">Search</button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div>
-      <footer class="footer navbar fixed-bottom">
-        <p
-          class="footer-text"
-          style="margin: 0 auto; margin-top: auto; max-height: 25px"
+      <div class="col-auto my-1">
+        <select
+          name="gender"
+          class="custom-select custom-select-sm"
+          id="inputGenderSearch"
+          placeholder=""
         >
-          &copy; 2022 AUCCI
-        </p>
-      </footer>
+          <option value="Any">Any</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Unisex">Unisex</option>
+        </select>
+      </div>
     </div>
+    <div class="form-group row">
+      <label for="inputBrandSearch" class="col-sm-2 col-form-label"
+        >Brand:</label
+      >
+      <div class="col-auto my-1">
+        <select
+          name="brand"
+          class="custom-select custom-select-sm"
+          id="inputBrandSearch"
+          placeholder=""
+        >
+          <option value="Any">Any</option>
+          <option value="Louis Vuitton">Louis Vuitton</option>
+          <option value="Gucci">Gucci</option>
+          <option value="Prada">Prada</option>
+          <option value="Bape">Bape</option>
+          <option value="OVO">OVO</option>
+          <option value="Chanel">Chanel</option>
+          <option value="Dior">Dior</option>
+          <option value="Armani">Armani</option>
+          <option value="Versace">Versace</option>
+          <option value="Burberry">Burberry</option>
+          <option value="Cartier">Cartier</option>
+          <option value="Fear of God">Fear of God</option>
+          <option value="Balenciaga">Balenciaga</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputCategorySearch" class="col-sm-2 col-form-label"
+        >Category:</label
+      >
+      <div class="col-auto my-10">
+        <select
+          name="category"
+          class="custom-select custom-select-sm"
+          id="inputCategorySearch"
+          placeholder=""
+        >
+          <option value="Any">Any</option>
+          <option value="Shirts">Shirts</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Jackets">Jackets</option>
+          <option value="Hoodies">Hoodies</option>
+          <option value="Joggers">Joggers</option>
+          <option value="Pants">Pants</option>
+          <option value="Jeans">Jeans</option>
+          <option value="T-Shirts">T-Shirts</option>
+          <option value="Dress">Dress</option>
+          <option value="Shorts">Shorts</option>
+          <option value="Blouse">Blouse</option>
+          <option value="Leggings">Leggings</option>
+          <option value="Sports Wear">Sports Wear</option>
+          <option value="Blazer">Blazer</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputSizeSearch" class="col-sm-2 col-form-label">Size:</label>
+      <div class="col-auto my-1">
+        <select
+          name="size"
+          class="custom-select custom-select-sm"
+          id="inputSizeSearch"
+          placeholder=""
+        >
+          <option value="Any">Any</option>
+          <option value="Extra Small">XS</option>
+          <option value="Small">S</option>
+          <option value="Medium">M</option>
+          <option value="Large">L</option>
+          <option value="Extra Large">XL</option>
+          <option value="Extra Extra Large">XXL</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPrimaryColorSearch" class="col-sm-2 col-form-label"
+        >Primary Color:</label
+      >
+      <div class="col-auto my-1">
+        <select
+          name="primary-color"
+          class="custom-select custom-select-sm"
+          id="inputPrimaryColorSearch"
+          placeholder=""
+        >
+          <option value="Any">Any</option>
+          <option value="Red">Red</option>
+          <option value="Blue">Blue</option>
+          <option value="Purple">Purple</option>
+          <option value="Orange">Orange</option>
+          <option value="Yellow">Yellow</option>
+          <option value="Green">Green</option>
+          <option value="Black">Black</option>
+          <option value="White">White</option>
+          <option value="Brown">Brown</option>
+          <option value="Gold">Gold</option>
+          <option value="Grey">Grey</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-auto my-1">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div>
+  <footer class="footer navbar fixed-bottom">
+    <p
+      class="footer-text"
+      style="margin: 0 auto; margin-top: auto; max-height: 25px"
+    >
+      &copy; 2022 AUCCI
+    </p>
+  </footer>
+</div>
 {% endblock %}

@@ -1,92 +1,106 @@
-{% extends "base.html"%}
-{% load static %}
- 
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-       <meta charset="UTF-8"/>
-       <title>My Bids</title>
-   </head>
-       <div class="my-bids-list">
-           <style>
-               figure{
-                   margin-left: 0%;
-               }
-               h2{
-                   font-family: 'Signika', sans-serif;
-               }
-               hr{
-                   margin-top: 10px;
-                   margin-bottom: 50px;
-               }
-               .hr-break{
-                   padding-top: 0px;
-                   padding-bottom: 0px;
-               }
-               table{
-                   margin-left: auto;
-                   margin-right: auto;
-                   align-items: center;
-                   width: 80%;
-                   border-collapse: collapse;
-                   font-family: 'Signika', sans-serif;
-               }
-               tr{
-                   border-bottom: 2px solid #DCDCDC;
-                   border-radius: 20px;
-               }
-               th{
-                   text-align: left;
-                   padding-left: 15px;
-                   padding-right: 15px;
-               }
-               td{
-                   padding-top: 10px;
-                   padding-bottom: 10px;
-                   padding-left: 15px;
-                   padding-right: 15px;
-               }
-               .current-price{
-                   text-align: center;
-               }
-           </style>
-           <table class="table table-striped">
-               <h2>My Winning Bids</h2>
-               <hr>
-               <thead>
-                   <tr>
-                       <th>Item</th>
-                       <th></th>
-                       <th>Seller</th>
-                       <th>Current Bid Amount</th>
-                       <th>Status</th>
-                   </tr>
-               </thead>
- 
-               <div class="item-rows">
-               <tbody>
-                   {% for product in products %}
-                   <tr>
-                       <td scope="row">{{product.name}}</td>
-                       <td>
-                           <img src="https://img.ssensemedia.com/images/b_white,g_center,f_auto,q_auto:best/221451M190015_1/gucci-blue-jacquard-gg-lounge-pants.jpg" height=100 width=50></img>
-                       </td>   
-                       <td>{{product.seller}}</td>
-                       <td class="current-price">{{product.price}}</td>
-                       <td>{{product.status}}</td>
-                   </tr>
-                   {% endfor %}
-               </tbody>
-           </table>
-       </div>
-       <div>
-        <footer class="footer navbar fixed-bottom">
-          <p
-            class="footer-text"
-            style="margin: 0 auto; margin-top: auto; max-height: 25px"
-          >
-            &copy; 2022 AUCCI
-          </p>
-        </footer>
+{% extends "base.html"%} {% block title %}
+<title>My Bids</title>
+{% endblock %} {% block content %}
+<div class="my-bids-list">
+  <style>
+    figure {
+      margin-left: 0%;
+    }
+    h2 {
+      font-family: "Signika", sans-serif;
+    }
+    hr {
+      margin-top: 10px;
+      margin-bottom: 50px;
+    }
+    .hr-break {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      align-items: center;
+      width: 80%;
+      border-collapse: collapse;
+      font-family: "Signika", sans-serif;
+    }
+    tr {
+      border-bottom: 2px solid #dcdcdc;
+      border-radius: 20px;
+    }
+    th {
+      text-align: left;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    td {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    .current-price {
+      text-align: center;
+    }
+  </style>
+  <h2
+    class="display-4 text-center text-muted"
+    style="font-family: 'Signika', sans-serif"
+  >
+    My Winning Bids
+  </h2>
+  <div
+    class="container"
+    style="
+      border: none;
+      background: none;
+      padding: 2%;
+      box-shadow: 3px 3px 5px rgb(206, 206, 206);
+      border-radius: 25px;
+    "
+  >
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th></th>
+          <th>Seller</th>
+          <th>Current Bid Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <div class="item-rows">
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td scope="row">{{product.name}}</td>
+            <td>
+              <img
+                src="https://img.ssensemedia.com/images/b_white,g_center,f_auto,q_auto:best/221451M190015_1/gucci-blue-jacquard-gg-lounge-pants.jpg"
+                height="100"
+                width="50"
+              />
+            </td>
+            <td>{{product.username}}</td>
+            <td class="current-price">{{product.price}}</td>
+            <td>{{product.status}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
       </div>
-</html>
+    </table>
+  </div>
+</div>
+<div>
+  <footer class="footer navbar fixed-bottom">
+    <p
+      class="footer-text"
+      style="margin: 0 auto; margin-top: auto; max-height: 25px"
+    >
+      &copy; 2022 AUCCI
+    </p>
+  </footer>
+</div>
+{% endblock %}

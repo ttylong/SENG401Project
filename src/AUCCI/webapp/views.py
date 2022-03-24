@@ -1,4 +1,7 @@
+#do create_bid and delete_listing
 from audioop import reverse
+from requests.auth import HTTPBasicAuth
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
@@ -11,6 +14,8 @@ import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 import requests
+import datetime
+import json
 
 BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
 
@@ -89,20 +94,20 @@ def search(request):
         gender = request.POST["gender"]
         brand = request.POST["brand"]
         category = request.POST["category"]
-        primary_color = request.POST["primary_color"]
+        primary_color = request.POST["primary-color"]
         size = request.POST["size"]
 
         criteria = {
             "gender": gender,
             "brand": brand,
             "category": category,
-            "primary_color": primary_color,
             "size": size,
+            "primary-color": primary_color,
         }
 
         for c in criteria.keys():
             if criteria[c] == "Any":
-                criteria[c] = "NULL"
+                criteria[c] = "null"
 
         request_vals = "search_results/"
 
@@ -122,46 +127,37 @@ def search(request):
 
 @login_required
 def product(request, pk):
-
-    return render(request, "product_view.html", {"listing_id": pk})
+    prod = listing_by_id(pk)
+    print(prod)
+    product = convert_to_products(prod)
+    return render(request, "product_view.html", {"product": product[0]})
 
 
 @login_required
 def search_results(request, pk):
-    request_vals = pk.split(",")
-    context = {}
-    for key_pair in request_vals:
-        val_to = key_pair.find("=")
-        context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
-
-    products = search_db(context)
-
-    products_objs = []
-
-    print(products)
-
-    # for product in products:
-    #     print(type(product))
-    #     products_objs.append(
-    #         Product(
-    #             username=product["username"],
-    #             image=product["image"],
-    #             category=product["category"],
-    #             item=product["item"],
-    #             price=product["price"],
-    #             listtime=product["listtime"],
-    #             timelimit=product["timelimit"],
-    #             gender=product["gender"],
-    #             brand=product["brand"],
-    #             size=product["size"],
-    #             _id=product["_id"],
-    #         )
-    #     )
-
     if request.method == "POST":
         ID = request.POST["Listing_ID"]
         return redirect(f"/product/{ID}")
     else:
+        request_vals = pk.split(",")
+        context = {}
+        for key_pair in request_vals:
+            val_to = key_pair.find("=")
+            context[key_pair[0:val_to]] = key_pair[val_to + 1 :]
+
+        counter = 0
+
+        for c in context.keys():
+            if context[c] == "null":
+                counter += 1
+
+        if counter == 5:
+            prods = search_db()
+        else:
+            prods = listing_by_param(context)
+        print(prods)
+        products = convert_to_products(prods)
+        print(products)
         return render(request, "search_results.html", {"products": products})
 
 
@@ -173,13 +169,50 @@ def profile(request):
 @login_required
 def mylistings(request):
     username = request.user.username
+    prods = listing_by_username(username)
+    products = convert_to_products(prods)
+    for product in products:
+        now = datetime.datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        curr_time = datetime.datetime.strptime(dt_string, "%d/%m/%Y %H:%M:%S")
+        if curr_time >= product.maxtime:
+            product.status = "Expired"
+        else:
+            product.status = "Active"
 
-    return render(request, "mylistings.html")
+    return render(request, "mylistings.html", {"products": products})
+
 
 @login_required
 def my_bids(request):
-    username = request.user.username
-    return render(request, "my_bids.html")
+    # Uncomment when account user has made bids
+    # username = request.user.username
+    bids = bids_by_user("Bob")
+    all_bids = json.loads(bids)
+
+    prods = []
+    for bid in all_bids:
+        listing_id = listing_by_bid_id(bid["bidid"])
+        print(listing_id)
+        prod = listing_by_id(listing_id)
+        prods.append(
+            {
+                "_id": str(prod[0]),
+                "username": prod[0]["username"],
+                "item": prod[0]["item"],
+                "brand": prod[0]["brand"],
+                "category": prod[0]["category"],
+                "gender": prod[0]["gender"],
+                "size": prod[0]["size"],
+                "listtime": str(prod[0]["listtime"]),
+                "price": str(prod[0]["price"]),
+                "image": prod[0]["image"],
+                "primary-color": prod[0]["primary-color"],
+            }
+        )
+    products = convert_to_products(prods)
+    return render(request, "my_bids.html", {"products": products})
+
 
 @login_required
 def signout(request):
@@ -231,22 +264,118 @@ def settings_req(request):
 
 
 @login_required
+@csrf_exempt
 def create_listing(request):
-    return render(request, "create_listing.html")
+    username = request.user.username
+
+    if request.method == "POST":
+        item = request.POST["title"]
+        brand = request.POST["brand"]
+        category = request.POST["category"]
+        gender = request.POST["gender"]
+        size = request.POST["size"]
+        price = request.POST["price"]
+        image = request.POST["image"]
+        primary_color = request.POST["primary-color"]
+
+        now = datetime.datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        curr_time = datetime.datetime.strptime(dt_string, "%d/%m/%Y %H:%M:%S")
+
+        listing = {
+                "username": username,
+                "item": item,
+                "brand": brand,
+                "category": category,
+                "gender": gender,
+                "size": size,
+                "listtime": curr_time,
+                "price": price,
+                "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
+                "primary-color": primary_color,
+        }
+        json_item = json.dumps(listing)
+        headers = {"Content-type": "application/json", "Accept": "application/json"}
+        url = BACKEND_URL + "create_listing/"
+        print(url)
+        response = requests.post(url, data=json_item, headers=headers)
+        return redirect("mylistings")
+    else:
+        return render(request, "create_listing.html")
 
 
-def search_db(criteria):
-    url_params = ""
-    url = BACKEND_URL + "listing/" + url_params
-    r = requests.get(url)
+def search_db():
+    url = BACKEND_URL + "listing/"
+    r = requests.get(url).json()
+    print(r)
     return r
 
 
 def listing_by_username(username):
-    url = BACKEND_URL + "listing/" + "username=noel"
-    r = requests.get(url)
+    url = BACKEND_URL + "listing_by_user/" + username + "/"
+    r = requests.get(url).json()
     return r
 
+
+def listing_by_param(criteria):
+    url_params = ""
+
+    for c in criteria.keys():
+        url_params += criteria[c] + "/"
+
+    url = BACKEND_URL + "listing_by_params/" + url_params + "/"
+    print(url)
+    r = requests.get(url).json()
+    return r
+
+
+def bids_by_user(username):
+    url = BACKEND_URL + "get_my_bids/" + username + "/"
+    r = requests.get(url).json()
+    return r
+
+
+def convert_to_products(dict_tuples):
+    products = []
+    print(len(dict_tuples))
+    for tup in dict_tuples:
+        print("\nGOT HERE\n")
+        datetime_store = tup["listtime"]
+        listtime_obj = datetime.datetime.strptime(datetime_store, "%d/%m/%Y %H:%M:%S")
+        week = datetime.timedelta(days=7)
+        target_time = listtime_obj + week
+        products.append(
+            Product(
+                username=tup["username"],
+                image=tup["image"],
+                category=tup["category"],
+                item=tup["item"],
+                price=tup["price"],
+                maxtime=target_time,
+                gender=tup["gender"],
+                brand=tup["brand"],
+                size=tup["size"],
+                product_id=tup["_id"],
+                color=tup["primary-color"],
+            )
+        )
+    return products
+
+
+def listing_by_id(oid):
+    url_params = oid
+    url = BACKEND_URL + "listing_by_id/" + url_params + "/"
+    r = requests.get(url).json()
+    return r
+
+
+def listing_by_bid_id(bidid):
+    url_params = bidid
+    url = BACKEND_URL + "get_listing_by_bid_id/" + url_params + "/"
+    print(url)
+    r = requests.get(url).json()
+    listing_id = r["listingid"]
+    return listing_id
 
 def helper(criteria):
     p1 = Product(

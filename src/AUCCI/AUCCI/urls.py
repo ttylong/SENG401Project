@@ -24,6 +24,7 @@ urlpatterns = [
     path('listing_by_user/<str:username>/', views.listing_by_user, name='listing_by_user'),
     path('listing_by_category/<str:category>/', views.listing_by_category, name='listing_by_category'),
     path('listing_by_params/<str:gender>/<str:brand>/<str:category>/<str:size>/<str:pcolor>/', views.listing_by_params, name='listing_by_params'),
+    path('listing_by_id/<str:oid>/', views.listing_by_id, name='listing_by_id'),
     path('delete_listing/<str:oid>/', views.delete_listing, name='delete_listing'),
     path('create_listing/', views.create_listing, name='create_listing'),
     path('categories/', views.categories, name='categories'),
@@ -35,5 +36,6 @@ urlpatterns = [
     path('mybids/<str:bidid>/', views.mybids, name='mybids'),    
     path('get_highest_bidder/<str:bidid>/', views.get_highest_bidder, name='get_highest_bidder'),    
     path('delete_bidder/<str:bidid>/', views.delete_bidder, name='delete_bidder'),    
-    path('get_my_bids/', views.get_my_bids, name='get_my_bids'),
+    path('get_my_bids/<str:username>/', views.get_my_bids, name='get_my_bids'),
+    path('get_listing_by_bid_id/<str:bidid>/',views.get_listing_by_bid_id, name='get_listing_by_id')
 ]
