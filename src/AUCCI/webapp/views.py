@@ -144,17 +144,22 @@ def product(request, pk):
         bid_id = bid_id_by_listing_id(listing_id)
         print(bid_id)
 
-        bid_data_raw = {
-            "username": request.user.username,
-            "bid": bid_price
-        }
+        highest_bid_price = highest_bid(bid_id).json()["highestbid"]
 
-        print(bid_data_raw)
+        if bid_price > highest_bid_price:
+            bid_data_raw = {
+                "username": request.user.username,
+                "bid": bid_price
+            }
 
-        bid = make_bid(bid_id, bid_data_raw)
-        add_my_bids = add_my_bid(bid_id, bid_data_raw)
+            print(bid_data_raw)
 
-        return redirect("my_bids")
+            bid = make_bid(bid_id, bid_data_raw)
+            add_my_bids = add_my_bid(bid_id, bid_data_raw)
+
+            return redirect("my_bids")
+        else:
+            return HttpResponse("Bid amount too low")
     return render(request, "product_view.html", {"highest_bid": highest_bid_price, "product": product[0]})
 
 @login_required
