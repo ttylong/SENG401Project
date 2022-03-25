@@ -139,12 +139,8 @@ def product(request, pk):
         bid_price = int(request.POST["bids"])
         listing_id = request.POST["listing_id"]
 
-        print(listing_id)
-
         bid_id = bid_id_by_listing_id(listing_id)
         print(bid_id)
-
-        highest_bid_price = highest_bid(bid_id).json()["highestbid"]
 
         if bid_price > highest_bid_price:
             bid_data_raw = {
