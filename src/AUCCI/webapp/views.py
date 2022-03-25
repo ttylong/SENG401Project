@@ -130,8 +130,34 @@ def product(request, pk):
     prod = listing_by_id(pk)
     print(prod)
     product = convert_to_products(prod)
-    return render(request, "product_view.html", {"product": product[0]})
 
+    bid_id = bid_id_by_listing_id(pk)
+    highest_bid = highest_bid_price(bid_id).json()["highestbid"]
+    print(highest_bid)
+
+    if request.method == "POST":
+        bid_price = int(request.POST["bids"])
+        listing_id = request.POST["listing_id"]
+
+        print(listing_id)
+
+        bid_id = bid_id_by_listing_id(listing_id)
+        highest_bid = highest_bid_price(bid_id).json()["highest_bid"]
+        print(highest_bid)
+        print(bid_id)
+
+        bid_data_raw = {
+            "username": request.user.username,
+            "bid": bid_price
+        }
+
+        print(bid_data_raw)
+
+        bid = make_bid(bid_id, bid_data_raw)
+        add_my_bids = add_my_bid(bid_id, bid_data_raw)
+
+        return redirect("my_bids")
+    return render(request, "product_view.html", {"highest_bid": highest_bid, "product": product[0]})
 
 @login_required
 def search_results(request, pk):
@@ -182,12 +208,10 @@ def mylistings(request):
 
     return render(request, "mylistings.html", {"products": products})
 
-
 @login_required
 def my_bids(request):
-    # Uncomment when account user has made bids
-    # username = request.user.username
-    bids = bids_by_user("Bob")
+    username = request.user.username
+    bids = bids_by_user(username)
     all_bids = json.loads(bids)
 
     prods = []
@@ -275,7 +299,7 @@ def create_listing(request):
         gender = request.POST["gender"]
         size = request.POST["size"]
         price = request.POST["price"]
-        image = request.POST["image"]
+        #image = request.POST["image"]
         primary_color = request.POST["primary-color"]
 
         now = datetime.datetime.now()
@@ -289,7 +313,7 @@ def create_listing(request):
                 "category": category,
                 "gender": gender,
                 "size": size,
-                "listtime": curr_time,
+                "listtime": "25/03/2022 00:00:00",
                 "price": price,
                 "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
                 "primary-color": primary_color,
@@ -299,6 +323,16 @@ def create_listing(request):
         url = BACKEND_URL + "create_listing/"
         print(url)
         response = requests.post(url, data=json_item, headers=headers)
+        listingid = response.json()["_id"]
+        print(listingid)
+        #url = BACKEND_URL + "create_bid_item/" + listingid + "/"
+        #listing_id_raw = {"_id": listingid}
+        #listing_json = json.dumps(listing_id_raw)
+        #response = requests.post(url, data=listing_json, headers=headers)
+        listing_id_raw = {"_id": listingid}
+        response = create_bid(listingid, listing_id_raw)
+        print("This response")
+        print(response) 
         return redirect("mylistings")
     else:
         return render(request, "create_listing.html")
@@ -323,7 +357,7 @@ def listing_by_param(criteria):
     for c in criteria.keys():
         url_params += criteria[c] + "/"
 
-    url = BACKEND_URL + "listing_by_params/" + url_params + "/"
+    url = BACKEND_URL + "listing_by_params/" + url_params
     print(url)
     r = requests.get(url).json()
     return r
@@ -361,13 +395,11 @@ def convert_to_products(dict_tuples):
         )
     return products
 
-
 def listing_by_id(oid):
     url_params = oid
     url = BACKEND_URL + "listing_by_id/" + url_params + "/"
     r = requests.get(url).json()
     return r
-
 
 def listing_by_bid_id(bidid):
     url_params = bidid
@@ -376,6 +408,57 @@ def listing_by_bid_id(bidid):
     r = requests.get(url).json()
     listing_id = r["listingid"]
     return listing_id
+
+def bid_id_by_listing_id(oid):
+    url_params = oid
+    url = BACKEND_URL + "get_bid_id_by_listing_id/" + oid + "/"
+    print(url)
+    r = requests.get(url).json()
+    bid_id = r["bidid"]
+    return bid_id
+
+def create_bid(listingid, listingiddata):
+    url_params = listingid
+    url = BACKEND_URL + "create_bid_item/" + url_params + "/"
+    print(url)
+    listing_id_json = json.dumps(listingiddata)
+    headers = {"Content-type": "application/json", "Accept": "application/json"}
+    r = requests.post(url, data=listing_id_json, headers=headers)
+    return r
+
+def make_bid(bidid, biddata):
+    url_params = bidid
+    url = BACKEND_URL + "update_bid_item/" + url_params + "/"
+    print(url)
+    bid_json = json.dumps(biddata)
+    print("bid right here")
+    print(bid_json)
+    headers = {"Content-type": "application/json", "Accept": "application/json"}
+    r = requests.patch(url, bid_json, headers=headers)
+    return r
+
+def add_my_bid(bidid, biddata):
+    url_params = bidid
+    url = BACKEND_URL + "mybids/" + url_params + "/"
+    print(url)
+    bid_json = json.dumps(biddata)
+    headers = {"Content-type": "application/json", "Accept": "application/json"}
+    r = requests.post(url, data=bid_json, headers=headers)
+    return r
+    
+def highest_bid_price(bidid):
+    url_params = bidid
+    url = BACKEND_URL + "get_highest_bidder/" + url_params + "/"
+    print(url)
+    r = requests.get(url)
+    return r
+
+def delete_listing(oid):
+    url_params = oid
+    url = BACKEND_URL + "delete_listing/" + url_params + "/"
+    print(url)
+    r = requests.delete(url).json()
+    return r
 
 def helper(criteria):
     p1 = Product(

@@ -64,15 +64,17 @@ def listing(request, name=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
 
         if name != "":
             listings = cursor.find({"item": name})
         else:
             listings = cursor.find({})
-
+        print("This works")
         json_content = listing_jsonify(listings)
 
         return JsonResponse(json_content, safe=False)
@@ -85,9 +87,11 @@ def listing_by_user(request, username=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
 
         if username != "":
             listings = cursor.find({"username": username})
@@ -122,9 +126,11 @@ def listing_by_category(request, category=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
 
         if category != "":
             listings = cursor.find({"category": category})
@@ -143,9 +149,11 @@ def listing_by_params(request, gender, brand, category, size, pcolor):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
 
         search_params = {}
 
@@ -182,13 +190,12 @@ def delete_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to delete")
 
-<<<<<<< HEAD
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
     
-=======
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("listings")
 
     query = {"_id": ObjectId(oid)}
@@ -207,9 +214,11 @@ def create_listing(request):
     if request.method != "POST":
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
 
     id = db_collection("listings").insert_one(request.data).inserted_id
 
@@ -224,13 +233,12 @@ def update_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to update")
 
-<<<<<<< HEAD
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
     
-=======
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("listings")
 
     try:
@@ -247,9 +255,11 @@ def categories(request):
     if request.method == "GET":
         cursor = db_collection("categories")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+        '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
 
         listings = cursor.find({})
 
@@ -265,9 +275,11 @@ def up(request):
     # if imagepath == "":
     #     return HttpResponse("Specify an image path")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
+    '''
+    if not testingEndpoints:
+        if request.user.is_authenticated == False:
             return HttpResponse("Authentication error")
+    '''
 
     if request.method == "POST":
         urls = []
@@ -299,9 +311,11 @@ def create_bid_item(request, listingid=""):
     if request.method != "POST":
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
+    '''
+        if not testingEndpoints:
+            if request.user.is_authenticated == False:
+                return HttpResponse("Authentication error")
+        '''
     # first check to see if listing exists
     # pull listing ID out of JSON
     # listingid = request.data['_id']
@@ -334,9 +348,11 @@ def get_highest_bidder(request, bidid=""):
     if bidid == "":
         return HttpResponse("Bid field is empty.")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
+    '''
+    if not testingEndpoints:
+        if request.user.is_authenticated == False:
             return HttpResponse("Authentication error")
+    '''
 
     cursor = db_collection("bids")
     try:
@@ -361,23 +377,26 @@ def update_bid_item(request, bidid=""):
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
     if bidid == "":
         return HttpResponse("Bid field is empty.")
+    print("HERERJ")
 
-<<<<<<< HEAD
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
+    '''
+    if not testingEndpoints:
+        if request.user.is_authenticated == False:
             return HttpResponse("Authentication error")
+    '''
  
-=======
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
     cursor = db_collection("bids")
     result = cursor.find_one(ObjectId(bidid))
     if result == None:
         return HttpResponse("The bid does not exist.")
 
+    print("THIS ONE HERE")
+    print(request.data["bid"])
     # assumes user exists, idk how to confirm this using the django thing
     try:
         username = request.data["username"]
         userbid = request.data["bid"]
+        print(userbid)
         cursor.update(
             {"highestbid": {"$lt": userbid}},
             {"$set": {"highestbid": userbid, "highestbidder": username}},
@@ -399,9 +418,11 @@ def mybids(request, bidid=""):
     if bidid == "":
         return HttpResponse("Bid field is empty.")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
+    '''
+    if not testingEndpoints:
+        if request.user.is_authenticated == False:
             return HttpResponse("Authentication error")
+    '''
 
     cursor = db_collection("bids")
     result = cursor.find_one(ObjectId(bidid))
@@ -455,22 +476,15 @@ def mybids(request, bidid=""):
 def delete_bidder(request, bidid=""):
 
     if request.method != "PATCH":
-<<<<<<< HEAD
         return HttpResponse("Unrecognized request. This URL only accepts PATCH methods.")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
+    '''
+    if not testingEndpoints:
+        if request.user.is_authenticated == False:
             return HttpResponse("Authentication error")
-            
+    '''
+
     if(bidid == ""):
-=======
-        return HttpResponse(
-            "Unrecognized request. This URL only accepts PATCH methods."
-        )
-    # if not request.user.is_authenticated:
-    #     return HttpResponse("Authentication error")
-    if bidid == "":
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
         return HttpResponse("Bid field is empty.")
 
     # username = str(request.user.username)
@@ -541,30 +555,43 @@ def get_listing_by_bid_id(request, bidid=""):
 
     print(find)
 
-    listing_id = find["listingid"]
+    listing_id = str(find["listingid"])
     jsonitem = {"listingid" : listing_id}
     print(jsonitem)
 
     return JsonResponse(jsonitem, safe=False)
 
-def get_my_bids(request, username):
-    if request.method != "GET":
-<<<<<<< HEAD
-        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
-    if not testingEndpoints: 
-        if not request.user.is_authenticated:
-            return HttpResponse("Authentication error")
-
-    username = request.user.username
-=======
+def get_bid_id_by_listing_id(request, oid=""):
+    if(request.method != "GET"):
         return HttpResponse(
             "Unrecognized request. This URL only accepts PATCH methods."
         )
-    # if not request.user.is_authenticated:
-    #     return HttpResponse("Authentication error")
 
->>>>>>> c216efbcba8202ac92634f6a0c72a51734a2b918
+    cursor = db_collection("bids")
+    find = cursor.find_one({"listingid": oid})
+
+    print(find)
+
+    bid_id_raw = find["_id"]
+    bid_id = str(bid_id_raw)
+    print("here")
+    print(bid_id)
+    jsonitem = {"bidid" : bid_id}
+    print(jsonitem)
+    return JsonResponse(jsonitem, safe=False)
+
+def get_my_bids(request, username):
+    if request.method != "GET":
+        return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
+
+    '''
+    if not testingEndpoints:
+        if request.user.is_authenticated == False:
+            return HttpResponse("Authentication error")
+    '''
+
+    #username = request.user.username
     cursor = db_collection("mybids")
 
     find = cursor.find_one({"username": username})
