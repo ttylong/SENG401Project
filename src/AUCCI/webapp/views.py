@@ -132,8 +132,8 @@ def product(request, pk):
     product = convert_to_products(prod)
 
     bid_id = bid_id_by_listing_id(pk)
-    highest_bid = highest_bid_price(bid_id).json()["highestbid"]
-    print(highest_bid)
+    highest_bid_price = highest_bid(bid_id).json()["highestbid"]
+    print(highest_bid_price)
 
     if request.method == "POST":
         bid_price = int(request.POST["bids"])
@@ -142,8 +142,6 @@ def product(request, pk):
         print(listing_id)
 
         bid_id = bid_id_by_listing_id(listing_id)
-        highest_bid = highest_bid_price(bid_id).json()["highest_bid"]
-        print(highest_bid)
         print(bid_id)
 
         bid_data_raw = {
@@ -157,7 +155,7 @@ def product(request, pk):
         add_my_bids = add_my_bid(bid_id, bid_data_raw)
 
         return redirect("my_bids")
-    return render(request, "product_view.html", {"highest_bid": highest_bid, "product": product[0]})
+    return render(request, "product_view.html", {"highest_bid": highest_bid_price, "product": product[0]})
 
 @login_required
 def search_results(request, pk):
@@ -213,10 +211,24 @@ def my_bids(request):
     username = request.user.username
     bids = bids_by_user(username)
     all_bids = json.loads(bids)
+    winning_bids = []
 
-    prods = []
     for bid in all_bids:
+        highest_bid_json = highest_bid(bid["bidid"]).json()
+        highest_bidder = highest_bid_json["highestbidder"]
+        highest_bid_price = highest_bid_json["highestbid"]
+
+        if highest_bidder == request.user.username:
+            winning_bids.append({
+                "bidid": bid["bidid"],
+                "bidprice": highest_bid_price
+            })
+        
+    prods = []
+
+    for bid in winning_bids:
         listing_id = listing_by_bid_id(bid["bidid"])
+        highest_bid_price = bid["bidprice"]
         print(listing_id)
         prod = listing_by_id(listing_id)
         prods.append(
@@ -229,7 +241,7 @@ def my_bids(request):
                 "gender": prod[0]["gender"],
                 "size": prod[0]["size"],
                 "listtime": str(prod[0]["listtime"]),
-                "price": str(prod[0]["price"]),
+                "price": str(highest_bid_price),
                 "image": prod[0]["image"],
                 "primary-color": prod[0]["primary-color"],
             }
@@ -446,7 +458,7 @@ def add_my_bid(bidid, biddata):
     r = requests.post(url, data=bid_json, headers=headers)
     return r
     
-def highest_bid_price(bidid):
+def highest_bid(bidid):
     url_params = bidid
     url = BACKEND_URL + "get_highest_bidder/" + url_params + "/"
     print(url)
