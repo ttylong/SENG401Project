@@ -44,12 +44,14 @@
       text-align: center;
     }
   </style>
+  <div class="container" style="margin-top: 2%;">
   <h2
-    class="display-4 text-center text-muted"
+    class="display-5 text-center text-muted"
     style="font-family: 'Signika', sans-serif"
   >
     My Winning Bids
   </h2>
+  </div>
   <div
     class="container"
     style="
@@ -64,10 +66,10 @@
       <thead>
         <tr>
           <th>Item</th>
-          <th></th>
-          <th>Seller</th>
-          <th>Current Bid Amount</th>
-          <th>Status</th>
+          <th>Image</th>
+          <th style="text-align: center">Seller</th>
+          <th style="text-align: center">Current Bid Amount</th>
+          <th style="text-align: center">Status</th>
         </tr>
       </thead>
 
@@ -75,7 +77,7 @@
         <tbody>
           {% for product in products %}
           <tr>
-            <td scope="row">{{product.name}}</td>
+            <td scope="row">{{product.item}}</td>
             <td>
               <img
                 src="https://img.ssensemedia.com/images/b_white,g_center,f_auto,q_auto:best/221451M190015_1/gucci-blue-jacquard-gg-lounge-pants.jpg"
@@ -83,9 +85,9 @@
                 width="50"
               />
             </td>
-            <td>{{product.username}}</td>
-            <td class="current-price">{{product.price}}</td>
-            <td>{{product.status}}</td>
+            <td style="text-align: center">{{product.username}}</td>
+            <td class="current-price" style="text-align: center">{{product.price}}</td>
+            <td style="text-align: center">{{product.status}}</td>
           </tr>
           {% endfor %}
         </tbody>

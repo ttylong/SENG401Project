@@ -254,7 +254,6 @@ def update_listing(request, oid=""):
     else:
         return HttpResponse("Success")
 
-
 # GET catagories
 def categories(request):
     if request.method == "GET":
@@ -382,7 +381,6 @@ def update_bid_item(request, bidid=""):
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
     if bidid == "":
         return HttpResponse("Bid field is empty.")
-    print("HERERJ")
 
     '''
     if not testingEndpoints:
@@ -395,7 +393,6 @@ def update_bid_item(request, bidid=""):
     if result == None:
         return HttpResponse("The bid does not exist.")
 
-    print("THIS ONE HERE")
     print(request.data["bid"])
     # assumes user exists, idk how to confirm this using the django thing
     try:

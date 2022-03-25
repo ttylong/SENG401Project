@@ -153,7 +153,7 @@ def product(request, pk):
             bid = make_bid(bid_id, bid_data_raw)
             add_my_bids = add_my_bid(bid_id, bid_data_raw)
 
-            return redirect("my_bids")
+            return redirect("search")
         else:
             return HttpResponse("Bid amount too low")
     return render(request, "product_view.html", {"highest_bid": highest_bid_price, "product": product[0]})
@@ -245,6 +245,7 @@ def my_bids(request):
                 "price": str(highest_bid_price),
                 "image": prod[0]["image"],
                 "primary-color": prod[0]["primary-color"],
+                "status": "Active"
             }
         )
     products = convert_to_products(prods)
