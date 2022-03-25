@@ -1,2 +1,4 @@
 db.sqlite3
 *.cpython-39.pyc
+credentials.py
+

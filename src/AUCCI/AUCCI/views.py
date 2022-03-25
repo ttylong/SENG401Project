@@ -15,9 +15,11 @@ import json
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
-connection_string = "mongodb+srv://auccibids:Seng401!@aucci.eqyli.mongodb.net/aucciDB"
+from .credentials import connections
 
-testingEndpoints = False # set to false if not testing with postman, True if testing with postman
+connection_string = connections.dbconnectionstring()
+
+testingEndpoints = True # set to false if not testing with postman, True if testing with postman
 
 def db_collection(collection):
     client = MongoClient(connection_string)
@@ -64,11 +66,17 @@ def listing(request, name=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
 
         if name != "":
             listings = cursor.find({"item": name})
@@ -87,11 +95,17 @@ def listing_by_user(request, username=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
 
         if username != "":
             listings = cursor.find({"username": username})
@@ -108,6 +122,9 @@ def listing_by_user(request, username=""):
 def listing_by_id(request, oid=""):
     if request.method == "GET":
         cursor = db_collection("listings")
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
 
         if oid != "":
             listings = cursor.find({"_id": ObjectId(oid)})
@@ -126,11 +143,17 @@ def listing_by_category(request, category=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
 
         if category != "":
             listings = cursor.find({"category": category})
@@ -149,11 +172,17 @@ def listing_by_params(request, gender, brand, category, size, pcolor):
     if request.method == "GET":
         cursor = db_collection("listings")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
 
         search_params = {}
 
@@ -190,11 +219,17 @@ def delete_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to delete")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+    if not testingEndpoints: 
+        if not request.user.is_authenticated:
+            return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
     
     cursor = db_collection("listings")
 
@@ -233,11 +268,17 @@ def update_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to update")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+    if not testingEndpoints: 
+        if not request.user.is_authenticated:
+            return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
     
     cursor = db_collection("listings")
 
@@ -255,11 +296,17 @@ def categories(request):
     if request.method == "GET":
         cursor = db_collection("categories")
 
+<<<<<<< HEAD
         '''
         if not testingEndpoints:
             if request.user.is_authenticated == False:
                 return HttpResponse("Authentication error")
         '''
+=======
+        if not testingEndpoints: 
+            if not request.user.is_authenticated:
+                return HttpResponse("Authentication error")
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
 
         listings = cursor.find({})
 
@@ -379,9 +426,14 @@ def update_bid_item(request, bidid=""):
         return HttpResponse("Bid field is empty.")
     print("HERERJ")
 
+<<<<<<< HEAD
     '''
     if not testingEndpoints:
         if request.user.is_authenticated == False:
+=======
+    if not testingEndpoints: 
+        if not request.user.is_authenticated:
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
             return HttpResponse("Authentication error")
     '''
  
@@ -591,7 +643,11 @@ def get_my_bids(request, username):
             return HttpResponse("Authentication error")
     '''
 
+<<<<<<< HEAD
     #username = request.user.username
+=======
+    username = request.user.username
+>>>>>>> 34ee515babba3fdca1c86e766ff1659b0cf6d5ac
     cursor = db_collection("mybids")
 
     find = cursor.find_one({"username": username})
