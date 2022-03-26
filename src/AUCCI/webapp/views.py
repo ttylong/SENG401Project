@@ -157,8 +157,6 @@ def product(request, pk):
             update_auction_price = update_listing_price(pk, bid_price_raw)
 
             return redirect("search")
-        else:
-            return HttpResponse("Bid amount too low")
     return render(
         request,
         "product_view.html",
@@ -331,6 +329,7 @@ def create_listing(request):
             "size": size,
             "listtime": dt_string,
             "price": price,
+            "min_price": price + 1,
             "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
             "primary-color": primary_color,
         }
