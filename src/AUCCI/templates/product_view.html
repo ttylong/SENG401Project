@@ -58,19 +58,24 @@
           <form action="" method="post">
             {% csrf_token %}
             <input
-                type="hidden"
-                name="listing_id"
-                value="{{product.product_id}}"
-              />
-              <input
+              type="hidden"
+              name="listing_id"
+              value="{{product.product_id}}"
+            />
+            <input
               type="hidden"
               name="auction_price"
               value="{{product.price}}"
             />
-          <input type="number" id="bid" name="bids" min="10" max="100" />
-          <button class="btn btn-primary btn-rounded">Bid Now</button>
-         </form>
-         {% endif %}
+            <input
+              type="number"
+              id="bid"
+              name="bids"
+              min="{{product.min_price}}"
+            />
+            <button class="btn btn-primary btn-rounded">Bid Now</button>
+          </form>
+          {% endif %}
           <!-- {% for message in messages %}
           <h3 style="color: red">{{message}}</h3>
           {% endfor %} -->
