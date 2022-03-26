@@ -52,6 +52,7 @@
           </h3>
           <!--FORM START-->
           <!--Messages Add In (Look at Login as example)-->
+          {% if not my_listing %}
           <label for="bidEnter">Enter your bid:</label>
 
           <form action="" method="post">
@@ -69,6 +70,7 @@
           <input type="number" id="bid" name="bids" min="10" max="100" />
           <button class="btn btn-primary btn-rounded">Bid Now</button>
          </form>
+         {% endif %}
           <!-- {% for message in messages %}
           <h3 style="color: red">{{message}}</h3>
           {% endfor %} -->

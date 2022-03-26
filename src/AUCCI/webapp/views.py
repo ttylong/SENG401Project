@@ -128,10 +128,18 @@ def search(request):
 
 @login_required
 def product(request, pk):
+    username = request.user.username
+
     prod = listing_by_id(pk)
     print(prod)
-    product = convert_to_products(prod)
+    product = convert_to_products(prod)[0]
 
+    my_listing = False
+
+    if username == product.username:
+        my_listing = True
+
+    bid_id = bid_id_by_listing_id(pk)
     #highest_bid_price = highest_bid(bid_id).json()["highestbid"]
     #print(highest_bid_price)
 
@@ -148,7 +156,6 @@ def product(request, pk):
             bid_price_raw = {"price": bid_price}
             print(bid_data_raw)
 
-            bid_id = bid_id_by_listing_id(pk)
             bid = make_bid(bid_id, bid_data_raw)
             add_my_bids = add_my_bid(bid_id, bid_data_raw)
             update_auction_price = update_listing_price(pk, bid_price_raw)
@@ -156,11 +163,7 @@ def product(request, pk):
             return redirect("search")
         else:
             return HttpResponse("Bid amount too low")
-    return render(
-        request,
-        "product_view.html",
-        {"product": product[0]},
-    )
+    return render(request, "product_view.html", {"product": product, "my_listing": my_listing},)
 
 
 @login_required
@@ -346,13 +349,11 @@ def create_listing(request):
         # listing_json = json.dumps(listing_id_raw)
         # response = requests.post(url, data=listing_json, headers=headers)
         listing_id_raw = {"_id": listingid}
-        response = create_bid(listingid, listing_id_raw)
+        create_empty_bid = create_bid(listingid, listing_id_raw)
         print("This response")
-        print(response)
         return redirect("mylistings")
     else:
         return render(request, "create_listing.html")
-
 
 def search_db():
     url = BACKEND_URL + "listing/"
@@ -409,7 +410,6 @@ def convert_to_products(dict_tuples):
             )
         )
     return products
-
 
 def listing_by_id(oid):
     url_params = oid
