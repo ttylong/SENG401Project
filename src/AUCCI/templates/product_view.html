@@ -12,7 +12,7 @@
         </div>
         <div class="col">
           <h2 class="mt-5" style="display: inline-block">
-            Current Highest Bid: ${{highest_bid}}<small
+            Current Highest Bid: ${{product.price}}<small
               class="text-success"
             ></small>
           </h2>
@@ -61,6 +61,11 @@
                 name="listing_id"
                 value="{{product.product_id}}"
               />
+              <input
+              type="hidden"
+              name="auction_price"
+              value="{{product.price}}"
+            />
           <input type="number" id="bid" name="bids" min="10" max="100" />
           <button class="btn btn-primary btn-rounded">Bid Now</button>
          </form>

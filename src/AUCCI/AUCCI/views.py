@@ -377,6 +377,26 @@ def get_highest_bidder(request, bidid=""):
 
     return JsonResponse(jsonitem)
 
+# UPDATE listing price by id
+@api_view(["PATCH"])
+def update_listing_price(request, oid=""):
+    if request.method != "PATCH":
+        return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
+    if oid == "":
+        return HttpResponse("Specify one object to update")
+
+    cursor = db_collection("listings")
+    result = cursor.find_one(ObjectId(oid))
+
+    try:
+        auction_price = request.data["price"]
+        cursor.update(
+            {"_id": ObjectId(oid)}, 
+            {"$set": {"price": auction_price}})
+    except Exception as e:
+        return HttpResponse(e)
+    id = result["_id"]
+    return JsonResponse({"_id": str(id)}, safe=False)
 
 # update bidder list, update highest bidder automatically and highest bid only if that bidder has the highest bid
 @api_view(["PATCH"])
@@ -385,7 +405,6 @@ def update_bid_item(request, bidid=""):
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
     if bidid == "":
         return HttpResponse("Bid field is empty.")
-    print("HERERJ")
 
     """
     if not testingEndpoints:

@@ -1,5 +1,6 @@
 # do create_bid and delete_listing
 from audioop import reverse
+from turtle import update
 from requests.auth import HTTPBasicAuth
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
@@ -131,24 +132,26 @@ def product(request, pk):
     print(prod)
     product = convert_to_products(prod)
 
-    bid_id = bid_id_by_listing_id(pk)
-    highest_bid_price = highest_bid(bid_id).json()["highestbid"]
-    print(highest_bid_price)
+    #highest_bid_price = highest_bid(bid_id).json()["highestbid"]
+    #print(highest_bid_price)
 
     if request.method == "POST":
         bid_price = int(request.POST["bids"])
-        listing_id = request.POST["listing_id"]
+        #listing_id = request.POST["listing_id"]
+        auction_price = int(request.POST["auction_price"])
 
-        bid_id = bid_id_by_listing_id(listing_id)
-        print(bid_id)
+        #bid_id = bid_id_by_listing_id(listing_id)
+        #print(bid_id)
 
-        if bid_price > highest_bid_price:
+        if bid_price > auction_price:
             bid_data_raw = {"username": request.user.username, "bid": bid_price}
-
+            bid_price_raw = {"price": bid_price}
             print(bid_data_raw)
 
+            bid_id = bid_id_by_listing_id(pk)
             bid = make_bid(bid_id, bid_data_raw)
             add_my_bids = add_my_bid(bid_id, bid_data_raw)
+            update_auction_price = update_listing_price(pk, bid_price_raw)
 
             return redirect("search")
         else:
@@ -156,7 +159,7 @@ def product(request, pk):
     return render(
         request,
         "product_view.html",
-        {"highest_bid": highest_bid_price, "product": product[0]},
+        {"product": product[0]},
     )
 
 
@@ -381,7 +384,6 @@ def bids_by_user(username):
     r = requests.get(url).json()
     return r
 
-
 def convert_to_products(dict_tuples):
     products = []
     print(len(dict_tuples))
@@ -473,6 +475,16 @@ def highest_bid(bidid):
     r = requests.get(url)
     return r
 
+def update_listing_price(oid, highestbid):
+    url_params = oid
+    url = BACKEND_URL + "update_listing_price/" + url_params + "/"
+    print(url)
+    price_json = json.dumps(highestbid)
+    print("bid right here")
+    print(price_json)
+    headers = {"Content-type": "application/json", "Accept": "application/json"}
+    r = requests.patch(url, price_json, headers=headers)
+    return r
 
 def delete_listing(oid):
     url_params = oid

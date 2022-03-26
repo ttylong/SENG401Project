@@ -124,7 +124,7 @@ def categories(request):
     else:
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
-
+'''
 def search_db(criteria):
 
     print(criteria)
@@ -136,3 +136,4 @@ def search_db(criteria):
     r = requests.get(url)
 
     return r
+'''
