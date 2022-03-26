@@ -313,7 +313,7 @@ def create_listing(request):
         category = request.POST["category"]
         gender = request.POST["gender"]
         size = request.POST["size"]
-        price = request.POST["price"]
+        price = int(request.POST["price"])
         # image = request.POST["image"]
         primary_color = request.POST["primary-color"]
 
