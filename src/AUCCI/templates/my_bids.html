@@ -75,6 +75,7 @@
 
       <div class="item-rows">
         <tbody>
+        {% if bids_made %}
           {% for product in products %}
           <tr>
             <td scope="row">{{product.item}}</td>
@@ -90,6 +91,16 @@
             <td style="text-align: center">{{product.status}}</td>
           </tr>
           {% endfor %}
+        {% else %}
+          <tr>
+            <td scope="row"></td>
+            <td>
+            </td>
+            <td style="text-align: center"></td>
+            <td class="current-price" style="text-align: center"></td>
+            <td style="text-align: center"></td>
+          </tr>
+          {% endif %}
         </tbody>
       </div>
     </table>

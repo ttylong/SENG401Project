@@ -3,6 +3,7 @@
 from email.mime import image
 from http.client import HTTPResponse
 import string
+from pydantic import Json
 from pymongo import MongoClient
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -367,7 +368,7 @@ def get_highest_bidder(request, bidid=""):
     if bidder == None or bid == 0:
         return HttpResponse("No bid or bidders yet")
     jsonitem = {"highestbid": bid, "highestbidder": bidder}
-
+    print(bid)
     return JsonResponse(jsonitem)
 
 
@@ -414,18 +415,16 @@ def update_bid_item(request, bidid=""):
     try:
         username = request.data["username"]
         userbid = request.data["bid"]
+        print("This one")
         cursor.update(
-            {"highestbid": {"$lt": userbid}},
+            {"_id": {"$eq": ObjectId(bidid)}},
             {"$set": {"highestbid": userbid, "highestbidder": username}},
         )
         cursor.update({"_id": ObjectId(bidid)}, {"$addToSet": {"bidders": username}})
-
     except Exception as e:
         return HttpResponse(e)
     id = result["_id"]
     return JsonResponse({"_id": str(id)}, safe=False)
-    return HttpResponse("success")
-
 
 # may merge this with update bid item tbh
 @api_view(["POST"])
@@ -598,9 +597,13 @@ def get_my_bids(request, username):
     find = cursor.find_one({"username": username})
 
     arr = []
+
+    if find == None:
+        jsonitem = json.dumps(arr)
+        return JsonResponse(jsonitem, safe=False)
+
     for doc in find["allbids"]:
         arr.append(doc)
 
     jsonitem = json.dumps(arr)
-
     return JsonResponse(jsonitem, safe=False)
