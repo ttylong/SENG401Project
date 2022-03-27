@@ -1,1 +1,1 @@
-web: gunicorn AUCCI:app
+web: gunicorn AUCCI.wsgi
