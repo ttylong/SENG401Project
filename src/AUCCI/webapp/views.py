@@ -213,7 +213,7 @@ def mylistings(request):
 @login_required
 def my_bids(request):
     username = request.user.username
-    bids = bids_by_user(username).json()
+    bids = bids_by_user(username)
     all_bids = json.loads(bids)
 
     bids_made = False
