@@ -3,6 +3,7 @@
 from email.mime import image
 from http.client import HTTPResponse
 import string
+from pydantic import Json
 from pymongo import MongoClient
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -419,7 +420,7 @@ def update_bid_item(request, bidid=""):
             {"_id": {"$eq": ObjectId(bidid)}},
             {"$set": {"highestbid": userbid, "highestbidder": username}},
         )
-        cursor.update({"_id": ObjectId(bidid)}, {"$AddToSet": {"bidders": username}})
+        cursor.update({"_id": ObjectId(bidid)}, {"$addToSet": {"bidders": username}})
     except Exception as e:
         return HttpResponse(e)
     id = result["_id"]
@@ -595,10 +596,15 @@ def get_my_bids(request, username):
 
     find = cursor.find_one({"username": username})
 
+    if find == None:
+        no_bids = {"bids": "none"}
+        print("None found")
+        return JsonResponse(no_bids, safe=False)
+
     arr = []
     for doc in find["allbids"]:
         arr.append(doc)
 
     jsonitem = json.dumps(arr)
-
+    print(jsonitem)
     return JsonResponse(jsonitem, safe=False)

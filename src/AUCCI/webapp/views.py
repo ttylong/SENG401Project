@@ -215,8 +215,17 @@ def mylistings(request):
 @login_required
 def my_bids(request):
     username = request.user.username
-    bids = bids_by_user(username)
+    bids = bids_by_user(username).json()
+
+    bids_made = False
+
+    if bids["bids"] == "none":
+        return render(request, "my_bids.html", {"bids_made": bids_made})
+    else: 
+        bids_made = True
+
     all_bids = json.loads(bids)
+
     winning_bids = []
 
     for bid in all_bids:
@@ -250,7 +259,7 @@ def my_bids(request):
             }
         )
     products = convert_to_products(prods)
-    return render(request, "my_bids.html", {"products": products})
+    return render(request, "my_bids.html", {"products": products, "bids_made": bids_made})
 
 
 @login_required
@@ -374,7 +383,7 @@ def listing_by_param(criteria):
 
 def bids_by_user(username):
     url = BACKEND_URL + "get_my_bids/" + username + "/"
-    r = requests.get(url).json()
+    r = requests.get(url)
     return r
 
 
