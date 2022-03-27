@@ -45,6 +45,9 @@
                 if (distance < 0) {
                   clearInterval(x);
                   document.getElementById("clock").innerHTML = "EXPIRED";
+                  document.getElementById("status").value = "Expired";
+                  console.log(document.getElementById("status").value)
+                  document.getElementById("bid_form").submit();
                 }
               }, 1000);
             </script>
@@ -55,7 +58,7 @@
           {% if not my_listing %}
           <label for="bidEnter">Enter your bid:</label>
 
-          <form action="" method="post">
+          <form action="" method="post" id="bid_form">
             {% csrf_token %}
             <input
               type="hidden"
@@ -66,6 +69,11 @@
               type="hidden"
               name="auction_price"
               value="{{product.price}}"
+            />
+            <input
+            type="hidden"
+            name="status"
+            value="Active"
             />
             <input
               type="number"
