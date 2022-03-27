@@ -216,15 +216,14 @@ def mylistings(request):
 def my_bids(request):
     username = request.user.username
     bids = bids_by_user(username).json()
+    all_bids = json.loads(bids)
 
     bids_made = False
 
-    if bids["bids"] == "none":
+    if len(all_bids) == 0:
         return render(request, "my_bids.html", {"bids_made": bids_made})
     else: 
         bids_made = True
-
-    all_bids = json.loads(bids)
 
     winning_bids = []
 

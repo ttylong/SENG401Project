@@ -596,15 +596,14 @@ def get_my_bids(request, username):
 
     find = cursor.find_one({"username": username})
 
-    if find == None:
-        no_bids = {"bids": "none"}
-        print("None found")
-        return JsonResponse(no_bids, safe=False)
-
     arr = []
+
+    if find == None:
+        jsonitem = json.dumps(arr)
+        return JsonResponse(jsonitem, safe=False)
+
     for doc in find["allbids"]:
         arr.append(doc)
 
     jsonitem = json.dumps(arr)
-    print(jsonitem)
     return JsonResponse(jsonitem, safe=False)
