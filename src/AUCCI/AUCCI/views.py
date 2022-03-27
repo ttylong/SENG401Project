@@ -2,8 +2,6 @@
 
 from email.mime import image
 from http.client import HTTPResponse
-import string
-from pydantic import Json
 from pymongo import MongoClient
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -368,7 +366,6 @@ def get_highest_bidder(request, bidid=""):
     if bidder == None or bid == 0:
         return HttpResponse("No bid or bidders yet")
     jsonitem = {"highestbid": bid, "highestbidder": bidder}
-    print(bid)
     return JsonResponse(jsonitem)
 
 
@@ -411,11 +408,9 @@ def update_bid_item(request, bidid=""):
     if result == None:
         return HttpResponse("The bid does not exist.")
 
-    # assumes user exists, idk how to confirm this using the django thing
     try:
         username = request.data["username"]
         userbid = request.data["bid"]
-        print("This one")
         cursor.update(
             {"_id": {"$eq": ObjectId(bidid)}},
             {"$set": {"highestbid": userbid, "highestbidder": username}},
@@ -426,7 +421,6 @@ def update_bid_item(request, bidid=""):
     id = result["_id"]
     return JsonResponse({"_id": str(id)}, safe=False)
 
-# may merge this with update bid item tbh
 @api_view(["POST"])
 def mybids(request, bidid=""):
     if request.method != "POST":

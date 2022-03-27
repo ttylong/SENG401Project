@@ -1,6 +1,4 @@
-# do create_bid and delete_listing
 from audioop import reverse
-from turtle import update
 from requests.auth import HTTPBasicAuth
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
@@ -382,7 +380,7 @@ def listing_by_param(criteria):
 
 def bids_by_user(username):
     url = BACKEND_URL + "get_my_bids/" + username + "/"
-    r = requests.get(url)
+    r = requests.get(url).json()
     return r
 
 
