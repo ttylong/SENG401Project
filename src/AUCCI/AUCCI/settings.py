@@ -30,7 +30,7 @@ DEBUG = True
 
 APPEND_SLASH = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["aucci.herokuapp.com", "127.0.0.0.1"]
 
 
 # Application definition

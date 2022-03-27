@@ -16,7 +16,7 @@ import requests
 import datetime
 import json
 
-BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
+BACKEND_URL = "http://aucci.herokuapp.com/"  # Subject to change
 
 # View Functions
 def index(request):
