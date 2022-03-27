@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "pyuploadcare.dj",
     "AUCCI",
+    "django_heroku"
 ]
 
 MIDDLEWARE = [
