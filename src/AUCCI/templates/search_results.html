@@ -44,7 +44,37 @@ Search Results:
           <div class="d-flex justify-content-between mb-2">
             <p class="text-muted mb-0">
               Time Left:
-              <span class="fw-bold">{{product.listtime}}</span>
+              <span class="fw-bold"><p id="clock"></p>
+
+                <script>
+                  var countDownDate = new Date(
+                    "{{product.maxtime.isoformat}}"
+                  ).getTime();
+    
+                  var x = setInterval(function () {
+                    var now = new Date().getTime();
+    
+                    var distance = countDownDate - now;
+    
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor(
+                      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                    );
+                    var minutes = Math.floor(
+                      (distance % (1000 * 60 * 60)) / (1000 * 60)
+                    );
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+                    document.getElementById("clock").innerHTML =
+                      days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    
+                    if (distance < 0) {
+                      clearInterval(x);
+                      document.getElementById("clock").innerHTML = "EXPIRED";
+                    }
+                  }, 1000);
+                </script>
+                <small class="text-success"></small></span>
             </p>
           </div>
           <div class="d-flex justify-content-between mb-2">
