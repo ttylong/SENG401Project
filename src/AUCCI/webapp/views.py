@@ -12,11 +12,13 @@ from django.http import JsonResponse, HttpResponse
 import datetime
 from django.urls import path
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 import requests
 import datetime
 import json
+import base64
 
-BACKEND_URL = "http://aucci.herokuapp.com/"  # Subject to change
+BACKEND_URL = "http://127.0.0.1:8000/"  # Subject to change
 
 # View Functions
 def index(request):
@@ -222,7 +224,7 @@ def my_bids(request):
 
     if len(all_bids) == 0:
         return render(request, "my_bids.html", {"bids_made": bids_made})
-    else:
+    else: 
         bids_made = True
 
     winning_bids = []
@@ -258,9 +260,7 @@ def my_bids(request):
             }
         )
     products = convert_to_products(prods)
-    return render(
-        request, "my_bids.html", {"products": products, "bids_made": bids_made}
-    )
+    return render(request, "my_bids.html", {"products": products, "bids_made": bids_made})
 
 
 @login_required
@@ -323,10 +323,13 @@ def create_listing(request):
         category = request.POST["category"]
         gender = request.POST["gender"]
         size = request.POST["size"]
-        price = int(request.POST["price"])
-        # image = request.POST["image"]
+        price = int(request.POST["price"])     
         primary_color = request.POST["primary-color"]
 
+        img_converted = base64.b64encode(request.FILES['image'].read())
+        img_base64 =  img_converted.decode('utf-8')
+        img_data_raw = {"image": img_base64}
+    
         now = datetime.datetime.now()
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
@@ -340,20 +343,14 @@ def create_listing(request):
             "listtime": dt_string,
             "price": price,
             "min_price": price + 1,
-            "image": "https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
+            "image":  upload_image(img_data_raw).json()["url"],
             "primary-color": primary_color,
         }
-        json_item = json.dumps(listing)
-        headers = {"Content-type": "application/json", "Accept": "application/json"}
-        url = BACKEND_URL + "create_listing/"
-        response = requests.post(url, data=json_item, headers=headers)
-        listingid = response.json()["_id"]
-        # url = BACKEND_URL + "create_bid_item/" + listingid + "/"
-        # listing_id_raw = {"_id": listingid}
-        # listing_json = json.dumps(listing_id_raw)
-        # response = requests.post(url, data=listing_json, headers=headers)
+
+        listingid = create_listing_database(listing).json()["_id"]
         listing_id_raw = {"_id": listingid}
         create_empty_bid = create_bid(listingid, listing_id_raw)
+
         return redirect("mylistings")
     else:
         return render(request, "create_listing.html")
@@ -396,9 +393,11 @@ def convert_to_products(dict_tuples):
         week = datetime.timedelta(days=7)
         target_time = listtime_obj + week
         now_time = now = datetime.datetime.now()
+
         status_add = "Active"
         if now_time >= target_time:
             status_add = "Expired"
+
         products.append(
             Product(
                 username=tup["username"],
@@ -413,7 +412,7 @@ def convert_to_products(dict_tuples):
                 product_id=tup["_id"],
                 color=tup["primary-color"],
                 min_price=str(float(tup["price"]) + 1),
-                status=status_add,
+                status = status_add,
             )
         )
     return products
@@ -484,6 +483,19 @@ def update_listing_price(oid, highestbid):
     r = requests.patch(url, price_json, headers=headers)
     return r
 
+def upload_image(imgdata):
+        url = BACKEND_URL + "up/"
+        data_json = json.dumps(imgdata)
+        headers = {"Content-type": "application/json", "Accept": "application/json"}
+        r = requests.post(url, data=data_json, headers=headers)
+        return r
+
+def create_listing_database(listingdata):
+    url = BACKEND_URL + "create_listing/"
+    json_item = json.dumps(listingdata)
+    headers = {"Content-type": "application/json", "Accept": "application/json"}
+    r = requests.post(url, data=json_item, headers=headers)
+    return r
 
 def delete_listing(oid):
     url_params = oid

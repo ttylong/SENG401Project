@@ -1,5 +1,6 @@
 # REST API endpoints for listings
 
+import base64
 from email.mime import image
 from http.client import HTTPResponse
 from pymongo import MongoClient
@@ -286,24 +287,32 @@ def up(request):
     """
 
     if request.method == "POST":
-        urls = []
         Uploadcare = PuC.Uploadcare(
             public_key="20a0df730e28f42bb662", secret_key="8ad164c8ada8aaf4034f"
         )
-        for image in request.data["imagepath"]:
-            try:
-                with open(image, "rb") as f:
-                    url = Uploadcare.upload(f)
-                    urls.append(str(url))
-            except Exception as e:
-                return HttpResponse(e)
+        
+        url = ""
 
+        image_raw = request.data["image"]
+
+        image_encoded = image_raw.encode('utf-8')
+        image_decoded = base64.b64decode(image_encoded)
+
+        image = open("image.jpeg", "wb")
+        image.write(image_decoded)
+        image.close()
+        
+        try:
+            with open("image.jpeg", "rb") as f:
+                url = Uploadcare.upload(f)
+        except Exception as e:
+            return HttpResponse(e)
+        
+        '''
         if len(urls) == 0:
             return HttpResponse("Upload error: it appears nothing was uploaded")
-        urls_json = json.dumps(urls)
-
-        return JsonResponse(urls_json, safe=False)
-
+        '''
+        return JsonResponse({"url": str(url)}, safe=False)
 
 # create bidding item
 @api_view(["POST"])
