@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from .credentials import connections
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +29,7 @@ DEBUG = True
 
 APPEND_SLASH = False
 
-ALLOWED_HOSTS = ["aucci.herokuapp.com", "127.0.0.0.1"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -46,7 +45,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "pyuploadcare.dj",
     "AUCCI",
-    "django_heroku"
 ]
 
 MIDDLEWARE = [
@@ -79,7 +77,10 @@ TEMPLATES = [
 
 
 # UPLOADCARE config
-UPLOADCARE = {"pub_key": connections.uploadcarepub(), "secret": connections.uploadcarepriv()}
+UPLOADCARE = {
+    "pub_key": connections.uploadcarepub(),
+    "secret": connections.uploadcarepriv(),
+}
 
 WSGI_APPLICATION = "AUCCI.wsgi.application"
 
@@ -142,7 +143,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 LOGIN_URL = "login"
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-django_heroku.settings(locals())
