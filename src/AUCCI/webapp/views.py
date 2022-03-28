@@ -222,7 +222,7 @@ def my_bids(request):
 
     if len(all_bids) == 0:
         return render(request, "my_bids.html", {"bids_made": bids_made})
-    else: 
+    else:
         bids_made = True
 
     winning_bids = []
@@ -258,7 +258,9 @@ def my_bids(request):
             }
         )
     products = convert_to_products(prods)
-    return render(request, "my_bids.html", {"products": products, "bids_made": bids_made})
+    return render(
+        request, "my_bids.html", {"products": products, "bids_made": bids_made}
+    )
 
 
 @login_required
@@ -393,6 +395,10 @@ def convert_to_products(dict_tuples):
         listtime_obj = datetime.datetime.strptime(datetime_store, "%d/%m/%Y %H:%M:%S")
         week = datetime.timedelta(days=7)
         target_time = listtime_obj + week
+        now_time = now = datetime.datetime.now()
+        status_add = "Active"
+        if now_time >= target_time:
+            status_add = "Expired"
         products.append(
             Product(
                 username=tup["username"],
@@ -407,6 +413,7 @@ def convert_to_products(dict_tuples):
                 product_id=tup["_id"],
                 color=tup["primary-color"],
                 min_price=str(float(tup["price"]) + 1),
+                status=status_add,
             )
         )
     return products
