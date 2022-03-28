@@ -136,6 +136,8 @@ def product(request, pk):
     if username == product.username:
         my_listing = True
 
+    expired = False
+
     bid_id = bid_id_by_listing_id(pk)
     # highest_bid_price = highest_bid(bid_id).json()["highestbid"]
 
@@ -213,7 +215,7 @@ def mylistings(request):
 @login_required
 def my_bids(request):
     username = request.user.username
-    bids = bids_by_user(username).json()
+    bids = bids_by_user(username)
     all_bids = json.loads(bids)
 
     bids_made = False
