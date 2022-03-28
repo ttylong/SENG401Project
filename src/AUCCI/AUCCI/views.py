@@ -576,10 +576,11 @@ def get_bid_id_by_listing_id(request, oid=""):
         )
 
     cursor = db_collection("bids")
-    find = cursor.find_one({"listingid": oid})
-
-    bid_id_raw = cursor.find_one({"_id": ObjectId(oid)})
-    bid_id = str(bid_id_raw)
+    bid_id_raw = cursor.find_one({"listingid": oid})
+    #print(str(find))
+    #bid_id_raw = cursor.find_one({"_id": ObjectId(oid)})
+    bid_id = str(bid_id_raw["_id"])
+    print(bid_id)
     jsonitem = {"bidid": bid_id}
     return JsonResponse(jsonitem, safe=False)
 
