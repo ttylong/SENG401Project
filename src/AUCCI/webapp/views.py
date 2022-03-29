@@ -141,14 +141,10 @@ def product(request, pk):
     expired = False
 
     bid_id = bid_id_by_listing_id(pk)
-    # highest_bid_price = highest_bid(bid_id).json()["highestbid"]
 
     if request.method == "POST":
         bid_price = int(request.POST["bids"])
-        # listing_id = request.POST["listing_id"]
         auction_price = int(request.POST["auction_price"])
-
-        # bid_id = bid_id_by_listing_id(listing_id)
 
         if bid_price > auction_price:
             bid_data_raw = {"username": request.user.username, "bid": bid_price}
@@ -496,67 +492,3 @@ def create_listing_database(listingdata):
     headers = {"Content-type": "application/json", "Accept": "application/json"}
     r = requests.post(url, data=json_item, headers=headers)
     return r
-
-def delete_listing(oid):
-    url_params = oid
-    url = BACKEND_URL + "delete_listing/" + url_params + "/"
-    r = requests.delete(url).json()
-    return r
-
-
-def helper(criteria):
-    p1 = Product(
-        img_src="https://cache.mrporter.com/variants/images/30629810019697407/in/w358_q60.jpg",
-        listing_id="12jjasdfjw2e",
-        category="Men's Jacket",
-        title="Gucci Sweater",
-        current_auction_price=69.98,
-        time_created="23h:42m:15s",
-    )
-    p2 = Product(
-        img_src="https://ca.louisvuitton.com/images/is/image/HKN44WUSO618_PM2_Front%20view",
-        listing_id=2,
-        category="Men's Sweater",
-        title="LV Sweater",
-        current_auction_price=122.12,
-        time_created="22m:44s",
-    )
-    p3 = Product(
-        img_src="https://i.pinimg.com/originals/04/7b/7c/047b7cb4a8ce00ab8174824e1c8625de.jpg",
-        category="Men's Hoodies",
-        title="OVO Hoodie",
-        current_auction_price=1322.12,
-        time_created="03h:22m:44s",
-    )
-    p4 = Product(
-        img_src="https://eu.louisvuitton.com/images/is/image/HHD20WQJQ631_PM2_Front%20view",
-        category="Men's Jeans",
-        title="LV Jeans",
-        current_auction_price=61.08,
-        time_created="03h:42m:25s",
-    )
-    p5 = Product(
-        img_src="https://cdn.shopify.com/s/files/1/2482/7148/products/Bape_Classic_Shark_Tee_BlackGrey_2048x2048.jpg?v=1567473485",
-        category="Men's Shirt",
-        title="Bape Shirt",
-        current_auction_price=123.28,
-        time_created="13h:02m:00s",
-    )
-    p6 = Product(
-        img_src="https://media.gucci.com/style/DarkGray_Center_0_0_800x800/1576864808/522514_Z402L_4635_001_100_0000_Light-GG-velvet-jacket.jpg",
-        category="Men's Blazer",
-        title="Gucci Blazer",
-        current_auction_price=869.98,
-        time_created="00h:00m:15s",
-    )
-    p7 = Product(
-        img_src="https://img.ihahabags.ru/202107/s-886722-prada-sweater-long-sleeved-for-unisex.jpg",
-        category="Men's Sweater",
-        title="Prada Sweater",
-        current_auction_price=1001.28,
-        time_created="13h:42m:19s",
-    )
-
-    products = [p1, p2, p3, p4, p5, p6, p7]
-
-    return products

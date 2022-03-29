@@ -69,12 +69,6 @@ def listing(request, name=""):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
-
         if name != "":
             listings = cursor.find({"item": name})
         else:
@@ -90,12 +84,6 @@ def listing(request, name=""):
 def listing_by_user(request, username=""):
     if request.method == "GET":
         cursor = db_collection("listings")
-
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
 
         if username != "":
             listings = cursor.find({"username": username})
@@ -155,12 +143,6 @@ def listing_by_params(request, gender, brand, category, size, pcolor):
     if request.method == "GET":
         cursor = db_collection("listings")
 
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
-
         search_params = {}
 
         if gender != "null":
@@ -196,12 +178,6 @@ def delete_listing(request, oid=""):
     if oid == "":
         return HttpResponse("Specify one object to delete")
 
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
-
     cursor = db_collection("listings")
 
     query = {"_id": ObjectId(oid)}
@@ -220,12 +196,6 @@ def create_listing(request):
     if request.method != "POST":
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
 
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
-
     id = db_collection("listings").insert_one(request.data).inserted_id
 
     return JsonResponse({"_id": str(id)})
@@ -238,12 +208,6 @@ def update_listing(request, oid=""):
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
     if oid == "":
         return HttpResponse("Specify one object to update")
-
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
 
     cursor = db_collection("listings")
 
@@ -260,12 +224,6 @@ def categories(request):
     if request.method == "GET":
         cursor = db_collection("categories")
 
-        """
-        if not testingEndpoints:
-            if request.user.is_authenticated == False:
-                return HttpResponse("Authentication error")
-        """
-
         listings = cursor.find({})
 
         json_content = categories_jsonify(listings)
@@ -277,15 +235,6 @@ def categories(request):
 
 @api_view(["POST"])
 def up(request):
-    # if imagepath == "":
-    #     return HttpResponse("Specify an image path")
-
-    """
-    if not testingEndpoints:
-        if request.user.is_authenticated == False:
-            return HttpResponse("Authentication error")
-    """
-
     if request.method == "POST":
         Uploadcare = PuC.Uploadcare(
             public_key="20a0df730e28f42bb662", secret_key="8ad164c8ada8aaf4034f"
@@ -327,7 +276,6 @@ def create_bid_item(request, listingid=""):
         """
     # first check to see if listing exists
     # pull listing ID out of JSON
-    # listingid = request.data['_id']
     if listingid == "":
         return HttpResponse("Listing field is empty.")
 
@@ -356,12 +304,6 @@ def get_highest_bidder(request, bidid=""):
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
     if bidid == "":
         return HttpResponse("Bid field is empty.")
-
-    """
-    if not testingEndpoints:
-        if request.user.is_authenticated == False:
-            return HttpResponse("Authentication error")
-    """
 
     cursor = db_collection("bids")
     try:
@@ -406,12 +348,6 @@ def update_bid_item(request, bidid=""):
     if bidid == "":
         return HttpResponse("Bid field is empty.")
 
-    """
-    if not testingEndpoints:
-        if request.user.is_authenticated == False:
-            return HttpResponse("Authentication error")
-    """
-
     cursor = db_collection("bids")
     result = cursor.find_one(ObjectId(bidid))
     if result == None:
@@ -436,12 +372,6 @@ def mybids(request, bidid=""):
         return HttpResponse("Unrecognized request. This URL only accepts POST methods.")
     if bidid == "":
         return HttpResponse("Bid field is empty.")
-
-    """
-    if not testingEndpoints:
-        if request.user.is_authenticated == False:
-            return HttpResponse("Authentication error")
-    """
 
     cursor = db_collection("bids")
     result = cursor.find_one(ObjectId(bidid))
@@ -495,12 +425,6 @@ def delete_bidder(request, bidid=""):
         return HttpResponse(
             "Unrecognized request. This URL only accepts PATCH methods."
         )
-
-    """
-    if not testingEndpoints:
-        if request.user.is_authenticated == False:
-            return HttpResponse("Authentication error")
-    """
 
     if bidid == "":
         return HttpResponse("Bid field is empty.")
@@ -577,8 +501,6 @@ def get_bid_id_by_listing_id(request, oid=""):
 
     cursor = db_collection("bids")
     bid_id_raw = cursor.find_one({"listingid": oid})
-    #print(str(find))
-    #bid_id_raw = cursor.find_one({"_id": ObjectId(oid)})
     bid_id = str(bid_id_raw["_id"])
     print(bid_id)
     jsonitem = {"bidid": bid_id}
@@ -589,13 +511,6 @@ def get_my_bids(request, username):
     if request.method != "GET":
         return HttpResponse("Unrecognized request. This URL only accepts GET methods.")
 
-    """
-    if not testingEndpoints:
-        if request.user.is_authenticated == False:
-            return HttpResponse("Authentication error")
-    """
-
-    # username = request.user.username
     cursor = db_collection("mybids")
 
     find = cursor.find_one({"username": username})
